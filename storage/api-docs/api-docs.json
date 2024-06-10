@@ -1,0 +1,71 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Pé de meia",
+        "version": "0.0.2"
+    },
+    "servers": [
+        {
+            "url": "http://192.168.200.185:8000/api"
+        },
+        {
+            "url": "http://localhost:8000/api"
+        }
+    ],
+    "paths": {
+        "/estudantes/mec": {
+            "get": {
+                "tags": [
+                    "Estudantes"
+                ],
+                "summary": "Listagem de estudantes",
+                "description": "get all estudantes on database and paginate then",
+                "operationId": "29c2ac549de1ff465eb698705ec36809",
+                "parameters": [
+                    {
+                        "name": "codigo_usuario",
+                        "in": "query",
+                        "description": "Código de usuario",
+                        "schema": {
+                            "type": "int"
+                        }
+                    },
+                    {
+                        "name": "perfil",
+                        "in": "query",
+                        "description": "perfil do usuário",
+                        "schema": {
+                            "type": "int"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Página",
+                        "schema": {
+                            "type": "int"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Quantidade de registros por página",
+                        "schema": {
+                            "type": "int"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of Estudantes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    }
+}
