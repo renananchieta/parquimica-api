@@ -2,6 +2,7 @@
 
 namespace App\Models\Seguranca;
 
+use App\Models\Seguranca\AcaoSolicitada;
 use App\Models\Seguranca\Usuario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -21,6 +22,13 @@ class UsuarioDB
         $dados = $query->limit(200)->get();
 
         return $dados;
+    }
+
+    public static function perfisID(bool $executar = false)
+    {
+        $sql = SegPerfilUsuario::where('usuario_id', Auth::id())
+            ->select('perfil_id');
+        return $executar ? $sql->get() : $sql;
     }
 
     public static function rotas(Usuario $usuario)
@@ -51,5 +59,21 @@ class UsuarioDB
             return SegPerfilUsuario::where('usuario_id', $usuario->id)
                 ->get('perfil_id as id');
         });
+    }
+
+    public static function permissaoUrl(AcaoSolicitada $acao): bool
+    {
+        if ($acao->getAcao()?->obrigatorio) {
+            return true;
+        }
+
+        if (Auth::id() === 1) {
+            return true;
+        }
+
+        return DB::table('seg_permissao as sp')
+            ->whereIn('sp.perfil_id', self::perfisID())
+            ->where('sp.acao_id', $acao->getAcao()->id)
+            ->exists();
     }
 }

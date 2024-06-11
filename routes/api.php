@@ -6,9 +6,11 @@ use App\Http\Controllers\Seguranca\UsuarioController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::middleware(['api'])->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+});
 
-Route::middleware(['auth:api'])->group(function () {
+Route::middleware(['seguranca'])->group(function () {
     //Acesso
     Route::get('/usuario-info', [AuthController::class, 'info']);
     Route::get('/logout', [AuthController::class, 'logout']);

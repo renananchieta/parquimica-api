@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('acao_id')->constrained('seg_acao');
             $table->foreignId('perfil_id')->constrained('seg_perfil');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['acao_id', 'perfil_id']);
         });

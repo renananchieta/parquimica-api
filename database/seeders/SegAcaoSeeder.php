@@ -179,7 +179,20 @@ class SegAcaoSeeder extends Seeder
                 "destaque" => false,
                 "nome_amigavel" => null,
                 "obrigatorio" => true,
-                "grupo" => null,
+                "grupo" => "obrigatório",
+                "log_acesso" => false,
+                "created_at" => Carbon::now(),
+                "updated_at" => null
+            ],
+            [
+                "id" => 1513,
+                "nome" => "/home",
+                "method" => "GET",
+                "descricao" => null,
+                "destaque" => false,
+                "nome_amigavel" => null,
+                "obrigatorio" => true,
+                "grupo" => "obrigatório",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null

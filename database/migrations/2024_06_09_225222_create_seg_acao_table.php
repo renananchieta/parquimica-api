@@ -23,6 +23,7 @@ return new class extends Migration
             $table->boolean('log_acesso')->default(false);
             $table->boolean('rota_front')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
