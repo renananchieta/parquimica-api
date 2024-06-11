@@ -29,7 +29,6 @@ class UsuariosResource extends JsonResource
             "logradouro" => $this->logradouro,
             "numero" => $this->numero,
             "perfisUsuario" => SegPerfilResource::collection($this->perfis),
-            "perfil" => $this->perfis->pluck('id')
         ];
     }
 }
