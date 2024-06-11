@@ -17,7 +17,7 @@ class SegAcaoSeeder extends Seeder
         $items = [
             [
                 "id" => 1500,
-                "nome" => "/admin/perfis",
+                "nome" => "api/admin/perfis",
                 "method" => "GET",
                 "descricao" => null,
                 "destaque" => false,
@@ -30,7 +30,7 @@ class SegAcaoSeeder extends Seeder
             ],
             [
                 "id" => 1501,
-                "nome" => "/admin/perfil",
+                "nome" => "api/admin/perfil",
                 "method" => "POST",
                 "descricao" => null,
                 "destaque" => false,
@@ -43,7 +43,7 @@ class SegAcaoSeeder extends Seeder
             ],
             [
                 "id" => 1502,
-                "nome" => "/admin/perfil/{perfil}",
+                "nome" => "api/admin/perfil/{perfil}",
                 "method" => "GET",
                 "descricao" => null,
                 "destaque" => false,
@@ -56,7 +56,7 @@ class SegAcaoSeeder extends Seeder
             ],
             [
                 "id" => 1503,
-                "nome" => "/admin/perfil/{perfil}",
+                "nome" => "api/admin/perfil/{perfil}",
                 "method" => "PUT",
                 "descricao" => null,
                 "destaque" => false,
@@ -69,7 +69,7 @@ class SegAcaoSeeder extends Seeder
             ],
             [
                 "id" => 1504,
-                "nome" => "/admin/perfil/{perfil}",
+                "nome" => "api/admin/perfil/{perfil}",
                 "method" => "DELETE",
                 "descricao" => null,
                 "destaque" => false,
@@ -82,7 +82,7 @@ class SegAcaoSeeder extends Seeder
             ],
             [
                 "id" => 1505,
-                "nome" => "/admin/usuarios",
+                "nome" => "api/admin/usuarios",
                 "method" => "GET",
                 "descricao" => null,
                 "destaque" => false,
@@ -95,7 +95,7 @@ class SegAcaoSeeder extends Seeder
             ],
             [
                 "id" => 1506,
-                "nome" => "/admin/usuario",
+                "nome" => "api/admin/usuario",
                 "method" => "POST",
                 "descricao" => null,
                 "destaque" => false,
@@ -108,7 +108,7 @@ class SegAcaoSeeder extends Seeder
             ],
             [
                 "id" => 1507,
-                "nome" => "/admin/usuario/{usuario}",
+                "nome" => "api/admin/usuario/{usuario}",
                 "method" => "GET",
                 "descricao" => null,
                 "destaque" => false,
@@ -121,7 +121,7 @@ class SegAcaoSeeder extends Seeder
             ],
             [
                 "id" => 1508,
-                "nome" => "/admin/usuario/{usuario}",
+                "nome" => "api/admin/usuario/{usuario}",
                 "method" => "PUT",
                 "descricao" => null,
                 "destaque" => false,
@@ -134,7 +134,7 @@ class SegAcaoSeeder extends Seeder
             ],
             [
                 "id" => 1509,
-                "nome" => "/admin/usuario/{usuario}",
+                "nome" => "api/admin/usuario/{usuario}",
                 "method" => "DELETE",
                 "descricao" => null,
                 "destaque" => false,
@@ -147,7 +147,7 @@ class SegAcaoSeeder extends Seeder
             ],
             [
                 "id" => 1510,
-                "nome" => "/login",
+                "nome" => "api/login",
                 "method" => "POST",
                 "descricao" => null,
                 "destaque" => false,
@@ -160,7 +160,7 @@ class SegAcaoSeeder extends Seeder
             ],
             [
                 "id" => 1511,
-                "nome" => "/usuario-info",
+                "nome" => "api/usuario-info",
                 "method" => "GET",
                 "descricao" => null,
                 "destaque" => false,
@@ -173,7 +173,7 @@ class SegAcaoSeeder extends Seeder
             ],
             [
                 "id" => 1512,
-                "nome" => "/logout",
+                "nome" => "api/logout",
                 "method" => "GET",
                 "descricao" => null,
                 "destaque" => false,
@@ -186,7 +186,7 @@ class SegAcaoSeeder extends Seeder
             ],
             [
                 "id" => 1513,
-                "nome" => "/home",
+                "nome" => "api/home",
                 "method" => "GET",
                 "descricao" => null,
                 "destaque" => false,

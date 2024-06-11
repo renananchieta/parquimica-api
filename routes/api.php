@@ -3,12 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Seguranca\PerfilController;
 use App\Http\Controllers\Seguranca\UsuarioController;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-
-Route::middleware(['api'])->group(function () {
-    Route::post('/login', [AuthController::class, 'login']);
-});
 
 Route::middleware(['seguranca'])->group(function () {
     //Acesso
@@ -29,4 +24,11 @@ Route::middleware(['seguranca'])->group(function () {
     Route::put('/admin/usuario/{usuario}', [UsuarioController::class, 'update']);
     Route::delete('/admin/usuario/{usuario}', [UsuarioController::class, 'destroy']);
 
+    Route::get('/home', function () {
+        return response('Você está logado e está na página home');
+    });
+});
+
+Route::middleware(['api'])->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
 });
