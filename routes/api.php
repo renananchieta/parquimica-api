@@ -11,11 +11,12 @@ Route::middleware(['seguranca'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
     
     //Admin - Perfil
-    Route::get('/admin/perfis', [PerfilController::class, 'index']);
-    Route::post('/admin/perfil', [PerfilController::class, 'store']);
-    Route::get('/admin/perfil/{perfil}', [PerfilController::class, 'show']);
-    Route::put('/admin/perfil/{perfil}', [PerfilController::class, 'update']);
-    Route::delete('/admin/perfil/{perfil}', [PerfilController::class, 'destroy']);
+    Route::get('/perfil/grid', [PerfilController::class, 'grid']);
+    Route::post('/perfil', [PerfilController::class, 'store']);
+    Route::get('/perfil/create', [PerfilController::class, 'create']);
+    Route::get('/perfil/{perfil}/edit', [PerfilController::class, 'edit']);
+    Route::match(['put', 'patch'],'/perfil/{perfil}', [PerfilController::class, 'update']);
+    Route::delete('/perfil/{perfil}', [PerfilController::class, 'delete']);
 
     //Admin - Usuários
     Route::get('/admin/usuarios', [UsuarioController::class, 'index']);

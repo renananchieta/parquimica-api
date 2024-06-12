@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Seguranca;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Seguranca\SegPerfilRequest;
 use App\Http\Resources\Seguranca\SegPerfilResource;
+use App\Models\Seguranca\PerfilRegras;
+use App\Models\Seguranca\SegAcaoDB;
 use App\Models\Seguranca\SegPerfil;
 use App\Models\Seguranca\SegPerfilDB;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PerfilController extends Controller
@@ -16,81 +19,107 @@ class PerfilController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $params = (Object)$request->all();
-        $data = SegPerfilDB::gridPerfis($params);
-        return response(SegPerfilResource::collection($data),200);
+        $perfis = SegPerfilDB::comboPerfil(Auth::user());
+        $acoesDestaque = SegAcaoDB::listaAcoesDestaque();
+        $grupos = $acoesDestaque->orderBy('grupo');
+        return response([
+            'perfis' => $perfis,
+            'acoes' => $acoesDestaque,
+            'grupos' => $grupos
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SegPerfilRequest $request)
+    public function create()
     {
-        $data = $request->valid();
-        try {
-            DB::beginTransaction();
-            $perfil = SegPerfil::create($data);
-            DB::commit();
-            return response([
-                'message' => 'Perfil cadastrado com sucesso.',
-                'data' => $perfil,
-            ], 200);
-        } catch(Exception $e) {
-            DB::rollBack();
-            return response([
-                'erro' => 'Erro ao tentar realizar esta operação.', 
-                'mensagem' => $e->getMessage()
-            ], 500);
-        }
+        $usuario = Auth::user();
+        return response([
+            'destaque' => PerfilRegras::telaCadastro($usuario)
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(SegPerfil $perfil)
+    public function grid(Request $request)
     {
-        return response(new SegPerfilResource($perfil), 200);
+        $p = (object)$request->all();
+        return response(SegPerfilDB::grid($p));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(SegPerfilRequest $request, SegPerfil $perfil)
+    public function store(Request $request)
     {
-        $data = $request->valid();
+        $dados = (object)$request->validate([
+            'perfil' => 'required',
+            'permissoes' => 'array'
+        ]);
+
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
-            $perfil->update($data);
-            $perfil->fresh();
+
+            $perfil = PerfilRegras::cadastrar($dados);
             DB::commit();
-            return response(new SegPerfilResource($perfil), 200);
-        } catch(Exception $e) {
-            DB::rollBack();
+
             return response([
-                'erro' => 'Erro ao tentar realizar esta operação.', 
-                'mensagem' => $e->getMessage()
-            ], 500);
+                'message' => 'Perfil criado com sucesso',
+                'perfil' => $perfil->id
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response(['message' => $e->getMessage()], 500);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(SegPerfil $perfil)
+    public static function edit($perfil_id)
     {
-        try{
-            DB::beginTransaction();
-            $perfil->delete();
+        $p = new \stdClass();
+        $p->id = $perfil_id;
+        $p->usuario = Auth::user();
+
+        return response(PerfilRegras::telaEdicao($p));
+    }
+
+    public function update(Request $request)
+    {
+        $dados = (object)$request->validate([
+            'id' => 'required',
+            'nome' => 'required',
+            'permissoes' => 'array'
+        ], [
+            'id.required' => 'Não foi possível identificar o ID do perfil para edição'
+        ]);
+
+        DB::beginTransaction();
+        try {
+            PerfilRegras::atualizar($dados);
+
             DB::commit();
-            return response('Operação realizada com sucesso', 200);
-        } catch(Exception $e) {
-            DB::rollBack();
             return response([
-                'erro' => 'Erro ao tentar realizar esta operação.', 
-                'mensagem' => $e->getMessage()
-            ], 500);
-        }
+                'message' => 'Perfil atualizado com sucesso'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response(['message' => $e->getMessage()], 500);        }
+    }
+
+    public function delete(SegPerfil $perfil)
+    {
+        DB::beginTransaction();
+        try {
+
+            PerfilRegras::excluir($perfil);
+
+            DB::commit();
+            return response([
+                'message' => 'Perfil excluído com sucesso'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response(['message' => $e->getMessage()], 500);        }
     }
 }
