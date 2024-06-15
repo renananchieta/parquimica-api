@@ -160,6 +160,7 @@ return [
          * Package Service Providers...
          */
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        App\Providers\FirebirdServiceProvider::class,
         /*
          * Application Service Providers...
          */

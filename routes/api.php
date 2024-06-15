@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Seguranca\PerfilController;
 use App\Http\Controllers\Seguranca\UsuarioController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['seguranca'])->group(function () {
@@ -25,9 +26,10 @@ Route::middleware(['seguranca'])->group(function () {
     Route::put('/admin/usuario/{usuario}', [UsuarioController::class, 'update']);
     Route::delete('/admin/usuario/{usuario}', [UsuarioController::class, 'destroy']);
 
-    Route::get('/home', function () {
-        return response('Você está logado e está na página home');
-    });
+});
+Route::get('/home', function () {
+    $teste = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');
+    return response($teste);
 });
 
 Route::middleware(['api'])->group(function () {

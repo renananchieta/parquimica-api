@@ -10,45 +10,23 @@ RUN apt-get update && apt-get install -y \
     curl \
     libonig-dev \
     libpq-dev \
-    libcurl3-dev \
+    libcurl4-openssl-dev \
     unzip \
     vim \
+    firebird-dev \
+    libfbclient2 \
+    libib-util \
     && apt-get clean
-#    libxml2-dev \
-#    libfontconfig1 \
-#    libxrender1 \
-#    zip \
-#    zlib1g-dev \
-#    && rm -rf /var/lib/apt/lists/*
 
-#=====
 # Install PHP extensions
-#=====
-## Laravel's dependencies
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN docker-php-ext-install curl pgsql pdo_pgsql pdo_mysql mbstring exif pcntl bcmath
 
-#=====xdebug
+# Install Firebird PDO extension
+RUN docker-php-ext-install pdo_firebird
+
+# Install Xdebug
 RUN pecl install xdebug-3.2.2 \
     && docker-php-ext-enable xdebug
-#=====xdebug
-
-#=====PHPGD
-#RUN apt install -y \
-#    libpng-dev \
-#    libfreetype6-dev \
-#    libjpeg62-turbo-dev \
-#  && docker-php-ext-configure gd --with-jpeg=/usr/include/ --with-freetype=/usr/include/ \
-#  && docker-php-ext-install gd
-#  && apt cache clear
-#=====PHPGD
-
-#=====Imagic
-#RUN apt install -y libmagickwand-dev \
-#    && pecl install imagick \
-#    && docker-php-ext-enable imagick \
-#    && apt clean
-#=====Imagic
 
 # Create system user to run Composer and Artisan Commands
 RUN useradd -G www-data,root -u $uid -d /home/$user $user
