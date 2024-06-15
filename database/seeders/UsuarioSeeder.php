@@ -25,6 +25,7 @@ class UsuarioSeeder extends Seeder
                 "senha" => Hash::make(12345678),
                 "contato_wpp" => "091993039530",
                 "dt_nascimento" => "2000-01-01",
+                "ativo" => true,
                 "created_at" => Carbon::now(),
             ],
             [
@@ -35,6 +36,7 @@ class UsuarioSeeder extends Seeder
                 "senha" => Hash::make(12345678),
                 "contato_wpp" => "091993039531",
                 "dt_nascimento" => "2000-01-02",
+                "ativo" => true,
                 "created_at" => Carbon::now(),
             ],
             [
@@ -45,6 +47,7 @@ class UsuarioSeeder extends Seeder
                 "senha" => Hash::make(12345678),
                 "contato_wpp_wpp" => "091993039532",
                 "dt_nascimento" => "2000-01-03",
+                "ativo" => true,
                 "created_at" => Carbon::now(),
             ],
         ];

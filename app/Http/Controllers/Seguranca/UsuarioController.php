@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Seguranca\UsuariosRequest;
 use App\Http\Requests\Seguranca\UsuariosUpdateRequest;
 use App\Http\Resources\Seguranca\UsuariosResource;
+use App\Models\Seguranca\SegPerfilDB;
 use App\Models\Seguranca\SegPerfilUsuario;
 use App\Models\Seguranca\Usuario;
 use App\Models\Seguranca\UsuarioDB;
 use App\Models\Seguranca\UsuarioRegras;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
@@ -24,6 +26,14 @@ class UsuarioController extends Controller
         $params = (Object)$request->all();
         $data = UsuarioDB::gridUsuarios($params);
         return response(UsuariosResource::collection($data),200);
+    }
+
+    public function create()
+    {
+        $comboPerfil = SegPerfilDB::comboPerfil(Auth::user());
+        return response([
+                'perfis' => $comboPerfil
+            ]);
     }
 
     /**

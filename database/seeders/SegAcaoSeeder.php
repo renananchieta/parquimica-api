@@ -197,6 +197,19 @@ class SegAcaoSeeder extends Seeder
                 "created_at" => Carbon::now(),
                 "updated_at" => null
             ],
+            [
+                "id" => 1514,
+                "nome" => "api/admin/usuarios/create",
+                "method" => "GET",
+                "descricao" => null,
+                "destaque" => false,
+                "nome_amigavel" => null,
+                "obrigatorio" => false,
+                "grupo" => null,
+                "log_acesso" => false,
+                "created_at" => Carbon::now(),
+                "updated_at" => null
+            ],
         ];
 
         DB::table('seg_acao')->insert($items);

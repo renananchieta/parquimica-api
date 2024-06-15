@@ -47,7 +47,7 @@ services:
             MYSQL_DATABASE: ${DB_DATABASE:-skeleton}
             MYSQL_PASSWORD: ${DB_PASSWORD:-123456789}
         ports:
-            - "${DB_PORT:-3306}:${DB_PORT:-3306}"
+            - "3307:3306"
         volumes:
             - /home/${USUARIO:-dime}/mysqldb:/var/lib/mysql
         networks:

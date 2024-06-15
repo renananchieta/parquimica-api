@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['seguranca'])->group(function () {
     //Acesso
-    Route::get('/usuario-info', [AuthController::class, 'info']);
     Route::get('/logout', [AuthController::class, 'logout']);
+    Route::get('/usuario-info', [AuthController::class, 'info']);
     
     //Admin - Perfil
     Route::get('/perfil/grid', [PerfilController::class, 'grid']);
@@ -18,20 +18,23 @@ Route::middleware(['seguranca'])->group(function () {
     Route::get('/perfil/{perfil}/edit', [PerfilController::class, 'edit']);
     Route::match(['put', 'patch'],'/perfil/{perfil}', [PerfilController::class, 'update']);
     Route::delete('/perfil/{perfil}', [PerfilController::class, 'delete']);
-
+    
     //Admin - Usuários
     Route::get('/admin/usuarios', [UsuarioController::class, 'index']);
+    Route::get('/admin/usuarios/create', [UsuarioController::class, 'create']);
     Route::post('/admin/usuario', [UsuarioController::class, 'store']);
     Route::get('/admin/usuario/{usuario}', [UsuarioController::class, 'show']);
     Route::put('/admin/usuario/{usuario}', [UsuarioController::class, 'update']);
     Route::delete('/admin/usuario/{usuario}', [UsuarioController::class, 'destroy']);
 
 });
-Route::get('/home', function () {
-    $teste = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');
-    return response($teste);
-});
+
 
 Route::middleware(['api'])->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
+});
+
+Route::get('/home', function () {
+    $teste = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');
+    return response($teste);
 });

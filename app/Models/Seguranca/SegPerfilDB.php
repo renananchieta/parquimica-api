@@ -35,7 +35,7 @@ class SegPerfilDB
         $sql = DB::table('seg_perfil')
             ->orderBy('perfil');
 
-        if (!$usuarioLogado->isRoot()) {
+        if ($usuarioLogado->id != 1) {
             $sql->where('id', '!=', 1);
         }
 

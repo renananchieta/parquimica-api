@@ -18,18 +18,22 @@ class SegPerfilSeeder extends Seeder
         $itens = [
             [
                 "id" => 1,
-                "perfil" => "Admin",
+                "perfil" => "Root",
             ],
             [
                 "id" => 2,
-                "perfil" => "Vendedor",
+                "perfil" => "Administrador",
             ],
             [
                 "id" => 3,
+                "perfil" => "Vendedor",
+            ],
+            [
+                "id" => 4,
                 "perfil" => "Cliente",
             ],
         ];
         DB::table('seg_perfil')->insert($itens);
-        DB::statement("ALTER TABLE seg_perfil AUTO_INCREMENT = 4;");
+        DB::statement("ALTER TABLE seg_perfil AUTO_INCREMENT = 5;");
     }
 }

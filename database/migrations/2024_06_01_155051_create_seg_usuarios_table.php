@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email', 255)->unique();
             $table->string('senha');
             $table->string('cpf', 11)->unique();
+            $table->boolean('ativo')->default(true);
             $table->date('dt_nascimento');
             $table->string('contato')->nullable();
             $table->string('contato_wpp');

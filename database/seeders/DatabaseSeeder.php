@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UsuarioSeeder::class,
             SegPerfilSeeder::class,
             SegPerfilUsuarioSeeder::class,
+            SegPermissaoSeeder::class,
             // EscolasSeeder::class,
             // EstudantesSeeder::class,
             // MatriculaEstudantesSeeder::class,
