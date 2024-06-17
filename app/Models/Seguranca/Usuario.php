@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Usuario extends Authenticatable implements JWTSubject
@@ -54,5 +55,16 @@ class Usuario extends Authenticatable implements JWTSubject
     public function perfis()
     {
         return $this->belongsToMany(SegPerfil::class, 'seg_perfil_usuario', 'usuario_id', 'perfil_id');
+    }
+
+    public function isRoot(Collection $perfis_id = null): bool
+    {
+        if ($this->id === 1) {//usuário dime
+            return true;
+        } else if ($perfis_id) {//perfis dos desenvolvedores
+            return $perfis_id->contains('id', 1);
+        } else {
+            return false;
+        }
     }
 }

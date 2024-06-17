@@ -16,7 +16,7 @@ class SegPerfilDB
             ->orderBy('id', 'desc');
 
         if (isset($p->nome)) {
-            $sql->where('perfil', 'like', $p->perfil);
+            $sql->where('perfil', 'like', '%' . $p->nome . '%');
         }
 
         return $sql->get([
@@ -40,7 +40,7 @@ class SegPerfilDB
         }
 
         return $sql->get([
-            'id as value',
+            'id',
             'perfil as text'
         ]);
     }
