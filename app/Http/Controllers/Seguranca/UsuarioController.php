@@ -62,10 +62,17 @@ class UsuarioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $usuario)
+    public function show(int $id)
     {
-        $usuario = Usuario::with('perfis')->findOrFail($usuario);
-        return response(new UsuariosResource($usuario), 200);
+        $comboPerfil = SegPerfilDB::comboPerfil(Auth::user());//usuário só pode ver perfis que possui
+        $usuario = UsuarioDB::edicao($id);
+        $perfisUsuario = SegPerfilDB::perfilUsuario($id);
+
+        return response([
+            'perfis' => $comboPerfil,
+            'usuario' => $usuario,
+            'perfis_usuario' => $perfisUsuario,
+        ]);
     }
 
     /**
@@ -74,20 +81,17 @@ class UsuarioController extends Controller
     public function update(UsuariosUpdateRequest $request, Usuario $usuario)
     {
         $data = $request->valid();
-        try{
-            DB::beginTransaction();
-            $usuario = UsuarioRegras::atualizarUsuario($data, $usuario); 
+        try {
+
+            UsuarioRegras::atualizarUsuario($data, $usuario);
+
             DB::commit();
             return response([
-                'message' => 'Usuário alterado com sucesso.', 
-                'data' => new UsuariosResource($usuario)
-            ], 200);
-        } catch(Exception $e) {
-            DB::rollBack();
-            return response([
-                'erro' => 'Erro ao tentar realizar esta operação.', 
-                'mensagem' => $e->getMessage()
-            ], 500);
+                'message' => 'Usuário atualizado com sucesso'
+            ]);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response('Falha ao atualizar Usuário', 500);
         }
     }
 

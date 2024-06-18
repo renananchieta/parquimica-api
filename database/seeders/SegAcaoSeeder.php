@@ -23,7 +23,7 @@ class SegAcaoSeeder extends Seeder
                 "destaque" => true,
                 "nome_amigavel" => null,
                 "obrigatorio" => false,
-                "grupo" => null,
+                "grupo" => "Admin",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null
@@ -36,7 +36,7 @@ class SegAcaoSeeder extends Seeder
                 "destaque" => true,
                 "nome_amigavel" => null,
                 "obrigatorio" => false,
-                "grupo" => null,
+                "grupo" => "Admin",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null
@@ -49,7 +49,7 @@ class SegAcaoSeeder extends Seeder
                 "destaque" => true,
                 "nome_amigavel" => null,
                 "obrigatorio" => false,
-                "grupo" => null,
+                "grupo" => "Admin",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null
@@ -62,7 +62,7 @@ class SegAcaoSeeder extends Seeder
                 "destaque" => true,
                 "nome_amigavel" => null,
                 "obrigatorio" => false,
-                "grupo" => null,
+                "grupo" => "Admin",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null
@@ -75,7 +75,7 @@ class SegAcaoSeeder extends Seeder
                 "destaque" => true,
                 "nome_amigavel" => null,
                 "obrigatorio" => false,
-                "grupo" => null,
+                "grupo" => "Admin",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null
@@ -88,7 +88,7 @@ class SegAcaoSeeder extends Seeder
                 "destaque" => true,
                 "nome_amigavel" => null,
                 "obrigatorio" => false,
-                "grupo" => null,
+                "grupo" => "Admin",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null
@@ -101,7 +101,7 @@ class SegAcaoSeeder extends Seeder
                 "destaque" => true,
                 "nome_amigavel" => null,
                 "obrigatorio" => false,
-                "grupo" => null,
+                "grupo" => "Admin",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null
@@ -114,7 +114,7 @@ class SegAcaoSeeder extends Seeder
                 "destaque" => true,
                 "nome_amigavel" => null,
                 "obrigatorio" => false,
-                "grupo" => null,
+                "grupo" => "Admin",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null
@@ -127,7 +127,7 @@ class SegAcaoSeeder extends Seeder
                 "destaque" => true,
                 "nome_amigavel" => null,
                 "obrigatorio" => false,
-                "grupo" => null,
+                "grupo" => "Admin",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null
@@ -140,7 +140,7 @@ class SegAcaoSeeder extends Seeder
                 "destaque" => true,
                 "nome_amigavel" => null,
                 "obrigatorio" => false,
-                "grupo" => null,
+                "grupo" => "Admin",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null
@@ -166,7 +166,7 @@ class SegAcaoSeeder extends Seeder
                 "destaque" => true,
                 "nome_amigavel" => null,
                 "obrigatorio" => false,
-                "grupo" => null,
+                "grupo" => "Admin",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null
@@ -201,11 +201,11 @@ class SegAcaoSeeder extends Seeder
                 "id" => 1514,
                 "nome" => "api/admin/usuarios/create",
                 "method" => "GET",
-                "descricao" => null,
+                "descricao" => "Parâmetros para cadastrar usuário",
                 "destaque" => true,
                 "nome_amigavel" => null,
                 "obrigatorio" => false,
-                "grupo" => null,
+                "grupo" => "Admin",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null
@@ -218,7 +218,7 @@ class SegAcaoSeeder extends Seeder
                 "destaque" => true,
                 "nome_amigavel" => null,
                 "obrigatorio" => false,
-                "grupo" => null,
+                "grupo" => "Admin",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null
@@ -231,7 +231,7 @@ class SegAcaoSeeder extends Seeder
                 "destaque" => true,
                 "nome_amigavel" => null,
                 "obrigatorio" => false,
-                "grupo" => null,
+                "grupo" => "Admin",
                 "log_acesso" => false,
                 "created_at" => Carbon::now(),
                 "updated_at" => null

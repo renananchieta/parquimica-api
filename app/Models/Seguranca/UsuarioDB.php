@@ -76,4 +76,17 @@ class UsuarioDB
             ->where('sp.acao_id', $acao->getAcao()->id)
             ->exists();
     }
+
+    public static function edicao(int $id): Usuario
+    {
+        return Usuario::select([
+            'id',
+            'nome',
+            'cpf',
+            'email',
+            'dt_nascimento',
+            'contato_wpp'
+        ])
+            ->find($id);
+    }
 }
