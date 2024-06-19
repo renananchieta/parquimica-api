@@ -27,10 +27,15 @@ Route::middleware(['seguranca'])->group(function () {
     Route::put('/admin/usuario/{usuario}', [UsuarioController::class, 'update']);
     Route::delete('/admin/usuario/{usuario}', [UsuarioController::class, 'destroy']);
 
-    Route::get('/home', function () {
+    Route::get('/catalogo-inicial', function () {
         $teste = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');
         return response($teste);
     });
+});
+
+Route::get('/firebird', function () {
+    $teste = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');
+    return response($teste);
 });
 
 Route::middleware(['api'])->group(function () {
