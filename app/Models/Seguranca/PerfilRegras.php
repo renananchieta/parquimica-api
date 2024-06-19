@@ -15,7 +15,7 @@ class PerfilRegras
             ->find($p->id);
 
         $acoes = self::gridPerfil($p->usuario);
-        $grupos = array_map(fn ($item) => $item['perfil'], $acoes);
+        $grupos = array_map(fn ($item) => $item['filhos'], $acoes);
 
         return [
             'registro' => $perfil,
@@ -87,7 +87,7 @@ class PerfilRegras
     public static function atualizar(\stdClass $p): SegPerfil
     {
         $perfil = SegPerfil::find($p->id);
-        $perfil->nome = $p->nome;
+        $perfil->perfil = $p->perfil;
         $perfil->save();
 
         /*

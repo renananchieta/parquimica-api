@@ -88,7 +88,7 @@ class PerfilController extends Controller
     {
         $dados = (object)$request->validate([
             'id' => 'required',
-            'nome' => 'required',
+            'perfil' => 'required',
             'permissoes' => 'array'
         ], [
             'id.required' => 'Não foi possível identificar o ID do perfil para edição'

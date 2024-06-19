@@ -12,7 +12,7 @@ class UsuarioDB
 {
     public static function gridUsuarios(object $data)
     {
-        $query = Usuario::query();
+        $query = Usuario::query()->where('id', '!=', 1);
 
         if(isset($data->email)) $query->where('email', 'like', '%' . $data->email . '%');
         if(isset($data->nome)) $query->where('nome', 'like', '%' . $data->nome . '%');

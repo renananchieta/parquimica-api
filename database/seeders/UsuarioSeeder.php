@@ -41,9 +41,9 @@ class UsuarioSeeder extends Seeder
             ],
             [
                 "id" => 3,
-                "nome" => "Teste",
+                "nome" => "Ítalo Costa",
                 "cpf" => "12345678912",
-                "email" => "teste@gmail.com",
+                "email" => "italocosta@gmail.com",
                 "senha" => Hash::make(12345678),
                 "contato_wpp_wpp" => "091993039532",
                 "dt_nascimento" => "2000-01-03",
