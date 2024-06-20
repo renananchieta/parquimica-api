@@ -33,7 +33,7 @@ class AuthController extends Controller
 
                 return response($usuario, 200); 
         } catch (Exception $e) {
-            return response()->json($e->getMessage());
+            return response()->json($e->getMessage(), 500);
         }
     }
 
