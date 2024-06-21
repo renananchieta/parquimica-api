@@ -13,7 +13,7 @@ class FirebirdDB
         $bindings = [];
 
         if (isset($params->nome)) {
-            $query .= ' WHERE LOWER(nome) LIKE ?';
+            $query .= ' WHERE LOWER(NOME) LIKE ?';
             $bindings[] = '%' . strtolower($params->nome) . '%';
         }
 
