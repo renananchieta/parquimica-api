@@ -22,17 +22,6 @@ class FirebirdDB
         return $result;
     }
 
-    public static function grid2($params)
-    {
-        $query = Firebird::query();
-
-        if(isset($params->nome)) $query->where('NOME', 'ilike', $params->nome);
-
-        $query->limit(200)->get();
-
-        return $query;
-    }
-
     public static function consultaExtensa($params)
     {
         $teste = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');
