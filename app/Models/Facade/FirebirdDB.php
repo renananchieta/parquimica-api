@@ -10,9 +10,9 @@ class FirebirdDB
     public static function grid($params)
     {
         if (isset($params->nome)) {
-            `SELECT id, nome, emb_abreviada, preco
-            FROM site_produtos
-            WHERE LOWER(nome) LIKE '%$params->nome%'`;
+            $query = `SELECT id, nome, emb_abreviada, preco
+                        FROM site_produtos
+                        WHERE LOWER(nome) LIKE '%$params->nome%'`;
         } else{
             $query = 'SELECT id, nome, emb_abreviada, preco FROM site_produtos';
         }
