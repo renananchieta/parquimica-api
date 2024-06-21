@@ -9,15 +9,15 @@ class FirebirdDB
 {
     public static function grid($params)
     {
-        $query = DB::connection('firebird')->table('site_produtos');
+        $query = 'SELECT id, nome, emb_abreviada, preco FROM site_produtos';
+        $bindings = [];
 
-        if(isset($params->nome)) {
-            $query->whereRaw('LOWER(nome) LIKE ?', ['%' . strtolower($params->nome) . '%']);
+        if (isset($params->nome)) {
+            $query .= ' WHERE LOWER(nome) LIKE ?';
+            $bindings[] = '%' . strtolower($params->nome) . '%';
         }
 
-        $query->select('id', 'nome', 'emb_abreviada', 'preco');
-
-        $result = $query->get();
+        $result = DB::connection('firebird')->select($query, $bindings);
 
         return $result;
     }
