@@ -18,18 +18,14 @@ class SegPerfilSeeder extends Seeder
         $itens = [
             [
                 "id" => 1,
-                "perfil" => "Root",
-            ],
-            [
-                "id" => 2,
                 "perfil" => "Administrador",
             ],
             [
-                "id" => 3,
+                "id" => 2,
                 "perfil" => "Vendedor",
             ],
             [
-                "id" => 4,
+                "id" => 3,
                 "perfil" => "Cliente",
             ],
         ];
