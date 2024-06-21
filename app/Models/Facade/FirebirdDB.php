@@ -11,11 +11,15 @@ class FirebirdDB
     {
         $query = DB::connection('firebird')->table('site_produtos');
 
-        if(isset($params->nome)) $query->where('NOME', 'ilike', $params->nome);
+        if(isset($params->nome)) {
+            $query->whereRaw('LOWER(NOME) LIKE ?', ['%' . strtolower($params->nome) . '%']);
+        }
 
-        $query->select('ID', 'NOME', 'EMB_ABREVIADA', 'PRECO')->get();
+        $query->select('ID', 'NOME', 'EMB_ABREVIADA', 'PRECO');
 
-        return $query;
+        $result = $query->get();
+
+        return $result;
     }
 
     public static function grid2($params)
