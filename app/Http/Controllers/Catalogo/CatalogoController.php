@@ -58,7 +58,7 @@ class CatalogoController extends Controller
         $params = (Object)$request->all();
         try {
             DB::beginTransaction();
-            $catalogo = FirebirdDB::grid($params);
+            $catalogo = FirebirdDB::consultaExtensa($params);
             DB::commit();
             return response($catalogo);
         } catch(Exception $e) {

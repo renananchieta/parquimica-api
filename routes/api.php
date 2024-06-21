@@ -29,7 +29,7 @@ Route::middleware(['seguranca'])->group(function () {
     Route::delete('/admin/usuario/{usuario}', [UsuarioController::class, 'destroy']);
 
     Route::get('/catalogo', [CatalogoController::class, 'index']);
-    Route::get('/catalogo/grid', [CatalogoController::class, 'grid']);
+    Route::get('/catalogo/grid', [CatalogoController::class, 'grid']); // Testando esse endpoint
     Route::get('/catalogo/grid-2', [CatalogoController::class, 'grid2']);
     Route::get('/catalogo/consulta-extensa', [CatalogoController::class, 'consulta']);
 
