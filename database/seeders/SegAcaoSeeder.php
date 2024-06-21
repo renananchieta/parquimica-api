@@ -236,6 +236,19 @@ class SegAcaoSeeder extends Seeder
                 "created_at" => Carbon::now(),
                 "updated_at" => null
             ],
+            [
+                "id" => 1517,
+                "nome" => "api/catalogo/grid",
+                "method" => "GET",
+                "descricao" => "Listar produtos",
+                "destaque" => true,
+                "nome_amigavel" => null,
+                "obrigatorio" => false,
+                "grupo" => "Vendedor",
+                "log_acesso" => false,
+                "created_at" => Carbon::now(),
+                "updated_at" => null
+            ],
         ];
 
         DB::table('seg_acao')->insert($items);
