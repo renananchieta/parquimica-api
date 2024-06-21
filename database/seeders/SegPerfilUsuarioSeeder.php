@@ -26,7 +26,7 @@ class SegPerfilUsuarioSeeder extends Seeder
             ],
             [
                 "id" => 3,
-                "perfil_id" => 1,
+                "perfil_id" => 2,
                 "usuario_id" => 3
             ],
         ];

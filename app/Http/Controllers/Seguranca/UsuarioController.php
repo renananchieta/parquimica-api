@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Seguranca;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Seguranca\UsuariosRequest;
+use App\Http\Requests\Seguranca\UsuariosUpdateDadosPessoaisRequest;
 use App\Http\Requests\Seguranca\UsuariosUpdateRequest;
 use App\Http\Resources\Seguranca\UsuariosResource;
 use App\Models\Seguranca\SegPerfilDB;
@@ -84,6 +85,23 @@ class UsuarioController extends Controller
         try {
 
             UsuarioRegras::atualizarUsuario($data, $usuario);
+
+            DB::commit();
+            return response([
+                'message' => 'Usuário atualizado com sucesso'
+            ]);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response('Falha ao atualizar Usuário', 500);
+        }
+    }
+
+    public function updateDadosPessoais(UsuariosUpdateDadosPessoaisRequest $request, Usuario $usuario)
+    {
+        $data = $request->valid();
+        try {
+
+            UsuarioRegras::atualizarUsuarioDadosPessoais($data, $usuario);
 
             DB::commit();
             return response([

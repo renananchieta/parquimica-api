@@ -26,6 +26,7 @@ Route::middleware(['seguranca'])->group(function () {
     Route::post('/admin/usuario', [UsuarioController::class, 'store']);
     Route::get('/admin/usuario/{usuario}', [UsuarioController::class, 'show']);
     Route::put('/admin/usuario/{usuario}', [UsuarioController::class, 'update']);
+    Route::put('/admin/usuario/{usuario}/dados-pessoais', [UsuarioController::class, 'updateDadosPessoais']);
     Route::delete('/admin/usuario/{usuario}', [UsuarioController::class, 'destroy']);
 
     Route::get('/catalogo/grid', [CatalogoController::class, 'grid']); // Testando esse endpoint

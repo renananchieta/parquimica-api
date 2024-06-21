@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Seguranca\LogAcesso;
 use App\Models\Seguranca\AuthRegras;
+use App\Models\Seguranca\SegPerfil;
+use App\Models\Seguranca\SegPerfilDB;
 use App\Models\Seguranca\UsuarioDB;
 use Exception;
 use Illuminate\Http\Request;
@@ -63,7 +65,7 @@ class AuthController extends Controller
         $usuarioInfo = [
             "id" => $usuario->id,
             "nome" =>  $usuario->nome,
-            "contato_wpp" =>  $usuario->contato_wpp,
+            "perfis" => SegPerfilDB::perfilUsuario($usuario->id),
             "rotas" => UsuarioDB::rotas($usuario),
           ];
 

@@ -44,4 +44,15 @@ class UsuarioRegras
 
         return $usuario;
     }
+
+    public static function atualizarUsuarioDadosPessoais($data, $usuario)
+    {
+        $p = $data['usuario'];
+        
+        //Alterar Usuário
+        $usuario->update($p);
+        $usuario->fresh();
+
+        return $usuario;
+    }
 }

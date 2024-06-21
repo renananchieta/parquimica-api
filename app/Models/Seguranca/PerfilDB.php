@@ -44,12 +44,23 @@ class PerfilDB
         } else {
 
             $acoes = DB::table('seg_permissao as sp')
-                ->join('seg_acao as sa', 'sa.acao_id', '=', 'sa.id')
-                ->whereIn('sa.perfil_id', $perfis)
+                ->join('seg_acao as sa', 'sp.acao_id', '=', 'sa.id')
+                ->whereIn('sp.perfil_id', $perfis)
                 ->where('obrigatorio', false)//obrigatórias não devem ficar disponíveis na tela de perfil
                 ->where('sa.destaque', true)//Somente ação raiz. Dependências serão calculadas automaticamente
                 ->orderBy('grupo')
                 ->orderBy('nome_amigavel');
+
+                $campos = [
+                    'sp.id',
+                    'nome_amigavel',
+                    'descricao',
+                    'grupo',
+                ];
+
+                $campos[] = DB::raw("(SELECT count(1) FROM seg_dependencia where acao_atual_id = sa.id) as total_dependencia");
+
+                return $acoes->get($campos);
         }
 
         $campos = [
@@ -59,9 +70,9 @@ class PerfilDB
             'grupo',
         ];
 
-        if ($usuario->isRoot(UsuarioDB::perfisIDUsuarioLogado($usuario))) {//para o root irá exibir o total de dependências de cada destaque
+        // if ($usuario->isRoot(UsuarioDB::perfisIDUsuarioLogado($usuario))) {//para o root irá exibir o total de dependências de cada destaque
             $campos[] = DB::raw("(SELECT count(1) FROM seg_dependencia where acao_atual_id = sa.id) as total_dependencia");
-        }
+        // }
 
         return $acoes->get($campos);
     }
