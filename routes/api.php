@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Catalogo\CatalogoController;
 use App\Http\Controllers\Seguranca\PerfilController;
 use App\Http\Controllers\Seguranca\UsuarioController;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +27,11 @@ Route::middleware(['seguranca'])->group(function () {
     Route::get('/admin/usuario/{usuario}', [UsuarioController::class, 'show']);
     Route::put('/admin/usuario/{usuario}', [UsuarioController::class, 'update']);
     Route::delete('/admin/usuario/{usuario}', [UsuarioController::class, 'destroy']);
+
+    Route::get('/catalogo', [CatalogoController::class, 'index']);
+    Route::get('/catalogo/grid', [CatalogoController::class, 'grid']);
+    Route::get('/catalogo/grid-2', [CatalogoController::class, 'grid2']);
+    Route::get('/catalogo/consulta-extensa', [CatalogoController::class, 'consulta']);
 
     Route::get('/catalogo-inicial', function () {
         $teste = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');

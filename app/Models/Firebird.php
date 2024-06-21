@@ -9,5 +9,6 @@ class Firebird extends Model
 {
     use HasFactory;
     protected $connection  = 'firebird';
+    protected $table = 'site_produtos';
 
 }
