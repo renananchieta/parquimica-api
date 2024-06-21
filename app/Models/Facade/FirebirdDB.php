@@ -12,10 +12,10 @@ class FirebirdDB
         $query = DB::connection('firebird')->table('site_produtos');
 
         if(isset($params->nome)) {
-            $query->whereRaw('LOWER(NOME) LIKE ?', ['%' . strtolower($params->nome) . '%']);
+            $query->whereRaw('LOWER(nome) LIKE ?', ['%' . strtolower($params->nome) . '%']);
         }
 
-        $query->select('ID', 'NOME', 'EMB_ABREVIADA', 'PRECO');
+        $query->select('id', 'nome', 'emb_abreviada', 'preco');
 
         $result = $query->get();
 
