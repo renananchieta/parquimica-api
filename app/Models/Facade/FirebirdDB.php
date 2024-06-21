@@ -9,6 +9,21 @@ class FirebirdDB
 {
     public static function grid($params)
     {
+        if (isset($params->nome)) {
+            `SELECT id, nome, emb_abreviada, preco
+            FROM site_produtos
+            WHERE LOWER(nome) LIKE '%$params->nome%'`;
+        } else{
+            $query = 'SELECT id, nome, emb_abreviada, preco FROM site_produtos';
+        }
+    
+        $result = DB::connection('firebird')->select($query);
+
+        return $result;
+    }
+
+    public static function gridBKP($params)
+    {
         $query = 'SELECT id, nome, emb_abreviada, preco FROM site_produtos';
         $bindings = [];
 
