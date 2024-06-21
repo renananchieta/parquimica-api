@@ -12,7 +12,7 @@ class FirebirdDB
         if (isset($params->nome)) {
             `SELECT id, nome, emb_abreviada, preco
             FROM site_produtos
-            WHERE LOWER(nome) LIKE '%$params->nome%'`;
+            WHERE LOWER(nome) LIKE '%MAOPOLL%'`;
         } else{
             $query = 'SELECT id, nome, emb_abreviada, preco FROM site_produtos';
         }
