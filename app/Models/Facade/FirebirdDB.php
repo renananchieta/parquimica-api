@@ -11,9 +11,9 @@ class FirebirdDB
     {
         $query = DB::connection('firebird')->table('site_produtos');
 
-        if(isset($params->nome)) $query->where('nome', 'ilike', $params->nome);
+        if(isset($params->nome)) $query->where('NOME', 'ilike', $params->nome);
 
-        $query->select('id', 'nome', 'emb_abreviada', 'preco')->get();
+        $query->select('ID', 'NOME', 'EMB_ABREVIADA', 'PRECO')->get();
 
         return $query;
     }
@@ -29,9 +29,9 @@ class FirebirdDB
         return $query;
     }
 
-    public static function consultaExtensa()
+    public static function consultaExtensa($params)
     {
         $teste = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');
-        return response($teste);
+        return $teste;
     }
 }
