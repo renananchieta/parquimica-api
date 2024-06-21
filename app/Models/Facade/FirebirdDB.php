@@ -27,7 +27,7 @@ class FirebirdDB
         $query = 'SELECT id, nome, emb_abreviada, preco FROM site_produtos';
 
         if (isset($params->nome)) {
-            $query .= " WHERE LOWER(nome) LIKE '%" . strtolower($params->nome) . "%'";
+            $query .= " WHERE LOWER(nome) LIKE '%MAOPOLL%'";
         }
     
         $result = DB::connection('firebird')->select($query);
