@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class FirebirdDB 
 {
-    public static function grid($params)
+    public static function gridbkp($params)
     {
         if (isset($params->nome)) {
             $query = `SELECT id, nome, emb_abreviada, preco
@@ -22,22 +22,15 @@ class FirebirdDB
         return $result;
     }
 
-    public static function gridBKP($params)
+    public static function grid($params)
     {
         $query = 'SELECT id, nome, emb_abreviada, preco FROM site_produtos';
-        $bindings = [];
 
         if (isset($params->nome)) {
-            $query .= ' WHERE LOWER(nome) LIKE ?';
-            $bindings[] = '%' . strtolower($params->nome) . '%';
+            $query .= " WHERE LOWER(nome) LIKE '%" . strtolower($params->nome) . "%'";
         }
     
-        // Debug: Mostra a consulta e os bindings para verificar a montagem correta
-        error_log('Query: ' . $query);
-        error_log('Bindings: ' . json_encode($bindings));
-    
-        // Executa a consulta
-        $result = DB::connection('firebird')->select($query, $bindings);
+        $result = DB::connection('firebird')->select($query);
 
         return $result;
     }
