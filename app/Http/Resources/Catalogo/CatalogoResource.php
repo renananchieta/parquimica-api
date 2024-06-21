@@ -15,10 +15,10 @@ class CatalogoResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id" => $this->id,
-            "nome" => $this->nome,
-            "emb_abreviada" => $this->emb_abreviada,
-            "preco" => number_format($this->preco, 2, ',', '.')
+            "id" => $this->ID,
+            "nome" => $this->NOME,
+            "emb_abreviada" => $this->EMB_ABREVIADA,
+            "preco" => number_format($this->PRECO, 2, ',', '.')
         ]; 
     }
 }
