@@ -34,15 +34,15 @@ class FirebirdDB
         // Escreve os dados no CSV
         foreach ($data as $row) {
             fputcsv($file, [
-                $row->id,
-                $row->nome,
-                $row->emb_abreviada,
-                $row->preco
+                $row['id'],
+                $row['nome'],
+                $row['emb_abreviada'],
+                $row['preco']
             ]);
         }
 
         // Reseta o ponteiro do arquivo para o início
-        rewind($file);
+        // rewind($file);
 
         // Captura o conteúdo do CSV como string
         $csvContent = stream_get_contents($file);
