@@ -49,7 +49,7 @@ class FirebirdDB
         fclose($file);
 
         // Cria um nome único para o arquivo CSV
-        $fileName = 'produtos_' . date('Y-m-d_H-i-s') . '.csv';
+        $fileName = 'produtos_' . date('Y-m-d') . '.csv';
 
         // Retorna o conteúdo do CSV e o nome do arquivo
         return [
