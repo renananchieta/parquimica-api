@@ -25,20 +25,20 @@ class FirebirdDB
     {
         $data = self::grid($params);
 
-        // Cria um cabeçalho para o CSV
-        $csvHeader = ['ID', 'Nome', 'Embalagem Abreviada', 'Preço'];
-
-        // Cria um nome único para o arquivo CSV
-        $fileName = 'produtos_' . date('Y-m-d_H-i-s') . '.csv';
-
-        // Cria o conteúdo do CSV
-        $csvContent = implode(",", $csvHeader) . "\n";
+        $file = fopen('php://temp', 'w+');
 
         foreach ($data as $row) {
-            $csvContent .= $row->ID . ',' . $row->NOME . ',' . $row->EMB_ABREVIADA . ',' . $row->PERCO . "\n";
+            fputcsv($file, (array) $row);
         }
 
-        // Retorna o conteúdo do CSV e o nome do arquivo
+        rewind($file);
+
+        $csvContent = stream_get_contents($file);
+
+        fclose($file);
+
+        $fileName = 'produtos_' . date('Y-m-d_H-i-s') . '.csv';
+
         return [
             'content' => $csvContent,
             'filename' => $fileName,
