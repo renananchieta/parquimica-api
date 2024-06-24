@@ -44,7 +44,7 @@ class FirebirdDB
             ]);
         }
 
-        rewind($file);
+        // rewind($file);
 
         $csvContent = stream_get_contents($file);
 
