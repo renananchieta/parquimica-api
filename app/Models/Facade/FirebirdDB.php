@@ -34,10 +34,10 @@ class FirebirdDB
         // Escreve os dados no CSV
         foreach ($data as $row) {
             fputcsv($file, [
-                $row['ID'],
-                $row['NOME'],
-                $row['EMB_ABREVIADA'],
-                $row['PRECO']
+                $row->ID,
+                $row->NOME,
+                $row->EMB_ABREVIADA,
+                $row->PRECO
             ]);
         }
 
