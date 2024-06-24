@@ -25,7 +25,7 @@ class FirebirdDB
     {
         $data = self::grid($params);
 
-        $nomeArquivo = 'export_' . date('Y-m-d');
+        $nomeArquivo = 'export';
         $file = fopen(storage_path('app/public/' . $nomeArquivo), 'w');
 
         fputcsv($file, [
