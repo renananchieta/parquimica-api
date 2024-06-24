@@ -25,34 +25,30 @@ class FirebirdDB
     {
         $data = self::grid($params);
 
-        $nomeArquivo = 'export';
-        $file = fopen(storage_path('app/public/' . $nomeArquivo), 'w');
+        $file = fopen('php://temp', 'w+');
 
-        fputcsv($file, [
-            'ID', 
-            'Nome', 
-            'Embalagem Abreviada', 
-            'Preço'
-        ]);
+        fputcsv($file, ['ID', 'Nome', 'Embalagem Abreviada', 'Preço']);
 
         foreach ($data as $row) {
             fputcsv($file, [
-                $row->id,
-                $row->nome,
-                $row->emb_abreviada,
-                $row->preco
+                $row->ID,
+                $row->NOME,
+                $row->EMB_ABREVIADA,
+                $row->PRECO
             ]);
         }
 
-        // rewind($file);
+        rewind($file);
 
         $csvContent = stream_get_contents($file);
 
         fclose($file);
 
+        $fileName = 'produtos.csv';
+
         return [
             'content' => $csvContent,
-            'filename' => $nomeArquivo,
+            'filename' => $fileName,
         ];
     }
 
