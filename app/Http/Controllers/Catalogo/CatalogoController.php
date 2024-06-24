@@ -26,6 +26,20 @@ class CatalogoController extends Controller
         }
     }
 
+    public function catalogoGridExportCsv(Request $request)
+    {
+        $params = (Object)$request->all();
+        try{
+            DB::beginTransaction();
+            $catalogoExportCsv = FirebirdDB::exportarCsv($params);
+            DB::commit();
+            return response($catalogoExportCsv);
+        } catch(Exception $e){
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
     public function consulta(Request $request)
     {
         $params = (Object)$request->all();
