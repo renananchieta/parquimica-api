@@ -33,7 +33,10 @@ class CatalogoController extends Controller
             DB::beginTransaction();
             $catalogoExportCsv = FirebirdDB::exportarCsv($params);
             DB::commit();
-            return response($catalogoExportCsv);
+            return response($catalogoExportCsv['content'], 200, [
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => "attachment; filename=\"{$catalogoExportCsv['filename']}\"",
+            ]);
         } catch(Exception $e){
             DB::rollBack();
             return response()->json($e->getMessage(), 500);
