@@ -27,17 +27,17 @@ class FirebirdDB
 
         $csvHeader = ['ID', 'Nome', 'Embalagem Abreviada', 'Preço'];
 
-        $nomeArquivo = 'produtos_' . date('Y-m-d_H-i-s') . '.csv';
+        $fileName = 'produtos_' . date('Y-m-d_H-i-s') . '.csv';
 
         $csvContent = implode(",", $csvHeader) . "\n";
 
-        foreach ($data as $coluna) {
-            $csvContent .= $coluna->id . ',' . $coluna->nome . ',' . $coluna->emb_abreviada . ',' . $coluna->preco . "\n";
+        foreach ($data as $row) {
+            $csvContent .= $row->id . ',' . $row->nome . ',' . $row->emb_abreviada . ',' . $row->preco . "\n";
         }
 
         return [
             'content' => $csvContent,
-            'filename' => $nomeArquivo,
+            'filename' => $fileName,
         ];
     }
 
