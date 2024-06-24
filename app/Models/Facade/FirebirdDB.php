@@ -37,10 +37,10 @@ class FirebirdDB
 
         foreach ($data as $row) {
             fputcsv($file, [
-                $row->ID,
-                $row->NOME,
-                $row->EMB_ABREVIADA,
-                $row->PRECO
+                $row->id,
+                $row->nome,
+                $row->emb_abreviada,
+                $row->preco
             ]);
         }
 
