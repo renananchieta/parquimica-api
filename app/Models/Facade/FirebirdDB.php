@@ -25,13 +25,16 @@ class FirebirdDB
     {
         $data = self::grid($params);
 
-        // Cria um ponteiro de memória para escrever o CSV
-        $file = fopen('php://temp', 'w+');
+        $nomeArquivo = 'export_' . date('Y-m-d');
+        $file = fopen(storage_path('app/public/' . $nomeArquivo), 'w');
 
-        // Escreve os cabeçalhos no CSV
-        fputcsv($file, ['ID', 'Nome', 'Embalagem Abreviada', 'Preço']);
+        fputcsv($file, [
+            'ID', 
+            'Nome', 
+            'Embalagem Abreviada', 
+            'Preço'
+        ]);
 
-        // Escreve os dados no CSV
         foreach ($data as $row) {
             fputcsv($file, [
                 $row->ID,
@@ -41,22 +44,15 @@ class FirebirdDB
             ]);
         }
 
-        // Reseta o ponteiro do arquivo para o início
-        // rewind($file);
+        rewind($file);
 
-        // Captura o conteúdo do CSV como string
         $csvContent = stream_get_contents($file);
 
-        // Fecha o ponteiro do arquivo
         fclose($file);
 
-        // Cria um nome único para o arquivo CSV
-        $fileName = 'produtos_' . date('Y-m-d_H-i-s') . '.csv';
-
-        // Retorna o conteúdo do CSV e o nome do arquivo
         return [
             'content' => $csvContent,
-            'filename' => $fileName,
+            'filename' => $nomeArquivo,
         ];
     }
 
