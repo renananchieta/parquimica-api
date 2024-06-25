@@ -30,6 +30,7 @@ class FirebirdDB
         fputcsv($file, ['ID', 'Nome', 'Embalagem Abreviada', 'Preço']);
 
         foreach ($data as $row) {
+            dd($row->id);
             fputcsv($file, [
                 $row->ID,
                 $row->NOME,
