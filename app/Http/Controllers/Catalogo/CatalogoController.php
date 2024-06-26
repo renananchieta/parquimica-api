@@ -41,19 +41,20 @@ class CatalogoController extends Controller
         }
     }
 
-    // public function funcoes(Request $request)
-    // {
-    //     $params = (Object)$request->all();
-    //     try {
-    //         DB::beginTransaction();
-    //         $catalogo = FirebirdDB::funcoes($params);
-    //         DB::commit();
-    //         return response(CatalogoResource::collection($catalogo), 200);
-    //     } catch(Exception $e) {
-    //         DB::rollBack();
-    //         return response()->json($e->getMessage(), 500);
-    //     }
-    // }
+    public function funcoes(Request $request)
+    {
+        $params = (Object)$request->all();
+        try {
+            DB::beginTransaction();
+            $funcoes = FirebirdDB::funcoes($params);
+            DB::commit();
+            // return response(CatalogoResource::collection($catalogo), 200);
+            return response($funcoes);
+        } catch(Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
+    }
 
     // public function prodLinha(Request $request)
     // {
