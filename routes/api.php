@@ -44,7 +44,7 @@ Route::get('/firebird', function () {
     return response($teste);
 });
 
-Route::get('/firebird', function () {
+Route::get('/firebird-all', function () {
     $teste = DB::connection('firebird')->select('SELECT * FROM site_produtos');
     return response($teste);
 });
