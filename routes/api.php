@@ -35,7 +35,7 @@ Route::middleware(['seguranca'])->group(function () {
 });
 // nome, emb_abreviada, preco
 Route::get('/firebird-produtos', function () {
-    $teste = DB::connection('firebird')->select('SELECT id, emb_abreviada FROM site_produtos');
+    $teste = DB::connection('firebird')->select('SELECT id, emb_abreviada, preco FROM site_produtos');
     return response($teste);
 });
 
