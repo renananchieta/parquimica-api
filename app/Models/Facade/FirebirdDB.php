@@ -11,7 +11,7 @@ class FirebirdDB
 {
     public static function grid($params)
     {
-        $query = 'SELECT id, nome, emb_abreviada, preco FROM site_produtos';
+        $query = 'SELECT id, nome, embalagem, emb_abreviada, preco FROM site_produtos';
 
         if (isset($params->nome)) {
             $query .= " WHERE nome LIKE '%$params->nome%'";

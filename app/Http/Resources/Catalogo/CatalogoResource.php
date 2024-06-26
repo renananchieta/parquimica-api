@@ -17,6 +17,7 @@ class CatalogoResource extends JsonResource
         return [
             "id" => $this->ID,
             "nome" => $this->NOME,
+            "embalagem" => $this->EMBALAGEM,
             "emb_abreviada" => $this->EMB_ABREVIADA,
             "preco" => number_format($this->PRECO, 2, ',', '.')
         ]; 
