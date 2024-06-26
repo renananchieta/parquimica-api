@@ -34,8 +34,7 @@ Route::middleware(['seguranca'])->group(function () {
     Route::get('/catalogo/consulta-extensa', [CatalogoController::class, 'consulta']);
 });
 
-Route::get('/catalogo/grid2', [CatalogoController::class, 'grid']);
-// nome, emb_abreviada, preco
+// Route::get('/catalogo/grid2', [CatalogoController::class, 'grid']);
 Route::get('/firebird-produtos', function () {
     $produtos  = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');
     $produtos = array_map(function($produto) {
