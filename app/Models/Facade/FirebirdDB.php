@@ -20,9 +20,11 @@ class FirebirdDB
         $produtos = DB::connection('firebird')->select($query);
 
         $produtos = array_map(function($produto) {
-            return array_map(function($item) {
+            $produto = (array) $produto; // Certifique-se de que $produto é um array
+            $produto = array_map(function($item) {
                 return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
-            }, (array)$produto);
+            }, $produto);
+            return (object) $produto; // Converter de volta para objeto
         }, $produtos);
     
         return $produtos;
