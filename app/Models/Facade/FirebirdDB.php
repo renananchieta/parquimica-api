@@ -74,7 +74,7 @@ class FirebirdDB
 
     public static function prodLinha($params)
     {
-        $query = 'SELECT * FROM site_funcoes';
+        $query = 'SELECT * FROM site_prod_linha';
 
         // if (isset($params->nome)) {
         //     $query .= " WHERE nome LIKE '%$params->nome%'";
