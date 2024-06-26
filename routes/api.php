@@ -32,15 +32,10 @@ Route::middleware(['seguranca'])->group(function () {
     Route::get('/catalogo/grid', [CatalogoController::class, 'grid']); // Testando esse endpoint
     Route::get('/catalogo/grid/exportar-csv', [CatalogoController::class, 'grid']); // Testando esse endpoint
     Route::get('/catalogo/consulta-extensa', [CatalogoController::class, 'consulta']);
-
-    Route::get('/catalogo-inicial', function () {
-        $teste = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');
-        return response($teste);
-    });
 });
-
-Route::get('/firebird', function () {
-    $teste = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');
+// nome, emb_abreviada, preco
+Route::get('/firebird-produtos', function () {
+    $teste = DB::connection('firebird')->select('SELECT id FROM site_produtos');
     return response($teste);
 });
 
