@@ -71,19 +71,20 @@ class CatalogoController extends Controller
         }
     }
 
-    // public function prodFuncao(Request $request)
-    // {
-    //     $params = (Object)$request->all();
-    //     try {
-    //         DB::beginTransaction();
-    //         $catalogo = FirebirdDB::prodFuncao($params);
-    //         DB::commit();
-    //         return response(CatalogoResource::collection($catalogo), 200);
-    //     } catch(Exception $e) {
-    //         DB::rollBack();
-    //         return response()->json($e->getMessage(), 500);
-    //     }
-    // }
+    public function prodFuncao(Request $request)
+    {
+        $params = (Object)$request->all();
+        try {
+            DB::beginTransaction();
+            $prodFuncao = FirebirdDB::prodFuncao($params);
+            DB::commit();
+            // return response(CatalogoResource::collection($catalogo), 200);
+            return response($prodFuncao);
+        } catch(Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
+    }
 
     public function catalogoGridExportCsv(Request $request)
     {
