@@ -44,6 +44,11 @@ Route::get('/firebird', function () {
     return response($teste);
 });
 
+Route::get('/firebird', function () {
+    $teste = DB::connection('firebird')->select('SELECT * FROM site_produtos');
+    return response($teste);
+});
+
 Route::middleware(['api'])->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 });
