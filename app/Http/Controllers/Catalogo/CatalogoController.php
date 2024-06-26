@@ -26,6 +26,63 @@ class CatalogoController extends Controller
         }
     }
 
+    public function linhas(Request $request)
+    {
+        $params = (Object)$request->all();
+        try {
+            DB::beginTransaction();
+            $linhas = FirebirdDB::linhas($params);
+            DB::commit();
+            // return response(CatalogoResource::collection($catalogo), 200);
+            return response($linhas);
+        } catch(Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
+    // public function funcoes(Request $request)
+    // {
+    //     $params = (Object)$request->all();
+    //     try {
+    //         DB::beginTransaction();
+    //         $catalogo = FirebirdDB::funcoes($params);
+    //         DB::commit();
+    //         return response(CatalogoResource::collection($catalogo), 200);
+    //     } catch(Exception $e) {
+    //         DB::rollBack();
+    //         return response()->json($e->getMessage(), 500);
+    //     }
+    // }
+
+    // public function prodLinha(Request $request)
+    // {
+    //     $params = (Object)$request->all();
+    //     try {
+    //         DB::beginTransaction();
+    //         $catalogo = FirebirdDB::prodLinha($params);
+    //         DB::commit();
+    //         return response(CatalogoResource::collection($catalogo), 200);
+    //     } catch(Exception $e) {
+    //         DB::rollBack();
+    //         return response()->json($e->getMessage(), 500);
+    //     }
+    // }
+
+    // public function prodFuncao(Request $request)
+    // {
+    //     $params = (Object)$request->all();
+    //     try {
+    //         DB::beginTransaction();
+    //         $catalogo = FirebirdDB::prodFuncao($params);
+    //         DB::commit();
+    //         return response(CatalogoResource::collection($catalogo), 200);
+    //     } catch(Exception $e) {
+    //         DB::rollBack();
+    //         return response()->json($e->getMessage(), 500);
+    //     }
+    // }
+
     public function catalogoGridExportCsv(Request $request)
     {
         $params = (Object)$request->all();

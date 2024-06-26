@@ -30,6 +30,27 @@ class FirebirdDB
         return $produtos;
     }
 
+    public static function linhas($params)
+    {
+        $query = 'SELECT * FROM site_linhas';
+
+        // if (isset($params->nome)) {
+        //     $query .= " WHERE nome LIKE '%$params->nome%'";
+        // }
+    
+        $linhas = DB::connection('firebird')->select($query);
+
+        $linhas = array_map(function($linha) {
+            $linha = (array) $linha; // Certifique-se de que $linha é um array
+            $linha = array_map(function($item) {
+                return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
+            }, $linha);
+            return (object) $linha; // Converter de volta para objeto
+        }, $linhas);
+    
+        return $linhas;
+    }
+
     public static function exportarCsv($params)
     {
         $data = self::grid($params);

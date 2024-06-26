@@ -34,7 +34,22 @@ Route::middleware(['seguranca'])->group(function () {
     Route::get('/catalogo/consulta-extensa', [CatalogoController::class, 'consulta']);
 });
 
-// Route::get('/catalogo/grid2', [CatalogoController::class, 'grid']);
+Route::middleware(['api'])->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
+
+
+
+
+
+
+
+
+/**
+ * Endpoints para testar as querys sem estar autenticado.
+ */
+Route::get('/catalogo/grid2', [CatalogoController::class, 'grid']);
 Route::get('/firebird-produtos', function () {
     $produtos  = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');
     $produtos = array_map(function($produto) {
@@ -57,7 +72,10 @@ Route::get('/firebird-all', function () {
     return response($produtos);
 });
 
-Route::middleware(['api'])->group(function () {
-    Route::post('/login', [AuthController::class, 'login']);
-});
+Route::get('/firebird/linhas', [CatalogoController::class, 'linhas']);
+// Route::get('/firebird/funcoes', [CatalogoController::class, 'funcoes']);
+// Route::get('/firebird/prod-linha', [CatalogoController::class, 'prod-linha']);
+// Route::get('/firebird/prod-funcao', [CatalogoController::class, 'prod-funcao']);
+
+
 
