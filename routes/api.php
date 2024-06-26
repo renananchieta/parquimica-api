@@ -74,7 +74,7 @@ Route::get('/firebird-all', function () {
 
 Route::get('/firebird/linhas', [CatalogoController::class, 'linhas']);
 Route::get('/firebird/funcoes', [CatalogoController::class, 'funcoes']);
-// Route::get('/firebird/prod-linha', [CatalogoController::class, 'prod-linha']);
+Route::get('/firebird/prod-linha', [CatalogoController::class, 'prodLinha']);
 // Route::get('/firebird/prod-funcao', [CatalogoController::class, 'prod-funcao']);
 
 

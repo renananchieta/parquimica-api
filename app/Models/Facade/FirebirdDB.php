@@ -72,6 +72,27 @@ class FirebirdDB
         return $funcoes;
     }
 
+    public static function prodLinha($params)
+    {
+        $query = 'SELECT * FROM site_funcoes';
+
+        // if (isset($params->nome)) {
+        //     $query .= " WHERE nome LIKE '%$params->nome%'";
+        // }
+    
+        $prodLinhas = DB::connection('firebird')->select($query);
+
+        $prodLinhas = array_map(function($prodLinha) {
+            $prodLinha = (array) $prodLinha;
+            $prodLinha = array_map(function($item) {
+                return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
+            }, $prodLinha);
+            return (object) $prodLinha;
+        }, $prodLinhas);
+    
+        return $prodLinhas;
+    }
+
     public static function exportarCsv($params)
     {
         $data = self::grid($params);
