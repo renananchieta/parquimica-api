@@ -38,7 +38,7 @@ Route::get('/firebird-produtos', function () {
     $produtos  = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');
     $produtos = array_map(function($produto) {
         return array_map(function($item) {
-            return mb_convert_encoding($item, 'UTF-8', 'auto');
+            return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
         }, (array)$produto);
     }, $produtos);
 
