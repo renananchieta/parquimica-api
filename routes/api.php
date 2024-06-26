@@ -46,8 +46,14 @@ Route::get('/firebird-produtos', function () {
 });
 
 Route::get('/firebird-all', function () {
-    $teste = DB::connection('firebird')->select('SELECT * FROM site_produtos');
-    return response($teste);
+    $produtos = DB::connection('firebird')->select('SELECT * FROM site_produtos');
+    $produtos = array_map(function($produto) {
+        return array_map(function($item) {
+            return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
+        }, (array)$produto);
+    }, $produtos);
+
+    return response($produtos);
 });
 
 Route::middleware(['api'])->group(function () {

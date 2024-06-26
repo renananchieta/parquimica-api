@@ -17,9 +17,15 @@ class FirebirdDB
             $query .= " WHERE nome LIKE '%$params->nome%'";
         }
     
-        $result = DB::connection('firebird')->select($query);
+        $produtos = DB::connection('firebird')->select($query);
 
-        return $result;
+        $produtos = array_map(function($produto) {
+            return array_map(function($item) {
+                return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
+            }, (array)$produto);
+        }, $produtos);
+    
+        return $produtos;
     }
 
     public static function exportarCsv($params)
