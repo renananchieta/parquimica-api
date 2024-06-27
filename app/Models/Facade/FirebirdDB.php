@@ -35,7 +35,7 @@ class FirebirdDB
         $query = 'SELECT * FROM site_linhas';
 
         if (isset($params->linhaId)) {
-            $query .= " WHERE id_linha = $params->linhaId";
+            $query .= " WHERE ID_LINHA = $params->linhaId";
         }
 
         if (isset($params->nome)) {
