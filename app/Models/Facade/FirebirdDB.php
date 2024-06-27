@@ -11,10 +11,27 @@ class FirebirdDB
 {
     public static function grid($params)
     {
-        $query = 'SELECT id, nome, embalagem, emb_abreviada, preco FROM site_produtos';
+        $query = 'SELECT 
+                    sp.id, 
+                    sp.nome, 
+                    sp.embalagem, 
+                    sp.emb_abreviada, 
+                    sp.preco 
+                    FROM site_produtos sp
+                    JOIN site_prod_linha spl ON sp.id = spl.id_prd';
 
-        if (isset($params->nome)) {
-            $query .= " WHERE nome LIKE '%$params->nome%'";
+        $condicionais = [];
+
+        if (isset($params->linhaId)) {
+            $condicionais[] = "spl.id_linha = $params->linhaId";
+        }
+
+        if(isset($params->nomeProduto)) {
+            $condicionais[] = "sp.nome = $params->nomeProduto";
+        }
+
+        if(!empty($condicionais)){
+            $query .= ' WHERE ' . implode(' AND ', $condicionais);
         }
     
         $produtos = DB::connection('firebird')->select($query);
