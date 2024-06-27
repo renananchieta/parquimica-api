@@ -12,7 +12,7 @@ class FirebirdDB
     public static function grid($params)
     {
         $query = 'SELECT 
-                    sp.id, 
+                    DISTINCT(sp.id), 
                     sp.nome, 
                     sp.embalagem, 
                     sp.emb_abreviada, 
