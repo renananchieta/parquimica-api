@@ -16,7 +16,7 @@ class FirebirdDB
                     sp.nome, 
                     sp.embalagem, 
                     sp.emb_abreviada, 
-                    sp.preco,
+                    sp.preco
                     -- spl.id_linha,
                     -- spl.linha_dsc,
                     -- spf.id_funcao,
