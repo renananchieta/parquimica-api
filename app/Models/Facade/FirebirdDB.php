@@ -16,14 +16,15 @@ class FirebirdDB
                     sp.nome, 
                     sp.embalagem, 
                     sp.emb_abreviada, 
-                    sp.preco,
-                    spl.id_linha,
-                    spl.linha_dsc,
-                    spf.id_funcao,
-                    spf.funcao_dsc 
-                    FROM site_produtos sp
-                    JOIN site_prod_linha spl ON sp.id = spl.id_prd
-                    JOIN site_prod_funcao spf ON sp.id = spf.id_prd';
+                    MAX(sp.preco) as preco,
+                    MAX(spl.id_linha) as id_linha,
+                    MAX(spl.linha_dsc) as linha_dsc,
+                    MAX(spf.id_funcao) as id_funcao,
+                    MAX(spf.funcao_dsc) as funcao_dsc
+                FROM site_produtos sp
+                JOIN site_prod_linha spl ON sp.id = spl.id_prd
+                JOIN site_prod_funcao spf ON sp.id = spf.id_prd
+                GROUP BY sp.id, sp.nome, sp.embalagem, sp.emb_abreviada';
 
         $condicionais = [];
 
