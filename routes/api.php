@@ -32,6 +32,11 @@ Route::middleware(['seguranca'])->group(function () {
     Route::get('/catalogo/grid', [CatalogoController::class, 'grid']); // Testando esse endpoint
     Route::get('/catalogo/grid/exportar-csv', [CatalogoController::class, 'grid']); // Testando esse endpoint
     Route::get('/catalogo/consulta-extensa', [CatalogoController::class, 'consulta']);
+
+    Route::get('/firebird/linhas', [CatalogoController::class, 'linhas']);
+    Route::get('/firebird/funcoes', [CatalogoController::class, 'funcoes']);
+    Route::get('/firebird/prod-linha', [CatalogoController::class, 'prodLinha']);
+    Route::get('/firebird/prod-funcao', [CatalogoController::class, 'prodFuncao']);
 });
 
 Route::middleware(['api'])->group(function () {

@@ -34,35 +34,35 @@ class FirebirdDB
     {
         $query = 'SELECT * FROM site_linhas';
 
-        $condicionais = [];
+        // $condicionais = [];
 
-        if (isset($params->linhaId)) {
-            // $query .= " WHERE ID_LINHA = $params->linhaId";
-            $condicionais[] = "id_linha = $params->linhaId";
+        if (isset($params->descricao)) {
+            $query .= " WHERE descricao LIKE '%$params->descricao%'";
+            // $condicionais[] = "id_linha = $params->linhaId";
         }
 
-        if (isset($params->nome)) {
-            // $query .= " WHERE prd_nome LIKE '%$params->nome%'";
-            $condicionais[] = "prd_nomea = $params->nome";
-        }
+        // if (isset($params->nome)) {
+        //     // $query .= " WHERE prd_nome LIKE '%$params->nome%'";
+        //     $condicionais[] = "prd_nome = $params->nome";
+        // }
 
-        if (isset($params->linhaDesc)) {
-            // $query .= " WHERE linha_dsc LIKE '%$params->linhaDesc%'";
-            $condicionais[] = "linha_dsc = $params->linhaDesc";
-        }
+        // if (isset($params->linhaDesc)) {
+        //     // $query .= " WHERE linha_dsc LIKE '%$params->linhaDesc%'";
+        //     $condicionais[] = "linha_dsc = $params->linhaDesc";
+        // }
 
-        if(!empty($condicionais)){
-            $query .= ' WHERE ' . implode(' AND ', $condicionais);
-        }
+        // if(!empty($condicionais)){
+        //     $query .= ' WHERE ' . implode(' AND ', $condicionais);
+        // }
     
         $linhas = DB::connection('firebird')->select($query);
 
         $linhas = array_map(function($linha) {
-            $linha = (array) $linha; // Certifique-se de que $linha é um array
+            $linha = (array) $linha; 
             $linha = array_map(function($item) {
                 return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
             }, $linha);
-            return (object) $linha; // Converter de volta para objeto
+            return (object) $linha;
         }, $linhas);
     
         return $linhas;
