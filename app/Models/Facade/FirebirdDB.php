@@ -72,9 +72,9 @@ class FirebirdDB
     {
         $query = 'SELECT * FROM site_funcoes';
 
-        // if (isset($params->nome)) {
-        //     $query .= " WHERE nome LIKE '%$params->nome%'";
-        // }
+        if (isset($params->descricao)) {
+            $query .= " WHERE descricao LIKE '%$params->descricao%'";
+        }
     
         $funcoes = DB::connection('firebird')->select($query);
 
