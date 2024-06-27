@@ -34,9 +34,17 @@ class FirebirdDB
     {
         $query = 'SELECT * FROM site_linhas';
 
-        // if (isset($params->nome)) {
-        //     $query .= " WHERE nome LIKE '%$params->nome%'";
-        // }
+        if (isset($params->linhaId)) {
+            $query .= " WHERE id_linha = $params->linha";
+        }
+
+        if (isset($params->nome)) {
+            $query .= " WHERE prd_nome LIKE '%$params->nome%'";
+        }
+
+        if (isset($params->linhaDesc)) {
+            $query .= " WHERE linha_dsc LIKE '%$params->linhaDesc%'";
+        }
     
         $linhas = DB::connection('firebird')->select($query);
 
