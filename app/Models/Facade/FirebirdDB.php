@@ -18,12 +18,17 @@ class FirebirdDB
                     sp.emb_abreviada, 
                     sp.preco 
                     FROM site_produtos sp
-                    JOIN site_prod_linha spl ON sp.id = spl.id_prd';
+                    JOIN site_prod_linha spl ON sp.id = spl.id_prd
+                    JOIN site_prod_funcao spf ON sp.id = spf.id_prd';
 
         $condicionais = [];
 
         if (isset($params->linhaId)) {
             $condicionais[] = "spl.id_linha = $params->linhaId";
+        }
+
+        if (isset($params->funcaoId)) {
+            $condicionais[] = "spf.id_funcao = $params->funcaoId";
         }
 
         if(isset($params->nomeProduto)) {
