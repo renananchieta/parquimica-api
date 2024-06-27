@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Catalogo;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Catalogo\CatalogoResource;
+use App\Http\Resources\Catalogo\FuncoesResource;
 use App\Models\Facade\FirebirdDB;
 use App\Models\Firebird;
 use Exception;
@@ -48,8 +49,7 @@ class CatalogoController extends Controller
             DB::beginTransaction();
             $funcoes = FirebirdDB::funcoes($params);
             DB::commit();
-            // return response(CatalogoResource::collection($catalogo), 200);
-            return response($funcoes);
+            return response(FuncoesResource::collection($funcoes), 200);
         } catch(Exception $e) {
             DB::rollBack();
             return response()->json($e->getMessage(), 500);
