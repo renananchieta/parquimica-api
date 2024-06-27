@@ -34,16 +34,25 @@ class FirebirdDB
     {
         $query = 'SELECT * FROM site_linhas';
 
+        $condicionais = [];
+
         if (isset($params->linhaId)) {
-            $query .= " WHERE ID_LINHA = $params->linhaId";
+            // $query .= " WHERE ID_LINHA = $params->linhaId";
+            $condicionais[] = "id_linha = $params->linhaId";
         }
 
         if (isset($params->nome)) {
-            $query .= " WHERE prd_nome LIKE '%$params->nome%'";
+            // $query .= " WHERE prd_nome LIKE '%$params->nome%'";
+            $condicionais[] = "prd_nomea = $params->nome";
         }
 
         if (isset($params->linhaDesc)) {
-            $query .= " WHERE linha_dsc LIKE '%$params->linhaDesc%'";
+            // $query .= " WHERE linha_dsc LIKE '%$params->linhaDesc%'";
+            $condicionais[] = "linha_dsc = $params->linhaDesc";
+        }
+
+        if(!empty($condicionais)){
+            $query .= ' WHERE ' . implode(' AND ', $condicionais);
         }
     
         $linhas = DB::connection('firebird')->select($query);
