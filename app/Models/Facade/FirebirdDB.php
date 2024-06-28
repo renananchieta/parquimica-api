@@ -159,14 +159,9 @@ class FirebirdDB
 
     public static function literatura($params)
     {
-        $query = `SELECT * FROM literatura($params->codigo_produto)`;
-        dd($query);
-
-        // if (isset($params->nome)) {
-        //     $query .= " WHERE nome LIKE '%$params->nome%'";
-        // }
+        $query = 'SELECT * FROM literatura(?)';
     
-        $literaturas = DB::connection('firebird')->select($query);
+        $literaturas = DB::connection('firebird')->select($query, [$params->codigo_produto]);
 
         $literaturas = array_map(function($literatura) {
             $literatura = (array) $literatura;
