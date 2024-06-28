@@ -160,6 +160,7 @@ class FirebirdDB
     public static function literatura($params)
     {
         $query = `SELECT * FROM literatura($params->codigo_produto)`;
+        dd($query);
 
         // if (isset($params->nome)) {
         //     $query .= " WHERE nome LIKE '%$params->nome%'";
