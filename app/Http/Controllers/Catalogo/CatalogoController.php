@@ -90,7 +90,6 @@ class CatalogoController extends Controller
     {
         $params = (Object)$request->all();
         $params->codigo_produto = $codigo_produto;
-        dd($params);
         try {
             DB::beginTransaction();
             $literaturas = FirebirdDB::literatura($params);
