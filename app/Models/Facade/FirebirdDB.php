@@ -157,6 +157,27 @@ class FirebirdDB
         return $prodFuncoes;
     }
 
+    public static function literatura($params)
+    {
+        $query = 'SELECT * FROM literatura';
+
+        // if (isset($params->nome)) {
+        //     $query .= " WHERE nome LIKE '%$params->nome%'";
+        // }
+    
+        $literaturas = DB::connection('firebird')->select($query);
+
+        $literaturas = array_map(function($literatura) {
+            $literatura = (array) $literatura;
+            $literatura = array_map(function($item) {
+                return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
+            }, $literatura);
+            return (object) $literatura;
+        }, $literaturas);
+    
+        return $literaturas;
+    }
+
     public static function exportarCsv($params)
     {
         $data = self::grid($params);
