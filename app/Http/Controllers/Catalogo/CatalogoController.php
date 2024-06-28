@@ -86,9 +86,10 @@ class CatalogoController extends Controller
         }
     }
 
-    public function literatura(Request $request)
+    public function literatura(Request $request, int $codigo_produto)
     {
         $params = (Object)$request->all();
+        $params->codigo_produto = $codigo_produto;
         try {
             DB::beginTransaction();
             $literaturas = FirebirdDB::literatura($params);
