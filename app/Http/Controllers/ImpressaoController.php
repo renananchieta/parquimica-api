@@ -14,6 +14,7 @@ class ImpressaoController extends Controller
 
         if (isset($p->imprime_literatura)){
             $literatura = FirebirdDB::literatura($p);
+            return response($literatura);
 
             $pdf = ConfigurarPDF::configurar('produto.literatura_pdf', compact('literatura'));
 
