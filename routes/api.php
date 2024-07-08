@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Catalogo\CatalogoController;
+use App\Http\Controllers\ImpressaoController;
 use App\Http\Controllers\Seguranca\PerfilController;
 use App\Http\Controllers\Seguranca\UsuarioController;
 use Illuminate\Support\Facades\DB;
@@ -82,6 +83,7 @@ Route::get('/firebird/funcoes', [CatalogoController::class, 'funcoes']);
 Route::get('/firebird/prod-linha', [CatalogoController::class, 'prodLinha']);
 Route::get('/firebird/prod-funcao', [CatalogoController::class, 'prodFuncao']);
 Route::get('/firebird/literatura/{codigo_produto}', [CatalogoController::class, 'literatura']);
+// Route::get('impressao', [ImpressaoController::class, 'gerarPdf']);
 
 
 

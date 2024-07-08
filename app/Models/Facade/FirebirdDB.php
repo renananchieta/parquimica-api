@@ -196,7 +196,7 @@ class FirebirdDB
                     'PRD_COD' => $literatura->PRD_COD,
                     'PRD_NOME' => $literatura->PRD_NOME,
                     'PRD_LIT_DSC' => $literatura->PRD_LIT_DSC,
-                    'details' => []
+                    'detalhes' => []
                 ];
             }
 
