@@ -36,7 +36,7 @@
         }
 
         body {
-            font-family: 'Calibri', 'CalibriB';
+            font-family: 'Arial,', 'CalibriB';
             position: relative;
             left: 0px;
             text-align: center;
