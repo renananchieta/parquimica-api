@@ -132,28 +132,79 @@
 
 {{--    INICIO DO CONTROLE DE CHEGADA (Equipes de Cumprimento)--}}
 <body>
-    <div id="header">
+<div id="header">
+    <div>
+        <div>{{ $literatura->PRD_NOME }}</div>
+        <div>{{ $literatura->PRD_LIT_DSC }}</div>
+    </div>
+</div>
+<div id="body">
+    <p class="titulo_anexo">ANEXO III</p>
+    <div class="container">
+        <table border="1" cellpadding="5" cellspacing="0" width="85">
+            <tr>
+                TESTE
+            </tr>
+                <th>EQUIPE</th>
+                <th>CHEGADA</th>
+                <th>MANDADOS</th>
+            </tr>
+                {{-- @foreach($operacao->equipes as $equipe)
+                    @if($equipe->tipo_equipe_id == 3))
+                        <tr>
+                            <td>
+                                {{$equipe->numero_equipe}}
+                            </td>
+                            <td>
+                                Hora da chegada
+                            </td>
+                            <td>
+                                <table class="subtabela">
+                                    <th width="100px">Nome</th>
+                                    <th>Endereco</th>
+                                    <th>Tipo</th>
+                                    <th>Cumprido?</th>
+                                    @foreach($equipe->alvosEquipesCumprimento()->get() as $alvoEquipe)
+                                        <tr>
+                                            @foreach($alvoEquipe->alvo()->get() as $alvo)
+                                                <td style="font-size: 10px" class="not-bold">
+                                                    {{$alvo->nome}}
+                                                </td>
+                                                <td style="font-size: 10px">
+                                                    {{$alvo->cidades()->first()->nome}} - {{$alvo->bairros()->first()->nome}}
+                                                </td>
+                                                <td style="font-size: 10px">
+                                                    {{$alvo->tipoPrisao()->first()->sigla}}
+                                                </td>
+                                                <td>
+                                                    Não
+                                                </td>
+                                            @endforeach
+                                    @endforeach
+                                </table>
+                            </td>
+                            <td>
+                                material
+                            </td>
+                            <td>
+                                flagrante
+                            </td>
+                            <td>
+                                apoio carto
+                            </td>
+                        </tr>
+
+                    @endif
+                @endforeach --}}
+        </table>
         <div>
-            <div>PARQUIMICA</div>
+            <p>OBSERVAÇÕES IMPORTANTES:</p>
+            <p>espaço destinado a anotações relevantes durante o curso da operação policial, caso ocorram.</p>
         </div>
     </div>
-    <div id="body">
-        <p class="titulo_anexo">ANEXO III</p>
-        <div class="container">
-            <table border="1" cellpadding="5" cellspacing="0" width="85">
-                <tr>
-                    TESTE
-                </tr>
-                    <th>EQUIPE</th>
-                    <th>CHEGADA</th>
-                    <th>MANDADOS</th>
-                </tr>
-            </table>
-            <div>
-                <p>OBSERVAÇÕES IMPORTANTES:</p>
-            </div>
-        </div>
-    </div>
-    <div class="quebra_de_pagina"></div>
+</div>
+<div class="quebra_de_pagina"></div>
+{{--    FIM DO CONTROLE DE CHEGADA (Equipes de Cumprimento)--}}
+
 </body>
 </html>
