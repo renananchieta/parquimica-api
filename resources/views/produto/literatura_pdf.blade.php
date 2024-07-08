@@ -75,14 +75,22 @@
                     <h3>"{{ $item->PRD_LIT_DSC }}"</h3>
 
                     <table class="details-table">
-                    @if (is_array($item->detalhes) && count($item->detalhes) > 0)
-                        @foreach ($item->detalhes as $detalhe)
-                            <div class="details-container">
-                                <div class="details-left">{{ $detalhe['LITENS_DSC'] }}</div>
-                                <div class="details-right">{{ $detalhe['LID_DSC'] }}</div>
-                            </div>
-                        @endforeach
-                    @endif
+                        <thead>
+                            <tr>
+                                <th>Descrição</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @if (is_array($item->detalhes) && count($item->detalhes) > 0)
+                            @foreach ($item->detalhes as $detalhe)
+                                <tr>
+                                    <td>{{ $detalhe['LITENS_DSC'] }}</td>
+                                    <td>{{ $detalhe['LID_DSC'] }}</td>
+                                </tr>
+                            @endforeach
+                        @endif
+                        </tbody>
                     </table>
                 </div>
             @endforeach
