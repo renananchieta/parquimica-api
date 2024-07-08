@@ -137,10 +137,8 @@
         <div> 
             @foreach ($literatura as $item)
                 <div>
-                    <pre>
-                        <h1>{{ $item->PRD_NOME }}</h1>
-                        <h2>{{ $item->PRD_LIT_DSC }}</h2>
-                    </pre>
+                    <h1>{{ $item->PRD_NOME }}</h1>
+                    <h2>{{ $item->PRD_LIT_DSC }}</h2>
                 </div>
             @endforeach
         </div>
