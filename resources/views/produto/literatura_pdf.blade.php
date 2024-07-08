@@ -43,12 +43,13 @@
                 </div>
 
                 @foreach ($item->detalhes as $detalhe)
-                    <div class="details-container">
-                        <div class="details-left">{{ $detalhe->LITENS_DSC }}</div>
-                        <div class="details-right">{{ $detalhe->LID_DSC }}</div>
-                    </div>
+                    @foreach ($$detalhe as $desc)
+                        <div class="details-container">
+                            <div class="details-left">{{ $desc->LITENS_DSC }}</div>
+                            <div class="details-right">{{ $desc->LID_DSC }}</div>
+                        </div>
+                    @endforeach
                 @endforeach
-
             @endforeach
         </div>
     </div>
