@@ -76,12 +76,6 @@
                     <h3>"{{ $item->PRD_LIT_DSC }}"</h3>
 
                     <table class="details-table">
-                        <thead>
-                            <tr>
-                                <th>Descrição</th>
-                                <th>Valor</th>
-                            </tr>
-                        </thead>
                         <tbody>
                         @if (is_array($item->detalhes) && count($item->detalhes) > 0)
                             @foreach ($item->detalhes as $detalhe)
