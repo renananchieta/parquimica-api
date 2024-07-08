@@ -37,7 +37,32 @@
             margin-bottom: 0;
         }
 
-        /* Outros estilos continuam aqui */
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .details-table th {
+            background-color: #f2f2f2;
+            padding: 8px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .details-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .details-left {
+            font-weight: bold;
+        }
+
+        .details-right {
+            font-family: "Times New Roman", Times, serif;
+        }
 
     </style>
 </head>
@@ -49,6 +74,7 @@
                     <h2>{{ $item->PRD_NOME }}</h2>
                     <h3>"{{ $item->PRD_LIT_DSC }}"</h3>
 
+                    <table class="details-table">
                     @if (is_array($item->detalhes) && count($item->detalhes) > 0)
                         @foreach ($item->detalhes as $detalhe)
                             <div class="details-container">
@@ -57,6 +83,7 @@
                             </div>
                         @endforeach
                     @endif
+                    </table>
                 </div>
             @endforeach
         </div>
