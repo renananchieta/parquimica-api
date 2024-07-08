@@ -28,6 +28,16 @@ RUN docker-php-ext-install pdo_firebird
 RUN pecl install xdebug-3.2.2 \
     && docker-php-ext-enable xdebug
 
+#=====PHPGD
+RUN apt install -y \
+    libpng-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    && docker-php-ext-configure gd --with-jpeg=/usr/include/ --with-freetype=/usr/include/ \
+    && docker-php-ext-install gd
+    #  && apt cache clear
+#=====PHPGD
+
 # Create system user to run Composer and Artisan Commands
 RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
