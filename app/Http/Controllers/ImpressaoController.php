@@ -10,11 +10,11 @@ class ImpressaoController extends Controller
 {
     public function gerarPDF(Request $request)
     {
-        $p = (object)$request->all();
+        $p = (Object)$request->all();
 
         if (isset($p->imprime_literatura)){
-            // $literatura = FirebirdDB::literatura($p);
-            $teste = "teste";
+            $literatura = FirebirdDB::literatura($p);
+            return response($$literatura);
 
             // $pdf = ConfigurarPDF::configurar('produto.literatura_pdf', compact('literatura'));
             $pdf = ConfigurarPDF::configurar('produto.literatura_pdf', compact('teste'));
