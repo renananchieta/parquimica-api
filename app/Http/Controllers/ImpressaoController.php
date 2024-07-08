@@ -11,6 +11,7 @@ class ImpressaoController extends Controller
     public function gerarPDF(Request $request)
     {
         $p = (object)$request->all();
+        dd($p);
 
         if (isset($p->imprime_literatura)){
             $literatura = FirebirdDB::literatura($p);
