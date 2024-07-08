@@ -62,6 +62,7 @@
 
         .details-right {
             font-family: "Times New Roman", Times, serif;
+            font-weight: normal; /* Removendo o negrito */
         }
 
     </style>
@@ -86,7 +87,7 @@
                             @foreach ($item->detalhes as $detalhe)
                                 <tr>
                                     <td>{{ $detalhe['LITENS_DSC'] }}</td>
-                                    <td>{{ $detalhe['LID_DSC'] }}</td>
+                                    <td class="details-right">{{ $detalhe['LID_DSC'] }}</td>
                                 </tr>
                             @endforeach
                         @endif
