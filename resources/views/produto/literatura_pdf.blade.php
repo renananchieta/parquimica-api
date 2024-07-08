@@ -132,86 +132,28 @@
 
 {{--    INICIO DO CONTROLE DE CHEGADA (Equipes de Cumprimento)--}}
 <body>
-<div id="header">
-    {{-- <img src="{{ asset('images/policia.png') }}" width="85" style="float: left">
-    <img src="{{ asset('images/estado.png') }}" width="75" style="float: right"> --}}
-    <div>
-        <div>POLÍCIA CIVIL DO ESTADO DO PARÁ</div>
-        {{-- <div>{{$operacao->coordenador->lotacao_atual}}</div> --}}
-        <div>UNIDADE OPERACIONAL</div>
-    </div>
-</div>
-<div id="body">
-    <p class="titulo_anexo">ANEXO III - CONTROLE DE CHEGADA (Equipes de Cumprimento)</p>
-    <div class="container">
-        <table border="1" cellpadding="5" cellspacing="0" width="85">
-            <tr>
-                TESTE
-                {{-- <th colspan="6">{{$operacao->nome_operacao}}</th> --}}
-            </tr>
-                <th>EQUIPE</th>
-                <th>CHEGADA</th>
-                <th>MANDADOS</th>
-                <th>ARMAS/DROGAS/DINHEIRO<br>VEICULOS/OUTROS? DESCREVER</th>
-                <th>FLAGRANTE</th>
-                <th>APOIO CART.</th>
-            </tr>
-                {{-- @foreach($operacao->equipes as $equipe)
-                    @if($equipe->tipo_equipe_id == 3))
-                        <tr>
-                            <td>
-                                {{$equipe->numero_equipe}}
-                            </td>
-                            <td>
-                                Hora da chegada
-                            </td>
-                            <td>
-                                <table class="subtabela">
-                                    <th width="100px">Nome</th>
-                                    <th>Endereco</th>
-                                    <th>Tipo</th>
-                                    <th>Cumprido?</th>
-                                    @foreach($equipe->alvosEquipesCumprimento()->get() as $alvoEquipe)
-                                        <tr>
-                                            @foreach($alvoEquipe->alvo()->get() as $alvo)
-                                                <td style="font-size: 10px" class="not-bold">
-                                                    {{$alvo->nome}}
-                                                </td>
-                                                <td style="font-size: 10px">
-                                                    {{$alvo->cidades()->first()->nome}} - {{$alvo->bairros()->first()->nome}}
-                                                </td>
-                                                <td style="font-size: 10px">
-                                                    {{$alvo->tipoPrisao()->first()->sigla}}
-                                                </td>
-                                                <td>
-                                                    Não
-                                                </td>
-                                            @endforeach
-                                    @endforeach
-                                </table>
-                            </td>
-                            <td>
-                                material
-                            </td>
-                            <td>
-                                flagrante
-                            </td>
-                            <td>
-                                apoio carto
-                            </td>
-                        </tr>
-
-                    @endif
-                @endforeach --}}
-        </table>
+    <div id="header">
         <div>
-            <p>OBSERVAÇÕES IMPORTANTES:</p>
-            <p>espaço destinado a anotações relevantes durante o curso da operação policial, caso ocorram.</p>
+            <div>PARQUIMICA</div>
         </div>
     </div>
-</div>
-<div class="quebra_de_pagina"></div>
-{{--    FIM DO CONTROLE DE CHEGADA (Equipes de Cumprimento)--}}
-
+    <div id="body">
+        <p class="titulo_anexo">ANEXO III</p>
+        <div class="container">
+            <table border="1" cellpadding="5" cellspacing="0" width="85">
+                <tr>
+                    TESTE
+                </tr>
+                    <th>EQUIPE</th>
+                    <th>CHEGADA</th>
+                    <th>MANDADOS</th>
+                </tr>
+            </table>
+            <div>
+                <p>OBSERVAÇÕES IMPORTANTES:</p>
+            </div>
+        </div>
+    </div>
+    <div class="quebra_de_pagina"></div>
 </body>
 </html>
