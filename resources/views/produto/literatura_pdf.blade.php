@@ -43,22 +43,23 @@
 </head>
 
 <body>
-<div id="header">
-    <div>
-        <div> 
+    <div id="header">
+        <div>
             @foreach ($literatura as $item)
                 <div>
                     <h2>{{ $item->PRD_NOME }}</h2>
                     <h3>"{{ $item->PRD_LIT_DSC }}"</h3>
+
+                    @foreach ($item->detalhes as $detalhe)
+                        <div class="details-container">
+                            <div class="details-left">{{ $detalhe->LITENS_DSC }}</div>
+                            <div class="details-right">{{ $detalhe->LID_DSC }}</div>
+                        </div>
+                    @endforeach
                 </div>
-                <p>{{ $item->detalhes }}</p>
             @endforeach
         </div>
     </div>
-</div>
-
-<!-- Restante do seu conteúdo HTML -->
-
 </body>
 
 </html>
