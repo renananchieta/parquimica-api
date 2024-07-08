@@ -20,7 +20,7 @@ class CatalogoResource extends JsonResource
             "embalagem" => $this->EMBALAGEM,
             "emb_abreviada" => $this->EMB_ABREVIADA,
             "preco" => number_format($this->PRECO, 2, ',', '.'),
-            "literatura" => $this->ID_LINHA,
+            "literatura" => 'teste',
             // "linha_desc" => $this->LINHA_DSC,
             // "funcao_id" => $this->ID_FUNCAO,
             // "funcao_desc" => $this->FUNCAO_DSC
