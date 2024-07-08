@@ -8,18 +8,17 @@ use Illuminate\Http\Request;
 
 class ImpressaoController extends Controller
 {
-    public function gerarPDF(Request $request)
+    public function gerarPDF(Request $request, int $codigo_produto)
     {
         $p = (Object)$request->all();
+        $p->codigo_produto = $codigo_produto;
 
         if (isset($p->imprime_literatura)){
             $literatura = FirebirdDB::literatura($p);
 
-            return response($literatura);
+            $pdf = ConfigurarPDF::configurar('produto.literatura_pdf', compact('literatura'));
 
-            // $pdf = ConfigurarPDF::configurar('produto.literatura_pdf', compact('literatura'));
-
-            // return $pdf->setPaper('a4', 'portrait')->stream();
+            return $pdf->setPaper('a4', 'portrait')->stream();
         }
 
     }
