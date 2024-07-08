@@ -175,48 +175,45 @@ class FirebirdDB
     // }
 
     public static function literatura($params)
-{
-    $query = 'SELECT * FROM literatura(?)';
-    $literaturas = DB::connection('firebird')->select($query, [$params->codigo_produto]);
+    {
+        $query = 'SELECT * FROM literatura(?)';
+        $literaturas = DB::connection('firebird')->select($query, [$params->codigo_produto]);
 
-    // Converte a codificação de caracteres
-    $literaturas = array_map(function($literatura) {
-        $literatura = (array) $literatura;
-        $literatura = array_map(function($item) {
-            return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
-        }, $literatura);
-        return (object) $literatura;
-    }, $literaturas);
+        $literaturas = array_map(function($literatura) {
+            $literatura = (array) $literatura;
+            $literatura = array_map(function($item) {
+                return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
+            }, $literatura);
+            return (object) $literatura;
+        }, $literaturas);
 
-    // Agrupa os resultados por PRD_COD
-    $groupedLiteraturas = [];
-    foreach ($literaturas as $literatura) {
-        $prdCod = $literatura->PRD_COD;
+        $groupedLiteraturas = []; // Agrupa os resultados por PRD_COD
+        foreach ($literaturas as $literatura) {
+            $prdCod = $literatura->PRD_COD;
 
-        if (!isset($groupedLiteraturas[$prdCod])) {
-            $groupedLiteraturas[$prdCod] = [
-                'PRD_COD' => $literatura->PRD_COD,
-                'PRD_NOME' => $literatura->PRD_NOME,
-                'PRD_LIT_DSC' => $literatura->PRD_LIT_DSC,
-                'details' => []
+            if (!isset($groupedLiteraturas[$prdCod])) {
+                $groupedLiteraturas[$prdCod] = [
+                    'PRD_COD' => $literatura->PRD_COD,
+                    'PRD_NOME' => $literatura->PRD_NOME,
+                    'PRD_LIT_DSC' => $literatura->PRD_LIT_DSC,
+                    'details' => []
+                ];
+            }
+
+            $groupedLiteraturas[$prdCod]['detalhes'][] = [
+                'LITENS_ID' => $literatura->LITENS_ID,
+                'LITENS_DSC' => $literatura->LITENS_DSC,
+                'LID_ID' => $literatura->LID_ID,
+                'LID_DSC' => $literatura->LID_DSC
             ];
         }
 
-        $groupedLiteraturas[$prdCod]['details'][] = [
-            'LITENS_ID' => $literatura->LITENS_ID,
-            'LITENS_DSC' => $literatura->LITENS_DSC,
-            'LID_ID' => $literatura->LID_ID,
-            'LID_DSC' => $literatura->LID_DSC
-        ];
+        $groupedLiteraturas = array_values(array_map(function($item) { // Converte o array associativo em uma lista de objetos
+            return (object) $item;
+        }, $groupedLiteraturas));
+
+        return $groupedLiteraturas;
     }
-
-    // Converte o array associativo em uma lista de objetos
-    $groupedLiteraturas = array_values(array_map(function($item) {
-        return (object) $item;
-    }, $groupedLiteraturas));
-
-    return $groupedLiteraturas;
-}
 
 
     public static function exportarCsv($params)
