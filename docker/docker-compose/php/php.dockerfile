@@ -18,7 +18,11 @@ RUN apt-get update && apt-get install -y \
     libib-util \
     && apt-get clean
 
+#=====
 # Install PHP extensions
+#=====
+## Laravel's dependencies
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN docker-php-ext-install curl pgsql pdo_pgsql pdo_mysql mbstring exif pcntl bcmath
 
 # Install Firebird PDO extension
