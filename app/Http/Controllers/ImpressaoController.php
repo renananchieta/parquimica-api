@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Facade\FirebirdDB;
 use App\Models\Regras\ConfigurarPDF;
 use Illuminate\Http\Request;
 
@@ -12,34 +13,26 @@ class ImpressaoController extends Controller
         $p = (object)$request->all();
 
         if (isset($p->imprime_literatura)){
-            $operacao = Operacoes::with(
-                'unidade',
-                'coordenador',
-                'subcoordenador',
-                'chefeOperacao',
-                'chefeCartorio',
-                'diretoria',
-                'equipes')
-                ->find($p->operacao_id);
+            $literatura = FirebirdDB::literatura($p->id);
 
-            $pdf = ConfigurarPDF::configurar('operacao.identificacao_efetivo_coord_apoio_pdf', compact('operacao'));
+            $pdf = ConfigurarPDF::configurar('produto.literatura_pdf', compact('literatura'));
 
             return $pdf->setPaper('a4', 'portrait')->stream();
         }
 
-        if(isset($p->ficha_do_alvo)){
-            $alvo = Alvos::with(
-                'nivelRisco',
-                'operacao',
-                'tipoPrisao',
-                'cidades',
-                'bairros',
-                'alvoEquipes'
-            )->find($p->alvo_id);
+        // if(isset($p->ficha_do_alvo)){
+        //     $alvo = Alvos::with(
+        //         'nivelRisco',
+        //         'operacao',
+        //         'tipoPrisao',
+        //         'cidades',
+        //         'bairros',
+        //         'alvoEquipes'
+        //     )->find($p->alvo_id);
 
-            $pdf = ConfigurarPDF::configurar('operacao.ficha_do_alvo_pdf', compact('alvo'));
+        //     $pdf = ConfigurarPDF::configurar('operacao.ficha_do_alvo_pdf', compact('alvo'));
 
-            return $pdf->setPaper('a4', 'portrait')->stream();
-        }
+        //     return $pdf->setPaper('a4', 'portrait')->stream();
+        // }
     }
 }
