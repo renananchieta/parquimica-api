@@ -6,57 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LITERATURA E DETALHES DE PRODUTO</title>
     <style>
-        #header {
+        /* Estilos anteriores aqui */
+
+        .details-container {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            margin-top: 20px;
+            page-break-inside: avoid; /* Evitar quebrar a página no meio de um detalhe */
         }
 
-        #header img {
-            margin: 0; /* Remova o espaçamento padrão das imagens */
-        }
-
-        @font-face {
-            font-family: 'Calibri';
-            src: url('<?= asset('fonts/calibri/calibri.ttf') ?>') format("truetype");
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        @font-face {
-            font-family: 'CalibriB';
-            src: url('<?= asset('fonts/calibri/calibrib.ttf') ?>') format("truetype");
+        .details-left {
+            width: 30%;
             font-weight: bold;
+            font-family: 'CalibriB', Arial, sans-serif; /* Utilizando a fonte Calibri bold se disponível */
+            text-align: left;
         }
 
-        body {
-            font-family: Arial, sans-serif; /* Alterando para Arial */
-            font-size: 14px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 0;
+        .details-right {
+            width: 65%;
+            font-family: 'Calibri', Arial, sans-serif; /* Utilizando a fonte Calibri se disponível */
+            text-align: justify;
+            padding-left: 10px;
         }
 
         /* Outros estilos continuam aqui */
-
     </style>
 </head>
 
 <body>
-<div id="header">
-    <div>
-        <div> 
+    <div id="header">
+        <div>
             @foreach ($literatura as $item)
                 <div>
                     <h2>{{ $item->PRD_NOME }}</h2>
                     <h3>"{{ $item->PRD_LIT_DSC }}"</h3>
                 </div>
+
+                @foreach ($item->detalhes as $detalhe)
+                    <div class="details-container">
+                        <div class="details-left">{{ $detalhe->LITENS_DSC }}</div>
+                        <div class="details-right">{{ $detalhe->LID_DSC }}</div>
+                    </div>
+                @endforeach
+
             @endforeach
         </div>
     </div>
-</div>
 
-<!-- Restante do seu conteúdo HTML -->
+    <!-- Restante do seu conteúdo HTML -->
 
 </body>
 
