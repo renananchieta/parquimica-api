@@ -134,7 +134,14 @@
 <body>
 <div id="header">
     <div>
-        <div>{{ $literatura }}</div>
+        <div> 
+            @foreach ($literatura as $item)
+                <div>
+                    <p>{{ $item->PRD_NOME }}</p>
+                    <p>{{ $item->PRD_LIT_DSC }}</p>
+                </div>
+            @endforeach
+        </div>
         {{-- <div>{{ $literatura->PRD_LIT_DSC }}</div> --}}
     </div>
 </div>
