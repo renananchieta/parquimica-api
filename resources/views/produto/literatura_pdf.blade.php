@@ -42,14 +42,14 @@
                     <h3>"{{ $item->PRD_LIT_DSC }}"</h3>
                 </div>
 
-                @foreach ($item->detalhes as $detalhe)
+                {{-- @foreach ($item->detalhes as $detalhe)
                     @foreach ($$detalhe as $desc)
                         <div class="details-container">
                             <div class="details-left">{{ $desc->LITENS_DSC }}</div>
                             <div class="details-right">{{ $desc->LID_DSC }}</div>
                         </div>
                     @endforeach
-                @endforeach
+                @endforeach --}}
             @endforeach
         </div>
     </div>
