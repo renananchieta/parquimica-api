@@ -49,7 +49,7 @@
             @foreach ($literatura as $item)
                 <div>
                     <h2>{{ $item->PRD_NOME }}</h2>
-                    <h3>{{ $item->PRD_LIT_DSC }}</h3>
+                    <h3>"{{ $item->PRD_LIT_DSC }}"</h3>
                 </div>
             @endforeach
         </div>
