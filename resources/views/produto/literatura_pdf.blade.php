@@ -51,7 +51,7 @@
                     <h2>{{ $item->PRD_NOME }}</h2>
                     <h3>"{{ $item->PRD_LIT_DSC }}"</h3>
                 </div>
-                <p>{{ $item->detalhes[0] }}</p>
+                <p>{{ $item->detalhes }}</p>
             @endforeach
         </div>
     </div>
