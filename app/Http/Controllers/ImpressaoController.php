@@ -13,11 +13,13 @@ class ImpressaoController extends Controller
         $p = (Object)$request->all();
 
         if (isset($p->imprime_literatura)){
-            $literatura = json_encode(FirebirdDB::literatura($p));
+            $literatura = FirebirdDB::literatura($p);
 
-            $pdf = ConfigurarPDF::configurar('produto.literatura_pdf', compact('literatura'));
+            return response($literatura);
 
-            return $pdf->setPaper('a4', 'portrait')->stream();
+            // $pdf = ConfigurarPDF::configurar('produto.literatura_pdf', compact('literatura'));
+
+            // return $pdf->setPaper('a4', 'portrait')->stream();
         }
 
     }
