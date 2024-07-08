@@ -134,8 +134,8 @@
 <body>
 <div id="header">
     <div>
-        <div>{{ $literatura["PRD_NOME"] }}</div>
-        <div>{{ $literatura->["PRD_LIT_DSC"] }}</div>
+        {{-- <div>{{ $literatura->PRD_NOME }}</div> --}}
+        {{-- <div>{{ $literatura->PRD_LIT_DSC }}</div> --}}
     </div>
 </div>
 <div id="body">
