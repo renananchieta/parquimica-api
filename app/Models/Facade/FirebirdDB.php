@@ -254,4 +254,39 @@ class FirebirdDB
         $teste = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');
         return $teste;
     }
+
+    public static function grid2($params)
+    {
+        $query = 'SELECT * FROM site_produtos sp';
+
+        $condicionais = [];
+
+        // if (isset($params->linhaId)) {
+        //     $condicionais[] = "spl.id_linha = $params->linhaId";
+        // }
+
+        // if (isset($params->funcaoId)) {
+        //     $condicionais[] = "spf.id_funcao = $params->funcaoId";
+        // }
+
+        if(isset($params->nomeProduto)) {
+            $condicionais[] = "sp.nome = $params->nomeProduto";
+        }
+
+        if(!empty($condicionais)){
+            $query .= ' WHERE ' . implode(' AND ', $condicionais);
+        }
+    
+        $produtos = DB::connection('firebird')->select($query);
+
+        $produtos = array_map(function($produto) {
+            $produto = (array) $produto; // Certifique-se de que $produto é um array
+            $produto = array_map(function($item) {
+                return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
+            }, $produto);
+            return (object) $produto; // Converter de volta para objeto
+        }, $produtos);
+    
+        return $produtos;
+    }
 }
