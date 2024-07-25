@@ -83,6 +83,7 @@ Route::get('/firebird/funcoes', [CatalogoController::class, 'funcoes']);
 Route::get('/firebird/prod-linha', [CatalogoController::class, 'prodLinha']);
 Route::get('/firebird/prod-funcao', [CatalogoController::class, 'prodFuncao']);
 Route::get('/firebird/literatura/{codigo_produto}', [CatalogoController::class, 'literatura']);
+Route::get('/firebird/literatura/{codigo_produto}/teste', [CatalogoController::class, 'literaturaTeste']);
 Route::get('/impressao/{codigo_produto}', [ImpressaoController::class, 'gerarPdf']);
 
 

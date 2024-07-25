@@ -102,6 +102,22 @@ class CatalogoController extends Controller
         }
     }
 
+    public function literaturaTeste(Request $request, int $codigo_produto)
+    {
+        $params = (Object)$request->all();
+        $params->codigo_produto = $codigo_produto;
+        try {
+            DB::beginTransaction();
+            $literaturas = FirebirdDB::literaturaTeste($params);
+            DB::commit();
+            // return response(CatalogoResource::collection($catalogo), 200);
+            return response($literaturas);
+        } catch(Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
     public function catalogoGridExportCsv(Request $request)
     {
         $params = (Object)$request->all();
