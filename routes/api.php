@@ -56,6 +56,7 @@ Route::middleware(['api'])->group(function () {
  * Endpoints para testar as querys sem estar autenticado.
  */
 Route::get('/catalogo/grid2', [CatalogoController::class, 'grid2']);
+Route::get('/produtos', [CatalogoController::class, 'produtos']);
 Route::get('/firebird-produtos', function () {
     $produtos  = DB::connection('firebird')->select('SELECT id, nome, emb_abreviada, preco FROM site_produtos');
     $produtos = array_map(function($produto) {

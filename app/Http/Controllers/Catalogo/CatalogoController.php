@@ -163,4 +163,19 @@ class CatalogoController extends Controller
             return response()->json($e->getMessage(), 500);
         }
     }
+
+    public function produtos(Request $request)
+    {
+        $params = (Object)$request->all();
+        try {
+            DB::beginTransaction();
+            $produtos = FirebirdDB::grid2($params);
+            DB::commit();
+            return response($produtos, 200);
+            // return response(CatalogoResource::collection($catalogo), 200);
+        } catch(Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
+    }
 }
