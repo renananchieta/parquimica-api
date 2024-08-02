@@ -300,17 +300,14 @@ class FirebirdDB
 
     public static function grid2($params)
     {
-        $query = 'SELECT * FROM site_produtos sp';
+        $query = '
+            SELECT 
+                DISTINCT(sp.id), 
+                sp.nome  
+            FROM site_produtos sp
+            ';
 
         $condicionais = [];
-
-        // if (isset($params->linhaId)) {
-        //     $condicionais[] = "spl.id_linha = $params->linhaId";
-        // }
-
-        // if (isset($params->funcaoId)) {
-        //     $condicionais[] = "spf.id_funcao = $params->funcaoId";
-        // }
 
         if(isset($params->nomeProduto)) {
             $condicionais[] = "sp.nome = $params->nomeProduto";
