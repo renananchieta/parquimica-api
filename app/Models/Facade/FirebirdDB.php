@@ -56,6 +56,28 @@ class FirebirdDB
         return $produtos;
     }
 
+    public static function comboProdutos($params)
+    {
+        $query = '
+                SELECT 
+                    DISTINCT(sp.id), 
+                    sp.nome, 
+                FROM site_produtos sp
+                ';
+
+        $produtos = DB::connection('firebird')->select($query);
+
+        $produtos = array_map(function($produto) {
+            $produto = (array) $produto; // Certifique-se de que $produto é um array
+            $produto = array_map(function($item) {
+                return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
+            }, $produto);
+            return (object) $produto; // Converter de volta para objeto
+        }, $produtos);
+    
+        return $produtos;
+    }
+
     public static function linhas($params)
     {
         $query = 'SELECT * FROM site_linhas';

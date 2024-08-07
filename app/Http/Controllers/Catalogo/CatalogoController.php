@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Catalogo;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Catalogo\CatalogoResource;
+use App\Http\Resources\Catalogo\ComboProdutosResource;
 use App\Http\Resources\Catalogo\FuncoesResource;
 use App\Models\Facade\FirebirdDB;
 use App\Models\Firebird;
@@ -21,6 +22,20 @@ class CatalogoController extends Controller
             $catalogo = FirebirdDB::grid($params);
             DB::commit();
             return response(CatalogoResource::collection($catalogo), 200);
+        } catch(Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
+    public function comboProdutos(Request $request)
+    {
+        $params = (Object)$request->all();
+        try {
+            DB::beginTransaction();
+            $catalogo = FirebirdDB::comboProdutos($params);
+            DB::commit();
+            return response(ComboProdutosResource::collection($catalogo), 200);
         } catch(Exception $e) {
             DB::rollBack();
             return response()->json($e->getMessage(), 500);

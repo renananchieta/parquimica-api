@@ -41,7 +41,8 @@ Route::middleware(['seguranca'])->group(function () {
     Route::get('/firebird/prod-linha', [CatalogoController::class, 'prodLinha']);
     Route::get('/firebird/prod-funcao', [CatalogoController::class, 'prodFuncao']);
 
-    
+    //Combo Produtos
+    Route::get('/combo/produtos', [CatalogoController::class, 'comboProdutos']);
 });
 
 Route::middleware(['api'])->group(function () {
