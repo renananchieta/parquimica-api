@@ -61,7 +61,7 @@ class FirebirdDB
         $query = '
                 SELECT 
                     DISTINCT(id), 
-                    nome, 
+                    nome
                 FROM site_produtos
                 ';
 
