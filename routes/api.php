@@ -30,27 +30,23 @@ Route::middleware(['seguranca'])->group(function () {
     Route::put('/admin/usuario/{usuario}/dados-pessoais', [UsuarioController::class, 'updateDadosPessoais']);
     Route::delete('/admin/usuario/{usuario}', [UsuarioController::class, 'destroy']);
 
+    // Catálogo de produtos
     Route::get('/catalogo/grid', [CatalogoController::class, 'grid']); // Testando esse endpoint
     Route::get('/catalogo/grid/exportar-csv', [CatalogoController::class, 'grid']); // Testando esse endpoint
     Route::get('/catalogo/consulta-extensa', [CatalogoController::class, 'consulta']);
 
+    // Detalhes de produtos
     Route::get('/firebird/linhas', [CatalogoController::class, 'linhas']);
     Route::get('/firebird/funcoes', [CatalogoController::class, 'funcoes']);
     Route::get('/firebird/prod-linha', [CatalogoController::class, 'prodLinha']);
     Route::get('/firebird/prod-funcao', [CatalogoController::class, 'prodFuncao']);
+
+    
 });
 
 Route::middleware(['api'])->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 });
-
-
-
-
-
-
-
-
 
 /**
  * Endpoints para testar as querys sem estar autenticado.
