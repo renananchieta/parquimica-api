@@ -60,9 +60,9 @@ class FirebirdDB
     {
         $query = '
                 SELECT 
-                    DISTINCT(sp.id), 
-                    sp.nome, 
-                FROM site_produtos sp
+                    DISTINCT(id), 
+                    nome, 
+                FROM site_produtos
                 ';
 
         $produtos = DB::connection('firebird')->select($query);
