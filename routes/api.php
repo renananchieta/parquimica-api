@@ -48,7 +48,7 @@ Route::middleware(['seguranca'])->group(function () {
 
     //Adicionar o produto na base local para alimentar o Site
     Route::post('/area-restrita/produtos', [ProdutosLocalController::class, 'store']);
-    Route::post('/area-restrita/puxar-base-firebird-para-base-local', [ProdutosLocalController::class, 'cadastrarProdutosBaseLocal']);
+    Route::get('/area-restrita/puxar-base-firebird-para-base-local', [ProdutosLocalController::class, 'cadastrarProdutosBaseLocal']);
 });
 
 Route::middleware(['api'])->group(function () {
