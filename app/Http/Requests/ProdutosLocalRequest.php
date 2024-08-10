@@ -47,7 +47,7 @@ class ProdutosLocalRequest extends FormRequest
                 'modo_acao' => $this->request->get('modoAcao'),
             ],
             
-            'variantes' => request()->variantes,
+            'variantes' => $this->request()->variantes,
             
             // 'arquivo' => $this->file('arquivo'),
         ];
