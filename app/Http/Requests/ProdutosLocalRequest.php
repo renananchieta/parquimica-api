@@ -30,7 +30,7 @@ class ProdutosLocalRequest extends FormRequest
             
             //Variantes 
             'variantes' => 'nullable|array',
-            'variantes.*.id' => 'required|integer',
+            'variantes.*.id' => 'nullable|integer',
 
             //arquivo
             // 'arquivo' => 'nullable|file|mimes:pdf|max:5120',

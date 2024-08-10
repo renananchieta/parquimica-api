@@ -23,20 +23,24 @@ class ProdutosLocalRegras
 
     public static function salvarVariantes($data, $produtoLocal)
     {
-        $p = $data['variantes'];
+        if($data['variantes']) {
+            $p = $data['variantes'];
 
-        foreach($p as $itemVariante) {
-            $variante = new VariantesProduto();
-            $variante->produto_id = $produtoLocal->id;
-            $variante->codigo_produto_variante = $itemVariante['id'];
-            $variante->save();
-
-            if (!$variante) {
-                throw new Exception("Falha ao salvar variantes do produto.");
+            foreach($p as $itemVariante) {
+                $variante = new VariantesProduto();
+                $variante->produto_id = $produtoLocal->id;
+                $variante->codigo_produto_variante = $itemVariante['id'];
+                $variante->save();
+    
+                if (!$variante) {
+                    throw new Exception("Falha ao salvar variantes do produto.");
+                }
             }
+    
+            return ;
+        } else {
+            return ;
         }
-
-        return ;
     }
 
     public static function upload($data, $produtoLocal)
