@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->integer('codigo_produto');
             $table->string('nome_produto');
-            $table->string('subtitulo');
-            $table->string('modo_acao');
-            $table->string('recomendacao')->nullable();
+            $table->text('subtitulo');
+            $table->text('modo_acao');
+            $table->text('recomendacao')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
