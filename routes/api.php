@@ -48,7 +48,6 @@ Route::middleware(['seguranca'])->group(function () {
 
     //Adicionar o produto na base local para alimentar o Site
     Route::post('/area-restrita/produtos', [ProdutosLocalController::class, 'store']);
-    Route::get('/area-restrita/puxar-base-firebird-para-base-local', [ProdutosLocalController::class, 'cadastrarProdutosBaseLocal']);
 });
 
 Route::middleware(['api'])->group(function () {
@@ -67,7 +66,7 @@ Route::get('/firebird-produtos', function () {
             return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
         }, (array)$produto);
     }, $produtos);
-
+    
     return response($produtos);
 });
 
@@ -78,7 +77,7 @@ Route::get('/firebird-all', function () {
             return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
         }, (array)$produto);
     }, $produtos);
-
+    
     return response($produtos);
 });
 
@@ -90,5 +89,7 @@ Route::get('/firebird/literatura/{codigo_produto}', [CatalogoController::class, 
 Route::get('/firebird/literatura/{codigo_produto}/teste', [CatalogoController::class, 'literaturaTeste']);
 Route::get('/impressao/{codigo_produto}', [ImpressaoController::class, 'gerarPdf']);
 
+//Base local
+Route::get('/area-restrita/puxar-base-firebird-para-base-local', [ProdutosLocalController::class, 'cadastrarProdutosBaseLocal']);
 
 
