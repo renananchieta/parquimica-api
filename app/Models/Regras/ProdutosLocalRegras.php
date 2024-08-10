@@ -52,7 +52,7 @@ class ProdutosLocalRegras
             $documento = file_get_contents($path);
 
             $doc = new UploadProdutosLocal();
-            $doc->anexo = DB::raw("decode('" . base64_encode($documento) . "', 'base64')");
+            $doc->arquivo = DB::raw("decode('" . base64_encode($documento) . "', 'base64')");
             $doc->produto_id = $produtoLocal->id;
             $doc->nome_arquivo = $nomeArquivo;
             $doc->save();
