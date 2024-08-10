@@ -4,13 +4,32 @@ namespace App\Models\Regras;
 
 use App\Models\Entity\Produtos\ProdutosLocal;
 use App\Models\Entity\Produtos\UploadProdutosLocal;
+use App\Models\Entity\Produtos\VariantesProduto;
 use Illuminate\Support\Facades\DB;
 
 class ProdutosLocalRegras 
 {
-    public static function cadastrar($data)
+    public static function salvarProduto($data)
     {
-        $produtoLocal = ProdutosLocal::create($data);
+        return ProdutosLocal::create($data['produto']);
+    }
+
+    public static function salvarVariantes($data, $produtoLocal)
+    {
+        $p = $data['variantes'];
+
+        foreach($p as $itemVariante) {
+            $variante = new VariantesProduto();
+            $variante->produto_id = $produtoLocal->id;
+            $variante->codigo_produto_variante = $itemVariante['id'];
+            $variante->save();
+        }
+
+        return ;
+    }
+
+    public static function upload($data, $produtoLocal)
+    {
 
         if(isset($data->arquivo)) {
             $path = $data->anexo->path();

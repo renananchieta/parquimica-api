@@ -3,8 +3,10 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Catalogo\CatalogoController;
 use App\Http\Controllers\ImpressaoController;
+use App\Http\Controllers\Produtos\ProdutosLocalController;
 use App\Http\Controllers\Seguranca\PerfilController;
 use App\Http\Controllers\Seguranca\UsuarioController;
+use App\Models\Entity\Produtos\ProdutosLocal;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +45,9 @@ Route::middleware(['seguranca'])->group(function () {
 
     //Combo Produtos
     Route::get('/combo/produtos', [CatalogoController::class, 'comboProdutos']);
+
+    //Adicionar o produto na base local para alimentar o Site
+    Route::post('/area-restrita/produtos', [ProdutosLocalController::class, 'store']);
 });
 
 Route::middleware(['api'])->group(function () {

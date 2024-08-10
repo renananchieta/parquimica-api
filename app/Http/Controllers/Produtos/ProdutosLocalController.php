@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Produtos;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProdutosLocalRequest;
 use App\Http\Resources\Catalogo\CatalogoResource;
 use App\Models\Entity\Produtos\ProdutosLocal;
 use App\Models\Facade\FirebirdDB;
+use App\Models\Facade\ProdutosLocalDB;
 use App\Models\Regras\ProdutosLocalRegras;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,9 +18,18 @@ class ProdutosLocalController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $parametros = (Object)$request->all();
+        try {
+            DB::beginTransaction();
+            $produtosLocal = ProdutosLocalDB::getProdutos($parametros);
+            DB::commit();
+            return response($produtosLocal);
+        } catch(Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -41,14 +52,15 @@ class ProdutosLocalController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProdutosLocalRequest $request)
     {
-        $parametros = (Object)$request->all();
+        $data = $request->valid();
         try {
             DB::beginTransaction();
-            $produtoLocal = ProdutosLocalRegras::cadastrar($parametros);
+            $produtoLocal = ProdutosLocalRegras::salvarProduto($data);
+            ProdutosLocalRegras::salvarVariantes($data, $produtoLocal);
             DB::commit();
-            return response($produtoLocal);
+            return response('Registro salvo com sucesso!', 200);
         } catch(Exception $e) {
             DB::rollBack();
             return response()->json($e->getMessage(), 500);
