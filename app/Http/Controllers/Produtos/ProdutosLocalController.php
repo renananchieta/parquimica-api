@@ -63,7 +63,7 @@ class ProdutosLocalController extends Controller
             return response('Registro salvo com sucesso!', 200);
         } catch(Exception $e) {
             DB::rollBack();
-            return response()->json($e->getMessage(), 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
