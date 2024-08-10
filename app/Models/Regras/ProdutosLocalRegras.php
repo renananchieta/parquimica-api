@@ -5,13 +5,20 @@ namespace App\Models\Regras;
 use App\Models\Entity\Produtos\ProdutosLocal;
 use App\Models\Entity\Produtos\UploadProdutosLocal;
 use App\Models\Entity\Produtos\VariantesProduto;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class ProdutosLocalRegras 
 {
     public static function salvarProduto($data)
     {
-        return ProdutosLocal::create($data['produto']);
+        $produto = ProdutosLocal::create($data['produto']);
+        
+        if (!$produto) {
+            throw new Exception("Falha ao salvar o produto.");
+        }
+
+        return $produto;
     }
 
     public static function salvarVariantes($data, $produtoLocal)
