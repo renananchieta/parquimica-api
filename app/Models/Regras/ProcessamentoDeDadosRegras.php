@@ -13,6 +13,8 @@ class ProcessamentoDeDadosRegras
     public static function literaturaProduto($data)
     {
         foreach($data as $produto) {
+            return $produto;
+
             $codigo_produto = $produto->id;
 
             $query = 'SELECT * FROM literatura(?)';
