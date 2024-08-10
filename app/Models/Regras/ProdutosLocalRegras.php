@@ -52,13 +52,14 @@ class ProdutosLocalRegras
             $documento = file_get_contents($path);
 
             $doc = new UploadProdutosLocal();
-            $doc->arquivo = DB::raw("decode('" . base64_encode($documento) . "', 'base64')");
+            // $doc->arquivo = DB::raw("decode('" . base64_encode($documento) . "', 'base64')");  //Para PostgreSQL
+            $doc->arquivo = base64_encode($documento);   // Para MySQL
             $doc->produto_id = $produtoLocal->id;
             $doc->nome_arquivo = $nomeArquivo;
             $doc->save();
         }
 
-        return $produtoLocal;
+        return $doc;
     }
 
     public static function exibirArquivo(int $produto_id)

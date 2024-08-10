@@ -59,7 +59,7 @@ class ProdutosLocalController extends Controller
             DB::beginTransaction();
             $produtoLocal = ProdutosLocalRegras::salvarProduto($data);
             ProdutosLocalRegras::salvarVariantes($data, $produtoLocal);
-            ProdutosLocalRegras::upload($data, $produtoLocal);
+            $arquivo = ProdutosLocalRegras::upload($data, $produtoLocal);
             DB::commit();
             return response([
                 'data' => $produtoLocal,
