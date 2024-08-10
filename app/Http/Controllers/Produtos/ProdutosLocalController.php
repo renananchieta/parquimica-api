@@ -60,7 +60,10 @@ class ProdutosLocalController extends Controller
             $produtoLocal = ProdutosLocalRegras::salvarProduto($data);
             ProdutosLocalRegras::salvarVariantes($data, $produtoLocal);
             DB::commit();
-            return response('Registro salvo com sucesso!', 200);
+            return response([
+                'data' => $produtoLocal,
+                'message' => 'Registro salvo com sucesso!'
+            ], 200);
         } catch(Exception $e) {
             DB::rollBack();
             return response()->json($e->getMessage(), 500);
