@@ -8,6 +8,7 @@ use App\Http\Resources\Catalogo\CatalogoResource;
 use App\Models\Entity\Produtos\ProdutosLocal;
 use App\Models\Facade\FirebirdDB;
 use App\Models\Facade\ProdutosLocalDB;
+use App\Models\Regras\ProcessamentoDeDadosRegras;
 use App\Models\Regras\ProdutosLocalRegras;
 use Exception;
 use Illuminate\Http\Request;
@@ -131,10 +132,14 @@ class ProdutosLocalController extends Controller
     public function cadastrarProdutosBaseLocal(Request $request)
     {
         $params = (Object)$request->all();
+
         // Consultar a lista de produtos do catálogo no firebird
         $produtos = FirebirdDB::comboProdutos($params);
+
         // Pegar cada código de produto e buscar a literatura do mesmo
+        $produtoLiteratura = ProcessamentoDeDadosRegras::literaturaProduto($produtos);
+
         // salvar na base local o código do produto, nome, modo de ação e subtítulo do produto
-        return response($produtos);
+        return response($produtoLiteratura);
     }
 }
