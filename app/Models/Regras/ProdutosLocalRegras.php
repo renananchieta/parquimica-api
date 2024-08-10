@@ -45,10 +45,10 @@ class ProdutosLocalRegras
 
     public static function upload($data, $produtoLocal)
     {
-
+        $data = (object)$data;
         if(isset($data->arquivo)) {
-            $path = $data->anexo->path();
-            $nomeArquivo = $data->anexo->getClientOriginalName();
+            $path = $data->arquivo->path();
+            $nomeArquivo = $data->arquivo->getClientOriginalName();
             $documento = file_get_contents($path);
 
             $doc = new UploadProdutosLocal();
