@@ -33,7 +33,7 @@ class ProdutosLocalRequest extends FormRequest
             'variantes.*.id' => 'nullable|integer',
 
             //arquivo
-            'arquivo' => 'nullable|file|mimes:pdf|max:5120',
+            // 'arquivo' => 'nullable|file|mimes:pdf|max:5120',
         ];
     }
 
@@ -49,7 +49,7 @@ class ProdutosLocalRequest extends FormRequest
             
             'variantes' => request()->variantes,
             
-            'arquivo' => $this->file('arquivo'),
+            // 'arquivo' => $this->file('arquivo'),
         ];
     }
 }

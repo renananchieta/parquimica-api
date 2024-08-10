@@ -59,7 +59,7 @@ class ProdutosLocalController extends Controller
             DB::beginTransaction();
             $produtoLocal = ProdutosLocalRegras::salvarProduto($data);
             ProdutosLocalRegras::salvarVariantes($data, $produtoLocal);
-            $arquivo = ProdutosLocalRegras::upload($data, $produtoLocal);
+            // $arquivo = ProdutosLocalRegras::upload($data, $produtoLocal);
             DB::commit();
             return response([
                 'data' => $produtoLocal,
@@ -126,5 +126,15 @@ class ProdutosLocalController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function cadastrarProdutosBaseLocal(Request $request)
+    {
+        $params = (Object)$request->all();
+        // Consultar a lista de produtos do catálogo no firebird
+        $Produtos = FirebirdDB::comboProdutos($params);
+        // Pegar cada código de produto e buscar a literatura do mesmo
+        // salvar na base local o código do produto, nome, modo de ação e subtítulo do produto
+        
     }
 }

@@ -8,11 +8,13 @@ class ProdutosLocalDB
 {
     public static function getProdutos($params)
     {
-        $currentPage = isset($params->page) ? $params->page : 1;
-        $perPage = isset($params->perPage) ? $params->perPage : 100;
+        // $currentPage = isset($params->page) ? $params->page : 1;
+        // $perPage = isset($params->perPage) ? $params->perPage : 100;
 
-        $produtosLocal = ProdutosLocal::paginate($perPage, ['*'], 'page', $currentPage);
+        // $produtosLocal = ProdutosLocal::paginate($perPage, ['*'], 'page', $currentPage);
 
-        return $produtosLocal;
+        // return $produtosLocal;
+
+        return ProdutosLocal::all();
     }
 }
