@@ -13,7 +13,7 @@ class ProdutosLocalRegras
     public static function salvarProduto($data)
     {
         $produto = ProdutosLocal::create($data['produto']);
-        
+
         if (!$produto) {
             throw new Exception("Falha ao salvar o produto.");
         }
@@ -30,6 +30,10 @@ class ProdutosLocalRegras
             $variante->produto_id = $produtoLocal->id;
             $variante->codigo_produto_variante = $itemVariante['id'];
             $variante->save();
+
+            if (!$variante) {
+                throw new Exception("Falha ao salvar variantes do produto.");
+            }
         }
 
         return ;
