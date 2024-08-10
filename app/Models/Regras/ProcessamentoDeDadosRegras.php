@@ -12,13 +12,13 @@ class ProcessamentoDeDadosRegras
 {
     public static function literaturaProduto($data)
     {
-        return $data;
         foreach($data as $produto) {
+            return $produto;
 
             $codigo_produto = $produto->id;
 
             $query = 'SELECT * FROM literatura(?)';
-            $literaturas = DB::connection('firebird')->select($query, [$codigo_produto]);
+            $literaturas = DB::connection('firebird')->select($query, $codigo_produto);
     
             $literaturas = array_map(function($literatura) {
                 $literatura = (array) $literatura;
