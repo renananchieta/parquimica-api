@@ -14,7 +14,7 @@ class ProcessamentoDeDadosRegras
     {
         foreach($data as $produto) {
             // return (array) $produto;
-            dd($produto);
+            dd($produto->id);
 
             $codigo_produto = $produto->id;
 
