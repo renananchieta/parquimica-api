@@ -146,13 +146,15 @@ class ProcessamentoDeDadosRegras
             }, $groupedLiteraturas));
     
             // return $groupedLiteraturas;
-            dd($groupedLiteraturas);
+            // dd($groupedLiteraturas);
 
             /**
              * Aqui dentro que vai ser feito o salvamento do produto
              */
             $produto = (array)$groupedLiteraturas[0];
             $codigo_produto = $produto['PRD_COD'];
+            dd($codigo_produto);
+
             $nome_produto = $produto['PRD_NOME'];
             $subtitulo_produto = $produto['PRD_LIT_DSC'];
             $modo_acao = $produto['detalhes'][0]['LID_DSC'];
