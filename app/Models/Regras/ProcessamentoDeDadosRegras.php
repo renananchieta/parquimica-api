@@ -153,12 +153,11 @@ class ProcessamentoDeDadosRegras
              */
             $produto = (array)$groupedLiteraturas[0];
             $codigo_produto = $produto['PRD_COD'];
-            dd($codigo_produto);
-
+            // dd($codigo_produto);
             $nome_produto = $produto['PRD_NOME'];
             $subtitulo_produto = $produto['PRD_LIT_DSC'];
             $modo_acao = $produto['detalhes'][0]['LID_DSC'];
-    
+
             $p = new ProdutosLocal();
             $p->codigo_produto = $codigo_produto;
             $p->nome_produto = $nome_produto;
