@@ -13,7 +13,8 @@ class ProcessamentoDeDadosRegras
     public static function literaturaProduto($data)
     {
         foreach($data as $produto) {
-            return (array) $produto;
+            // return (array) $produto;
+            dd($produto);
 
             $codigo_produto = $produto->id;
 
