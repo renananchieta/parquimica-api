@@ -64,8 +64,8 @@ class ProcessamentoDeDadosRegras
         $codigo_produto = $produto['PRD_COD'];
         $nome_produto = $produto['PRD_NOME'];
         $subtitulo_produto = $produto['PRD_LIT_DSC'];
-        // $modo_acao = $data['detalhes'];
-        dd($produto['detalhes']);
+        $modo_acao = $produto['detalhes'][0]['LID_DSC'];
+        dd($modo_acao);
 
         
         
