@@ -105,7 +105,7 @@ class ProcessamentoDeDadosRegras
          */
         foreach($produtos as $produto) {
             $prod = (array)$produto;
-            dd($produtos);
+            // dd($produtos);
             dd($prod);
             $codigo_produto = $prod['ID'];
 
