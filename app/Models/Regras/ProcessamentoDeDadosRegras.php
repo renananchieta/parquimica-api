@@ -81,11 +81,10 @@ class ProcessamentoDeDadosRegras
          * Listar todos os códigos de produtos
          */
         $query = '
-                SELECT 
-                    DISTINCT id, 
-                    nome
-                FROM site_produtos
-                ROWS 1 TO 10
+        SELECT 
+            DISTINCT(id), 
+            nome
+        FROM site_produtos
         ';
 
         $produtos = DB::connection('firebird')->select($query);
