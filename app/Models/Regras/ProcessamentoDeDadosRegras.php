@@ -14,7 +14,6 @@ class ProcessamentoDeDadosRegras
     {
         foreach($data as $produto) {
             $prod = (array)$produto;
-            // dd($prod['ID']);
 
             $codigo_produto = $prod['ID'];
 
@@ -56,5 +55,10 @@ class ProcessamentoDeDadosRegras
     
             return $groupedLiteraturas;
         }
+    }
+
+    public static function salvarProdutoBaseLocal($data)
+    {
+        dd($data);
     }
 }

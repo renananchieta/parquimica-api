@@ -139,7 +139,9 @@ class ProdutosLocalController extends Controller
         // Pegar cada código de produto e buscar a literatura do mesmo
         $produtoLiteratura = ProcessamentoDeDadosRegras::literaturaProduto($produtos);
 
+        $produtoSalvoBaseLocal = ProcessamentoDeDadosRegras::salvarProdutoBaseLocal($produtoLiteratura);
+
         // salvar na base local o código do produto, nome, modo de ação e subtítulo do produto
-        return response()->json($produtoLiteratura);
+        return response()->json($produtoSalvoBaseLocal);
     }
 }
