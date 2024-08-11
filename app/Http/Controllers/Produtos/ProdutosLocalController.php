@@ -136,10 +136,10 @@ class ProdutosLocalController extends Controller
         // Consultar a lista de produtos do catálogo no firebird
         $produtos = FirebirdDB::comboProdutos($params);
 
-        // Pegar cada código de produto e buscar a literatura do mesmo
+        // Pega cada código de produto e busca a literatura do mesmo
         $produtoLiteratura = ProcessamentoDeDadosRegras::literaturaProduto($produtos);
 
-        $produtoSalvoBaseLocal = ProcessamentoDeDadosRegras::salvarProdutoBaseLocal($produtoLiteratura);
+        $produtoSalvoBaseLocal = ProcessamentoDeDadosRegras::salvarProdutosBaseLocal($produtoLiteratura);
 
         // salvar na base local o código do produto, nome, modo de ação e subtítulo do produto
         return response()->json($produtoSalvoBaseLocal);

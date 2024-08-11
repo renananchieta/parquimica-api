@@ -57,18 +57,21 @@ class ProcessamentoDeDadosRegras
         }
     }
 
-    public static function salvarProdutoBaseLocal($data)
+    public static function salvarProdutosBaseLocal($data)
     {
         $produto = (array)$data[0];
-        // dd($produto);
         $codigo_produto = $produto['PRD_COD'];
         $nome_produto = $produto['PRD_NOME'];
         $subtitulo_produto = $produto['PRD_LIT_DSC'];
         $modo_acao = $produto['detalhes'][0]['LID_DSC'];
-        dd($modo_acao);
 
-        
-        
+        $p = new ProdutosLocal();
+        $p->codigo_produto = $codigo_produto;
+        $p->nome_produto = $nome_produto;
+        $p->subtitulo = $subtitulo_produto;
+        $p->modo_acao = $modo_acao;
+        $p->save();
 
+        return $p;
     }
 }
