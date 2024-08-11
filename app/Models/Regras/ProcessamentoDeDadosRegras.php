@@ -85,7 +85,6 @@ class ProcessamentoDeDadosRegras
             id, 
             nome
         FROM site_produtos
-        LIMIT 10
         ';
 
         $produtos = DB::connection('firebird')->select($query);
