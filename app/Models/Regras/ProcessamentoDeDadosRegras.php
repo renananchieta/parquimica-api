@@ -59,7 +59,7 @@ class ProcessamentoDeDadosRegras
 
     public static function salvarProdutoBaseLocal($data)
     {
-        $produto = $data[0];
+        $produto = (array)$data[0];
         dd($produto);
         $codigo_produto = $produto['PRD_COD'];
 
