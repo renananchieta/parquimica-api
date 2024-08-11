@@ -85,7 +85,7 @@ class ProcessamentoDeDadosRegras
             DISTINCT(id), 
             nome
         FROM site_produtos
-        LIMIT 10
+        ROWS 10 TO 20
         ';
 
         $produtos = DB::connection('firebird')->select($query);
