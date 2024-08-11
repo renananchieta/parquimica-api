@@ -14,9 +14,9 @@ class ProcessamentoDeDadosRegras
     {
         foreach($data as $produto) {
             $prod = (array)$produto;
-            dd($prod['ID']);
+            // dd($prod['ID']);
 
-            $codigo_produto = $produto->id;
+            $codigo_produto = $prod['ID'];
 
             $query = 'SELECT * FROM literatura(?)';
             $literaturas = DB::connection('firebird')->select($query, $codigo_produto);
