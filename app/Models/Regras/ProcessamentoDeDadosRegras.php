@@ -82,9 +82,10 @@ class ProcessamentoDeDadosRegras
          */
         $query = '
         SELECT 
-            DISTINCT(id), 
+            id, 
             nome
         FROM site_produtos
+        LIMIT 10
         ';
 
         $produtos = DB::connection('firebird')->select($query);
@@ -166,8 +167,7 @@ class ProcessamentoDeDadosRegras
             $p->save();
     
             // return $p;
-            dd($p);
-
+            // dd($p);
         }
 
         return "Todos os Produtos foram salvos com sucesso.";
