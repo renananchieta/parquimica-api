@@ -59,15 +59,15 @@ class ProcessamentoDeDadosRegras
 
     public static function salvarProdutoBaseLocal($data)
     {
-        dd($data);
-
-
-
-        $codigo_produto = $data['PRD_COD'];
+        $produto = $data[0];
+        $codigo_produto = $produto['PRD_COD'];
         dd($codigo_produto);
 
+        $nome_produto = $produto['PRD_NOME'];
+        $subtitulo_produto = $produto['PRD_LIT_DSC'];
+        
+        
         $nome_produto = $data['PRD_NOME'];
-        $subtitulo_produto = $data['PRD_LIT_DSC'];
         $modo_acao = $data['detalhes'][0]['LID_DSC'];
 
     }
