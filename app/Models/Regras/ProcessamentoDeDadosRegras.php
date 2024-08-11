@@ -81,18 +81,10 @@ class ProcessamentoDeDadosRegras
          * Listar todos os códigos de produtos
          */
         $query = '
-            WITH OrderedResults AS (
-                SELECT 
-                    id, 
-                    nome,
-                    ROW_NUMBER() OVER (ORDER BY id) AS RowNum
-                FROM site_produtos
-            )
-            SELECT 
-                id, 
-                nome
-            FROM OrderedResults
-            WHERE RowNum BETWEEN 1 AND 10
+        SELECT 
+            DISTINCT(id), 
+            nome
+        FROM site_produtos
         ';
 
         $produtos = DB::connection('firebird')->select($query);
