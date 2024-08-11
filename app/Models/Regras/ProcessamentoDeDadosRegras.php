@@ -106,7 +106,7 @@ class ProcessamentoDeDadosRegras
         foreach($produtos as $produto) {
             $prod = (array)$produto;
             // dd($produtos);
-            dd($prod);
+            // dd($prod);
             $codigo_produto = $prod['ID'];
 
             $query = 'SELECT * FROM literatura(?)';
