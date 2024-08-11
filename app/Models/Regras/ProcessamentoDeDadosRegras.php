@@ -62,14 +62,13 @@ class ProcessamentoDeDadosRegras
         $produto = (array)$data[0];
         // dd($produto);
         $codigo_produto = $produto['PRD_COD'];
-        dd($codigo_produto);
-
         $nome_produto = $produto['PRD_NOME'];
         $subtitulo_produto = $produto['PRD_LIT_DSC'];
-        
-        
-        $nome_produto = $data['PRD_NOME'];
         $modo_acao = $data['detalhes'][0]['LID_DSC'];
+        dd($modo_acao);
+
+        
+        
 
     }
 }
