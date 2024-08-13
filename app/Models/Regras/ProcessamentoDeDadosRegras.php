@@ -99,7 +99,7 @@ class ProcessamentoDeDadosRegras
         }, $produtos);
 
         // $produtos guarda todos os produtos da base do firebird
-        dd($produtos);
+        // dd($produtos);
         
         /**
          * Pega cada código de produto e busca a literatura do mesmo
@@ -147,7 +147,7 @@ class ProcessamentoDeDadosRegras
             }, $groupedLiteraturas));
     
             // return $groupedLiteraturas;
-            // dd($groupedLiteraturas);
+            dd($groupedLiteraturas);
 
             /**
              * Aqui dentro que vai ser feito o salvamento do produto
