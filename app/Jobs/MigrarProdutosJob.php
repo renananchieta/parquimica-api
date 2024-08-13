@@ -55,14 +55,6 @@ class MigrarProdutosJob implements ShouldQueue
             // dd($prod);
             $codigo_produto = $prod['ID'];
 
-            // Verifica se o produto já existe na base local
-            $produtoExistente = ProdutosLocal::where('codigo_produto', $codigo_produto)->first();
-
-            if ($produtoExistente) {
-                // Se o produto já foi salvo, pula para o próximo
-                continue;
-            }
-
             $query = 'SELECT * FROM literatura(?)';
             $literaturas = DB::connection('firebird')->select($query, [$codigo_produto]);
 
