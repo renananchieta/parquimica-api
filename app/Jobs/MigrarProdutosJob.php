@@ -105,7 +105,7 @@ class MigrarProdutosJob implements ShouldQueue
             $p->modo_acao = $modo_acao;
             $p->save();
     
-            return $p;
+            // return $p;
         }
     }
 }
