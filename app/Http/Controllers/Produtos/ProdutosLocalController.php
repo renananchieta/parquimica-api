@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Produtos;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProdutosLocalRequest;
 use App\Http\Resources\Catalogo\CatalogoResource;
+use App\Jobs\MigrarProdutosJob;
 use App\Models\Entity\Produtos\ProdutosLocal;
 use App\Models\Facade\FirebirdDB;
 use App\Models\Facade\ProdutosLocalDB;
@@ -131,19 +132,11 @@ class ProdutosLocalController extends Controller
 
     public function cadastrarProdutosBaseLocal(Request $request)
     {
-        $params = (Object)$request->all();
+        // $produtoSalvoBaseLocal = ProcessamentoDeDadosRegras::salvarProdutosDoFirebirdNaBaseLocal();
 
-        // Consultar a lista de produtos do catálogo no firebird
-        // $produtos = FirebirdDB::comboProdutos($params);
+        // return response()->json($produtoSalvoBaseLocal);
 
-        // Pega cada código de produto e busca a literatura do mesmo
-        // $produtoLiteratura = ProcessamentoDeDadosRegras::literaturaProduto($produtos);
-
-        // salvar na base local o código do produto, nome, modo de ação e subtítulo do produto
-        // $produtoSalvoBaseLocal = ProcessamentoDeDadosRegras::salvarProdutosBaseLocal($produtoLiteratura);
-
-        $produtoSalvoBaseLocal = ProcessamentoDeDadosRegras::salvarProdutosDoFirebirdNaBaseLocal();
-
-        return response()->json($produtoSalvoBaseLocal);
+        MigrarProdutosJob::dispatch();
+        return response(['message' => 'Job para Migrar produtos foi despachado.']);
     }
 }
