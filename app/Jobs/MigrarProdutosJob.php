@@ -32,6 +32,7 @@ class MigrarProdutosJob implements ShouldQueue
             id, 
             nome
         FROM site_produtos
+        ORDER BY id
         ';
 
         $produtos = DB::connection('firebird')->select($query);
