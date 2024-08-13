@@ -153,7 +153,7 @@ class ProcessamentoDeDadosRegras
             /**
              * Aqui dentro que vai ser feito o salvamento do produto
              */
-            dd($groupedLiteraturas[0]);
+            dd($groupedLiteraturas);
             $produto = (array)$groupedLiteraturas[0];
 
             $codigo_produto = $produto['PRD_COD'];
