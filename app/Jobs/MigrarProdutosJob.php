@@ -33,6 +33,7 @@ class MigrarProdutosJob implements ShouldQueue
             nome
         FROM site_produtos
         WHERE id > 502
+        AND ID <> 533
         ORDER BY id
         ';
 
@@ -92,6 +93,10 @@ class MigrarProdutosJob implements ShouldQueue
                     'LID_ID' => $literatura->LID_ID,
                     'LID_DSC' => $literatura->LID_DSC
                 ];
+            }
+
+            if (empty($groupedLiteraturas)) {
+                continue; // Se estiver vazio, pula para o próximo produto
             }
 
             $groupedLiteraturas = array_values(array_map(function($item) { // Converte o array associativo em uma lista de objetos
