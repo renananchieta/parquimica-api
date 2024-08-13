@@ -82,7 +82,7 @@ class ProcessamentoDeDadosRegras
          */
         $query = '
         SELECT 
-            DISTINCT(id), 
+            id, 
             nome
         FROM site_produtos
         ORDER BY id
