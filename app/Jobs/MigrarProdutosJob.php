@@ -46,16 +46,24 @@ class MigrarProdutosJob implements ShouldQueue
         }, $produtos);
 
         // dd($produtos);
-        
-        foreach($produtos as $produto) {
+
+        foreach ($produtos as $produto) {
             $prod = (array)$produto;
             // dd($produtos);
             // dd($prod);
             $codigo_produto = $prod['ID'];
 
+            // Verifica se o produto já existe na base local
+            $produtoExistente = ProdutosLocal::where('codigo_produto', $codigo_produto)->first();
+
+            if ($produtoExistente) {
+                // Se o produto já foi salvo, pula para o próximo
+                continue;
+            }
+
             $query = 'SELECT * FROM literatura(?)';
             $literaturas = DB::connection('firebird')->select($query, [$codigo_produto]);
-    
+
             $literaturas = array_map(function($literatura) {
                 $literatura = (array) $literatura;
                 $literatura = array_map(function($item) {
@@ -63,11 +71,11 @@ class MigrarProdutosJob implements ShouldQueue
                 }, $literatura);
                 return (object) $literatura;
             }, $literaturas);
-    
+
             $groupedLiteraturas = []; // Agrupa os resultados por PRD_COD
             foreach ($literaturas as $literatura) {
                 $prdCod = $literatura->PRD_COD;
-    
+
                 if (!isset($groupedLiteraturas[$prdCod])) {
                     $groupedLiteraturas[$prdCod] = [
                         'PRD_COD' => $literatura->PRD_COD,
@@ -76,7 +84,7 @@ class MigrarProdutosJob implements ShouldQueue
                         'detalhes' => []
                     ];
                 }
-    
+
                 $groupedLiteraturas[$prdCod]['detalhes'][] = [
                     'LITENS_ID' => $literatura->LITENS_ID,
                     'LITENS_DSC' => $literatura->LITENS_DSC,
@@ -84,11 +92,11 @@ class MigrarProdutosJob implements ShouldQueue
                     'LID_DSC' => $literatura->LID_DSC
                 ];
             }
-    
+
             $groupedLiteraturas = array_values(array_map(function($item) { // Converte o array associativo em uma lista de objetos
                 return (object) $item;
             }, $groupedLiteraturas));
-    
+
             // dd($groupedLiteraturas);
 
             $produto = (array)$groupedLiteraturas[0];
@@ -104,7 +112,7 @@ class MigrarProdutosJob implements ShouldQueue
             $p->subtitulo = $subtitulo_produto;
             $p->modo_acao = $modo_acao;
             $p->save();
-    
+
             // return $p;
         }
     }
