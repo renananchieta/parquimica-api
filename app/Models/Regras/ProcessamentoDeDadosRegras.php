@@ -98,7 +98,7 @@ class ProcessamentoDeDadosRegras
         }, $produtos);
 
         // $produtos guarda todos os produtos da base do firebird
-        dd($produtos);
+        // dd($produtos);
         
         /**
          * Pega cada código de produto e busca a literatura do mesmo
