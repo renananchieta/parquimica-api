@@ -32,8 +32,7 @@ class MigrarProdutosJob implements ShouldQueue
             DISTINCT(id), 
             nome
         FROM site_produtos
-        WHERE id > 502
-        AND ID <> 533
+        WHERE ID <> 533
         ORDER BY id
         ';
 
