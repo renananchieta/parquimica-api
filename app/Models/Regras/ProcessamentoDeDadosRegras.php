@@ -82,9 +82,10 @@ class ProcessamentoDeDadosRegras
          */
         $query = '
         SELECT 
-            id, 
+            DISTINCT(id), 
             nome
         FROM site_produtos
+        ORDER BY id
         ';
 
         $produtos = DB::connection('firebird')->select($query);
@@ -98,7 +99,7 @@ class ProcessamentoDeDadosRegras
         }, $produtos);
 
         // $produtos guarda todos os produtos da base do firebird
-        // dd($produtos);
+        dd($produtos);
         
         /**
          * Pega cada código de produto e busca a literatura do mesmo

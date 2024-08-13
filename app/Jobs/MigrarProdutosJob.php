@@ -29,7 +29,7 @@ class MigrarProdutosJob implements ShouldQueue
     {
         $query = '
         SELECT 
-            id, 
+            DISTINCT(id), 
             nome
         FROM site_produtos
         ORDER BY id
