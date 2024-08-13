@@ -16,7 +16,9 @@ return new class extends Migration
             $table->foreignId('produto_id')->constrained('produtos')->comment('Código do produto');
             $table->binary('arquivo')->comment('Foto do produto');
             $table->string('nome_arquivo');
+            $table->string('slug')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

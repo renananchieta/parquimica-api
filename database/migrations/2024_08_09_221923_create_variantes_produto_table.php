@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('produto_id')->constrained('produtos');
             $table->integer('codigo_produto_variante')->nullable();
             $table->timestamps();
+            $table->string('slug')->nullable();
             $table->softDeletes();
         });
     }

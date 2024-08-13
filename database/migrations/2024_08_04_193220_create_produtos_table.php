@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('subtitulo');
             $table->text('modo_acao');
             $table->text('recomendacao')->nullable();
+            $table->string('slug')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

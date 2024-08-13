@@ -24,7 +24,9 @@ return new class extends Migration
             $table->string('domingo')->nullable();
             $table->string('variavel')->nullable();
             $table->string('valor')->nullable();
+            $table->string('slug')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
