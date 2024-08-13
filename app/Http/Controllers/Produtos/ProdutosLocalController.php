@@ -132,11 +132,11 @@ class ProdutosLocalController extends Controller
 
     public function cadastrarProdutosBaseLocal(Request $request)
     {
-        // $produtoSalvoBaseLocal = ProcessamentoDeDadosRegras::salvarProdutosDoFirebirdNaBaseLocal();
+        $produtoSalvoBaseLocal = ProcessamentoDeDadosRegras::salvarProdutosDoFirebirdNaBaseLocal();
 
-        // return response()->json($produtoSalvoBaseLocal);
+        return response()->json($produtoSalvoBaseLocal);
 
-        MigrarProdutosJob::dispatch();
-        return response(['message' => 'Job para Migrar produtos foi despachado.']);
+        // MigrarProdutosJob::dispatch();
+        // return response(['message' => 'Job para Migrar produtos foi despachado.']);
     }
 }
