@@ -85,8 +85,8 @@ class ProcessamentoDeDadosRegras
             DISTINCT(id), 
             nome
         FROM site_produtos
-        ORDER BY id
         WHERE id = "541"
+        ORDER BY id
         ';
 
         $produtos = DB::connection('firebird')->select($query);
