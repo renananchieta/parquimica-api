@@ -85,7 +85,7 @@ class ProcessamentoDeDadosRegras
             DISTINCT(id), 
             nome
         FROM site_produtos
-        WHERE id = 541
+        WHERE id > 502
         ORDER BY id
         ';
 
