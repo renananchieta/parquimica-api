@@ -86,7 +86,7 @@ class ProcessamentoDeDadosRegras
             nome
         FROM site_produtos
         ORDER BY id
-        WHERE id = 541
+        WHERE id = "541"
         ';
 
         $produtos = DB::connection('firebird')->select($query);
