@@ -165,8 +165,8 @@ class ProcessamentoDeDadosRegras
             $p->modo_acao = $modo_acao;
             $p->save();
     
-            // return $p;
             // dd($p);
+            return $p;
         }
 
         return "Todos os Produtos foram salvos com sucesso.";
