@@ -86,6 +86,7 @@ class ProcessamentoDeDadosRegras
             nome
         FROM site_produtos
         WHERE id > 502
+        AND ID <> 533
         ORDER BY id
         ';
 
