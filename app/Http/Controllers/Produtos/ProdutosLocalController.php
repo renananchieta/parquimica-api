@@ -105,13 +105,13 @@ class ProdutosLocalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ProdutosLocal $produtoLocal)
+    public function update(ProdutosLocalRequest $request, ProdutosLocal $produtoLocal)
     {
-        $data = $request->validate();
+        $data = $request->valid();
         try {
             DB::beginTransaction();
-            $produtoLocal->update($data);
-            $produtoLocal->fresh();
+            $produtoAlterado = ProdutosLocalRegras::alterarProduto($data, $produtoLocal);
+            ProdutosLocalRegras::alterarVariantes($data, $produtoLocal);
             DB::commit();
             return response($produtoLocal);
         } catch(Exception $e) {

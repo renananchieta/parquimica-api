@@ -43,6 +43,40 @@ class ProdutosLocalRegras
         }
     }
 
+    public static function alterarVariantes($data, $produtoLocal)
+    {
+        if($data['variantes']) {
+            $p = $data['variantes'];
+
+            foreach($p as $itemVariante) {
+                $variante = new VariantesProduto();
+                $variante->produto_id = $produtoLocal->id;
+                $variante->codigo_produto_variante = $itemVariante['id'];
+                $variante->save();
+    
+                if (!$variante) {
+                    throw new Exception("Falha ao salvar variantes do produto.");
+                }
+            }
+    
+            return ;
+        } else {
+            return ;
+        }
+    }
+
+    public static function alterarProduto($data, $produto)
+    {
+        dd($produto);
+        $data = (Object)$data;
+
+        $produto->nome_produto = $data->nome_produto;
+        $produto->codigo_produto = $data->codigo_produto;
+        $produto->subtitulo = $data->subtitulo;
+        $produto->modo_acao = $data->modo_acao;
+        $produto->save();
+    }
+
     public static function upload($data, $produtoLocal)
     {
         $data = (object)$data;
