@@ -76,15 +76,13 @@ class ProdutosLocalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, int $codigo_produto)
+    public function show(int $codigo_produto)
     {
-        $params = (Object)$request->all();
-        $params->codigo_produto = $codigo_produto;
         try {
             DB::beginTransaction();
-            $literaturas = FirebirdDB::literatura($params);
+            $produtoLocal = ProdutosLocalDB::getProdutoLocal($codigo_produto);
             DB::commit();
-            return response($literaturas);
+            return response($produtoLocal);
         } catch(Exception $e) {
             DB::rollBack();
             return response()->json($e->getMessage(), 500);

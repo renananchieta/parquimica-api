@@ -17,4 +17,9 @@ class ProdutosLocalDB
 
         return ProdutosLocal::all();
     }
+
+    public static function getProdutoLocal($codigo_produto)
+    {
+        return ProdutosLocal::where('codigo_produto', $codigo_produto);
+    }
 }
