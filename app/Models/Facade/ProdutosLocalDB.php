@@ -20,6 +20,10 @@ class ProdutosLocalDB
 
     public static function getProdutoLocal($codigo_produto)
     {
-        return ProdutosLocal::where('codigo_produto', $codigo_produto);
+        $produtoLocal = ProdutosLocal::where('codigo_produto', $codigo_produto);
+
+        dd($produtoLocal);
+        
+        return $produtoLocal;
     }
 }
