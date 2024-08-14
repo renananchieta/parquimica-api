@@ -67,7 +67,6 @@ class ProdutosLocalRegras
 
     public static function alterarProduto($data, $produto)
     {
-        dd($produto);
         $data = (Object)$data;
 
         $produto->nome_produto = $data->nome_produto;
@@ -75,6 +74,8 @@ class ProdutosLocalRegras
         $produto->subtitulo = $data->subtitulo;
         $produto->modo_acao = $data->modo_acao;
         $produto->save();
+
+        return $produto;
     }
 
     public static function upload($data, $produtoLocal)

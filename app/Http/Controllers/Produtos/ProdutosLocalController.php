@@ -113,7 +113,7 @@ class ProdutosLocalController extends Controller
             $produtoAlterado = ProdutosLocalRegras::alterarProduto($data, $produtoLocal);
             ProdutosLocalRegras::alterarVariantes($data, $produtoLocal);
             DB::commit();
-            return response($produtoLocal);
+            return response($produtoAlterado);
         } catch(Exception $e) {
             DB::rollBack();
             return response()->json($e->getMessage(), 500);
