@@ -22,8 +22,6 @@ class ProdutosLocalDB
     {
         $produtoLocal = ProdutosLocal::where('codigo_produto', $codigo_produto)->get();
 
-        dd($produtoLocal);
-
         return $produtoLocal;
     }
 }
