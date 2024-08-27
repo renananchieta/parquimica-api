@@ -134,6 +134,21 @@ class ProdutosLocalController extends Controller
         }
     }
 
+    public function updateAtivoSite(Request $request)
+    {
+        $params = (Object)$request->all();
+        try{
+            DB::beginTransaction();
+            $produtosFireBird = FirebirdDB::grid2($params);
+            $produtoUpdt = ProdutosLocalRegras::atualizarProdutoAtivoSite($produtosFireBird);
+            DB::commit();
+            return response($produtoUpdt);
+        } catch(Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */

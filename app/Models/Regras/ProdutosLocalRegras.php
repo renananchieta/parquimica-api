@@ -106,4 +106,15 @@ class ProdutosLocalRegras
         $response->header('Content-Disposition', 'inline; filename="documento.pdf"');
         return $response;
     }
+
+    public static function atualizarProdutoAtivoSite($data)
+    {
+        foreach($data as $produto) {
+            $produtoUpdt = ProdutosLocal::where('codigo_produto', $produto->codigo_produto);
+            $produtoUpdt->ativo_site = $produto->ativo_site;
+            $produto->save();
+
+            return $produtoUpdt;
+        }
+    }
 }
