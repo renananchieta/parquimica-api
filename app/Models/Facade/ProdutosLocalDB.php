@@ -20,7 +20,7 @@ class ProdutosLocalDB
         }
 
         if(isset($params->ativo_site)) {
-            $query->where('nome_produto', $params->ativo_site);
+            $query->where('ativo_site', $params->ativo_site);
         }
 
         $produtos = $query->get();
