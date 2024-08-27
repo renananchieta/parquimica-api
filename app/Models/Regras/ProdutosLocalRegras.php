@@ -110,7 +110,7 @@ class ProdutosLocalRegras
     public static function atualizarProdutoAtivoSite( array $data)
     {
         foreach($data as $produto) {
-            $produtoUpdt = ProdutosLocal::where('codigo_produto', $produto->codigo_produto);
+            $produtoUpdt = ProdutosLocal::where('codigo_produto', $produto->id);
             $produtoUpdt->ativo_site = $produto->ativo_site;
             $produto->save();
 
