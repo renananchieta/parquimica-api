@@ -44,7 +44,7 @@ Route::middleware(['seguranca'])->group(function () {
     Route::get('/firebird/prod-funcao', [CatalogoController::class, 'prodFuncao']);
 
     //Combo Produtos
-    Route::get('/combo/produtos', [CatalogoController::class, 'comboProdutos']);
+    Route::get('/combo/produtos', [ProdutosLocalController::class, 'comboProdutos']);
 
     //Adicionar o produto na base local para alimentar o Site
     Route::post('/area-restrita/produtos', [ProdutosLocalController::class, 'store']);
@@ -94,6 +94,9 @@ Route::get('/area-restrita/puxar-base-firebird-para-base-local', [ProdutosLocalC
 Route::get('/area-restrita/produtos/base-local', [ProdutosLocalController::class, 'index']);
 Route::get('/area-restrita/produto/{codigo_produto}', [ProdutosLocalController::class, 'show']);
 Route::put('/area-restrita/produto/{codigo_produto}/update', [ProdutosLocalController::class, 'update']);
+
+Route::get('/area-restrita/produtos/teste', [ProdutosLocalController::class, 'consultaTeste']);
+
 
 
 

@@ -24,4 +24,9 @@ class ProdutosLocalDB
 
         return $produtoLocal;
     }
+
+    public static function getComboProdutos()
+    {
+        return  ProdutosLocal::get(['codigo_produto', 'nome_produto']);
+    }
 }

@@ -14,6 +14,7 @@ use App\Models\Regras\ProdutosLocalRegras;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class ProdutosLocalController extends Controller
 {
@@ -28,6 +29,19 @@ class ProdutosLocalController extends Controller
             $produtosLocal = ProdutosLocalDB::getProdutos($parametros);
             DB::commit();
             return response($produtosLocal);
+        } catch(Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
+    public function comboProdutos()
+    {
+        try {
+            DB::beginTransaction();
+            $comboProdutos = ProdutosLocalDB::getComboProdutos();
+            DB::commit();
+            return response($comboProdutos);
         } catch(Exception $e) {
             DB::rollBack();
             return response()->json($e->getMessage(), 500);
@@ -136,5 +150,32 @@ class ProdutosLocalController extends Controller
 
         MigrarProdutosJob::dispatch();
         return response(['message' => 'Job para Migrar produtos foi despachado.']);
+    }
+
+    public function consultaTeste()
+    {
+        $response = Http::withOptions([
+            'verify' => false,
+        ])->get('https://srcs.parquimica.com.br/api/area-restrita/produtos/base-local');
+
+        if ($response->successful()) {
+            $produtos = $response->json(); 
+
+            foreach($produtos as $produto) {
+                // dd($produto);
+
+                $produtoLocal = new ProdutosLocal();
+                $produtoLocal->codigo_produto = $produto['codigo_produto'];
+                $produtoLocal->nome_produto = $produto['nome_produto'];
+                $produtoLocal->subtitulo = $produto['subtitulo'];
+                $produtoLocal->modo_acao = $produto['modo_acao'];
+                $produtoLocal->save();
+
+            }
+            
+            return response()->json(['Sucessc' => 'Produtos Salvos na Base Local.'], $response->status());;
+        }
+
+        return response()->json(['error' => 'Não foi possível consultar os produtos.'], $response->status());
     }
 }
