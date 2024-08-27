@@ -323,7 +323,12 @@ class FirebirdDB
     public static function grid2($params)
     {
         $query = '
-            SELECT * FROM site_produtos sp
+            SELECT 
+            DISTINCT(id), 
+            ativo_site
+        FROM site_produtos
+        WHERE ID <> 533
+        ORDER BY id
             ';
 
         $condicionais = [];
