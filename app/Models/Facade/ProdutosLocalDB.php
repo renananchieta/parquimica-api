@@ -19,11 +19,7 @@ class ProdutosLocalDB
             $query->where('nome_produto', 'like', '%' . $params->nome_produto . '%');
         }
 
-        if(isset($params->ativo_site)) {
-            $query->where('ativo_site', $params->ativo_site);
-        }
-
-        $produtos = $query->get();
+        $produtos = $query->where('ativo_site', 1)->get();
 
         // return ProdutosLocal::where('ativo_site', 1)->get();
         return $produtos;
