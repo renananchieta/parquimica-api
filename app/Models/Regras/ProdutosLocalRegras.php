@@ -112,7 +112,7 @@ class ProdutosLocalRegras
         foreach($data as $produto) {
             $produtoUpdt = ProdutosLocal::where('codigo_produto', $produto->ID);
             $produtoUpdt->ativo_site = $produto->ATIVO_SITE;
-            $produto->save();
+            $produtoUpdt->save();
 
             return $produtoUpdt;
         }
