@@ -65,15 +65,14 @@ class ProdutosLocalRegras
         }
     }
 
-    public static function alterarProduto($data, $produto)
+    public static function alterarProduto($data)
     {
         $data = (Object)$data;
 
-        // $produto = ProdutosLocal::where('codigo_produto', $data->codigo_produto)->first();
+        $produto = ProdutosLocal::where('codigo_produto', $data->codigo_produto)->first();
         $produto->nome_produto = $data->nome_produto;
         $produto->subtitulo = $data->subtitulo;
         $produto->modo_acao = $data->modo_acao;
-        // $produto->ativo_site = $data->ativo_site;
         $produto->variantes = $data->variantes;
         $produto->save();
 
