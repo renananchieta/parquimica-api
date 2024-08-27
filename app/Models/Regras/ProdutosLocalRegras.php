@@ -114,6 +114,8 @@ class ProdutosLocalRegras
                 $produtoUpdt = ProdutosLocal::where('codigo_produto', $produto->ID)->first();
                 $produtoUpdt->ativo_site = $produto->ATIVO_SITE;
                 $produtoUpdt->save();
+
+                return $produtoUpdt;
             }
         }
 
