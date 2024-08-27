@@ -115,7 +115,7 @@ class ProdutosLocalRegras
                 $produtoUpdt->ativo_site = $produto->ATIVO_SITE;
                 $produtoUpdt->save();
 
-                return $produtoUpdt;
+                // return $produtoUpdt;
             }
         }
 
