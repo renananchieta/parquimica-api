@@ -140,7 +140,7 @@ class ProdutosLocalController extends Controller
         try{
             DB::beginTransaction();
             $produtosFireBird = FirebirdDB::grid2($params);
-            return response($produtosFireBird);
+            // return response($produtosFireBird);
             // dd($produtosFireBird);
             $produtoUpdt = ProdutosLocalRegras::atualizarProdutoAtivoSite($produtosFireBird);
             DB::commit();
