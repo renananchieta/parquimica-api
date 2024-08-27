@@ -92,6 +92,7 @@ Route::get('/impressao/{codigo_produto}', [ImpressaoController::class, 'gerarPdf
 //Base local
 Route::get('/area-restrita/puxar-base-firebird-para-base-local', [ProdutosLocalController::class, 'cadastrarProdutosBaseLocal']);
 Route::get('/area-restrita/produtos/base-local', [ProdutosLocalController::class, 'index']);
+Route::get('/area-restrita/produtos/base-local/todos', [ProdutosLocalController::class, 'gridProdutos']);
 Route::get('/area-restrita/produto/{codigo_produto}', [ProdutosLocalController::class, 'show']);
 Route::put('/area-restrita/produto/{codigo_produto}/update', [ProdutosLocalController::class, 'update']);
 Route::get('/area-restrita/produto/{codigo_produto}/update/ativo-site', [ProdutosLocalController::class, 'updateAtivoSite']);

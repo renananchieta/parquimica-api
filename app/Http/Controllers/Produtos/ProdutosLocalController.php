@@ -35,6 +35,20 @@ class ProdutosLocalController extends Controller
         }
     }
 
+    public function gridProdutos(Request $request)
+    {
+        $parametros = (Object)$request->all();
+        try {
+            DB::beginTransaction();
+            $produtosLocal = ProdutosLocalDB::getProdutosTodos($parametros);
+            DB::commit();
+            return response($produtosLocal);
+        } catch(Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
     public function comboProdutos()
     {
         try {
@@ -125,7 +139,7 @@ class ProdutosLocalController extends Controller
         try {
             DB::beginTransaction();
             $produtoAlterado = ProdutosLocalRegras::alterarProduto($data, $produtoLocal);
-            ProdutosLocalRegras::alterarVariantes($data, $produtoLocal);
+            // ProdutosLocalRegras::alterarVariantes($data, $produtoLocal);
             DB::commit();
             return response($produtoAlterado);
         } catch(Exception $e) {

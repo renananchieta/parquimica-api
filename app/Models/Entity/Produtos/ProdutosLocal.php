@@ -18,6 +18,7 @@ class ProdutosLocal extends Model
         'modo_acao',
         'recomendacao',
         'variantes_produtos',
-        'ativo_site'
+        'ativo_site',
+        'variantes'
     ];
 }

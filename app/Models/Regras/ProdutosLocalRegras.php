@@ -73,6 +73,8 @@ class ProdutosLocalRegras
         $produto->codigo_produto = $data->codigo_produto;
         $produto->subtitulo = $data->subtitulo;
         $produto->modo_acao = $data->modo_acao;
+        // $produto->ativo_site = $data->ativo_site;
+        $produto->variantes = $data->variantes;
         $produto->save();
 
         return $produto;

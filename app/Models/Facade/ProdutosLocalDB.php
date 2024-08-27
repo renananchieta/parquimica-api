@@ -8,14 +8,25 @@ class ProdutosLocalDB
 {
     public static function getProdutos($params)
     {
-        // $currentPage = isset($params->page) ? $params->page : 1;
-        // $perPage = isset($params->perPage) ? $params->perPage : 100;
-
-        // $produtosLocal = ProdutosLocal::paginate($perPage, ['*'], 'page', $currentPage);
-
-        // return $produtosLocal;
-
         return ProdutosLocal::where('ativo_site', 1)->get();
+    }
+
+    public static function getProdutosTodos($params)
+    {
+        $query = ProdutosLocal::query();
+
+        if(isset($params->nome_produto)) {
+            $query->where('nome_produto', 'like', '%' . $params->nome_produto . '%');
+        }
+
+        if(isset($params->ativo_site)) {
+            $query->where('nome_produto', $params->ativo_site);
+        }
+
+        $produtos = $query->get();
+
+        // return ProdutosLocal::where('ativo_site', 1)->get();
+        return $produtos;
     }
 
     public static function getProdutoLocal($codigo_produto)
