@@ -26,7 +26,7 @@ class ProdutosLocalController extends Controller
         $parametros = (Object)$request->all();
         try {
             DB::beginTransaction();
-            $produtosLocal = ProdutosLocalDB::getProdutos($parametros);
+            $produtosLocal = ProdutosLocalDB::getProdutosTodos($parametros);
             DB::commit();
             return response($produtosLocal);
         } catch(Exception $e) {
