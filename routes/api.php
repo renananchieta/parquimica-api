@@ -97,7 +97,7 @@ Route::get('/area-restrita/produto/{codigo_produto}', [ProdutosLocalController::
 Route::post('/area-restrita/produto/{codigo_produto}/update', [ProdutosLocalController::class, 'update']);
 Route::get('/area-restrita/produto/{codigo_produto}/update/ativo-site', [ProdutosLocalController::class, 'updateAtivoSite']);
 
-// Route::get('/area-restrita/produtos/teste', [ProdutosLocalController::class, 'consultaTeste']);
+Route::get('/area-restrita/produtos/teste', [ProdutosLocalController::class, 'consultaTeste']);
 
 
 
