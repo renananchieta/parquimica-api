@@ -83,6 +83,8 @@ class ProdutosLocalRegras
             $produtoExistente->variantes = $data->variantes;
             $produtoExistente->caminho_arquivo = $data->caminho_arquivo;
             $produtoExistente->slug = $data->slug;
+            $produtoExistente->linha = $data->linha;
+            $produtoExistente->funcao = $data->funcao;
             $produtoExistente->save();
     
             return $produtoExistente;
@@ -95,6 +97,8 @@ class ProdutosLocalRegras
             $produto->variantes = $data->variantes;
             $produto->caminho_arquivo = $data->caminho_arquivo;
             $produto->slug = $data->slug;
+            $produtoExistente->linha = $data->linha;
+            $produtoExistente->funcao = $data->funcao;
             $produto->save();
     
             return $produto;
