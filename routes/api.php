@@ -94,7 +94,7 @@ Route::get('/area-restrita/puxar-base-firebird-para-base-local', [ProdutosLocalC
 Route::get('/area-restrita/produtos/base-local', [ProdutosLocalController::class, 'index']);
 Route::get('/area-restrita/produtos/base-local/todos', [ProdutosLocalController::class, 'gridProdutos']);
 Route::get('/area-restrita/produto/{codigo_produto}', [ProdutosLocalController::class, 'show']);
-Route::put('/area-restrita/produto/{codigo_produto}/update', [ProdutosLocalController::class, 'update']);
+Route::post('/area-restrita/produto/{codigo_produto}/update', [ProdutosLocalController::class, 'update']);
 Route::get('/area-restrita/produto/{codigo_produto}/update/ativo-site', [ProdutosLocalController::class, 'updateAtivoSite']);
 
 // Route::get('/area-restrita/produtos/teste', [ProdutosLocalController::class, 'consultaTeste']);

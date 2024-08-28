@@ -133,15 +133,25 @@ class ProdutosLocalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProdutosLocalRequest $request)
+    public function update(ProdutosLocalRequest $request, $codigo_produto)
     {
         $data = $request->valid();
+
+        $data = (Object)$data;
+
         try {
             DB::beginTransaction();
-            $produtoAlterado = ProdutosLocalRegras::alterarProduto($data['produto']);
+            if ($request->hasFile('arquivo')) {
+                $arquivo = $request->file('arquivo');
+    
+                $caminhoArquivo = $arquivo->store('produtos', 'public');
+    
+                $data->caminho_arquivo = $caminhoArquivo;
+            }
+            $produtoAlterado = ProdutosLocalRegras::alterarProduto($data, $codigo_produto);
             // ProdutosLocalRegras::alterarVariantes($data, $produtoLocal);
             DB::commit();
-            return response($produtoAlterado);
+            return response(['message' => 'Produto Alterado com sucesso!']);
         } catch(Exception $e) {
             DB::rollBack();
             return response()->json($e->getMessage(), 500);

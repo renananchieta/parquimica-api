@@ -28,24 +28,21 @@ class ProdutosLocalRequest extends FormRequest
             'subtituloProduto' => 'required|string',
             'modoAcao' => 'required|string',
             'variantes' => 'nullable|string',
-
-            //arquivo
-            // 'arquivo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'slug' => 'nullable|string',
+            'arquivo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 
     public function valid(): array
     {
         return [
-            'produto' => [
-                'nome_produto' => $this->request->get('nomeProduto'),
-                'codigo_produto' => $this->request->get('codigoProduto'),
-                'subtitulo' => $this->request->get('subtituloProduto'),
-                'modo_acao' => $this->request->get('modoAcao'),
-                'variantes' => $this->request->get('variantes'),
-            ],
-            
-            // 'arquivo' => $this->file('arquivo'),
+            'nome_produto' => $this->request->get('nomeProduto'),
+            'codigo_produto' => $this->request->get('codigoProduto'),
+            'subtitulo' => $this->request->get('subtituloProduto'),
+            'modo_acao' => $this->request->get('modoAcao'),
+            'variantes' => $this->request->get('variantes'),
+            'slug' => $this->request->get('slug'),
+            'arquivo' => $this->file('arquivo'),
         ];
     }
 }

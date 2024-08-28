@@ -6,7 +6,7 @@ use App\Models\Entity\Produtos\ProdutosLocal;
 use App\Models\Entity\Produtos\UploadProdutosLocal;
 use App\Models\Entity\Produtos\VariantesProduto;
 use Exception;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProdutosLocalRegras 
 {
@@ -65,18 +65,40 @@ class ProdutosLocalRegras
         }
     }
 
-    public static function alterarProduto($data)
+    public static function alterarProduto($data, $codigo_produto)
     {
         $data = (Object)$data;
 
-        $produto = ProdutosLocal::where('codigo_produto', $data->codigo_produto)->first();
-        $produto->nome_produto = $data->nome_produto;
-        $produto->subtitulo = $data->subtitulo;
-        $produto->modo_acao = $data->modo_acao;
-        $produto->variantes = $data->variantes;
-        $produto->save();
-
-        return $produto;
+        // Buscar o produto existente pelo código do produto
+        $produtoExistente = ProdutosLocal::where('codigo_produto', $codigo_produto)->first();
+    
+        if ($produtoExistente) {
+            if (!empty($produtoExistente->caminho_arquivo) && Storage::exists($produtoExistente->caminho_arquivo)) {
+                Storage::delete($produtoExistente->caminho_arquivo);
+            }
+    
+            $produtoExistente->nome_produto = $data->nome_produto;
+            $produtoExistente->subtitulo = $data->subtitulo;
+            $produtoExistente->modo_acao = $data->modo_acao;
+            $produtoExistente->variantes = $data->variantes;
+            $produtoExistente->caminho_arquivo = $data->caminho_arquivo;
+            $produtoExistente->slug = $data->slug;
+            $produtoExistente->save();
+    
+            return $produtoExistente;
+        } else {
+            $produto = new ProdutosLocal();
+            $produto->nome_produto = $data->nome_produto;
+            $produto->codigo_produto = $codigo_produto;
+            $produto->subtitulo = $data->subtitulo;
+            $produto->modo_acao = $data->modo_acao;
+            $produto->variantes = $data->variantes;
+            $produto->caminho_arquivo = $data->caminho_arquivo;
+            $produto->slug = $data->slug;
+            $produto->save();
+    
+            return $produto;
+        }
     }
 
     public static function upload($data, $produtoLocal)
