@@ -29,6 +29,8 @@ class ProdutosLocalRequest extends FormRequest
             'modoAcao' => 'required|string',
             'variantes' => 'nullable|string',
             'slug' => 'nullable|string',
+            'linha' => 'nullable|string',
+            'funcao' => 'nullable|string',
             'arquivo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
@@ -42,6 +44,8 @@ class ProdutosLocalRequest extends FormRequest
             'modo_acao' => $this->request->get('modoAcao'),
             'variantes' => $this->request->get('variantes'),
             'slug' => $this->request->get('slug'),
+            'linha' => $this->request->get('linha'),
+            'funcao' => $this->request->get('funcao'),
             'arquivo' => $this->file('arquivo'),
         ];
     }
