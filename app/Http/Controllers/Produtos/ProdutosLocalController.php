@@ -208,6 +208,12 @@ class ProdutosLocalController extends Controller
                 $produtoLocal->nome_produto = $produto['nome_produto'];
                 $produtoLocal->subtitulo = $produto['subtitulo'];
                 $produtoLocal->modo_acao = $produto['modo_acao'];
+                $produtoLocal->recomendacao = $produto['recomendacao'];
+                $produtoLocal->slug = $produto['slug'];
+                $produtoLocal->ativo_site = $produto['ativo_site'];
+                $produtoLocal->variantes = $produto['variantes'];
+                $produtoLocal->linha = $produto['linha'];
+                $produtoLocal->funcao = $produto['funcao'];
                 $produtoLocal->save();
 
             }
