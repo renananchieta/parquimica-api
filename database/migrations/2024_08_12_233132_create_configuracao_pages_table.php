@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('configuracao_blog', function (Blueprint $table) {
+        Schema::create('configuracao_pages', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
             $table->text('texto');
-            $table->binary('arquivo');
+            $table->string('caminho_arquivo')->nullable();
             $table->string('categoria');
             $table->dateTime('data_publicacao');
             $table->boolean('status_publicacao')->default(false);
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('configuracao_blog');
+        Schema::dropIfExists('configuracao_pages');
     }
 };
