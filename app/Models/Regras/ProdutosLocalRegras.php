@@ -12,7 +12,8 @@ class ProdutosLocalRegras
 {
     public static function salvarProduto($data)
     {
-        $produto = ProdutosLocal::create($data['produto']);
+        $data = (array)$data;
+        $produto = ProdutosLocal::create($data);
 
         if (!$produto) {
             throw new Exception("Falha ao salvar o produto.");
@@ -67,7 +68,7 @@ class ProdutosLocalRegras
 
     public static function alterarProduto($data, $codigo_produto)
     {
-        $data = (Object)$data;
+        // $data = (Object)$data;
 
         // Buscar o produto existente pelo código do produto
         $produtoExistente = ProdutosLocal::where('codigo_produto', $codigo_produto)->first();
@@ -78,30 +79,31 @@ class ProdutosLocalRegras
             }
     
             $produtoExistente->nome_produto = $data->nome_produto;
+            $produtoExistente->codigo_produto = $data->codigo_produto;
             $produtoExistente->subtitulo = $data->subtitulo;
             $produtoExistente->modo_acao = $data->modo_acao;
             $produtoExistente->variantes = $data->variantes;
             $produtoExistente->caminho_arquivo = $data->caminho_arquivo;
-            $produtoExistente->slug = $data->slug;
-            $produtoExistente->linha = $data->linha;
-            $produtoExistente->funcao = $data->funcao;
+            $data->slug ? $produtoExistente->slug = $data->slug : $produtoExistente->slug = null;
+            $data->linha ? $produtoExistente->linha = $data->linha :$produtoExistente->linha = null;
+            $data->funcao ? $produtoExistente->funcao = $data->funcao : $produtoExistente->funcao = null;
             $produtoExistente->save();
     
             return $produtoExistente;
         } else {
-            $produto = new ProdutosLocal();
-            $produto->nome_produto = $data->nome_produto;
-            $produto->codigo_produto = $codigo_produto;
-            $produto->subtitulo = $data->subtitulo;
-            $produto->modo_acao = $data->modo_acao;
-            $produto->variantes = $data->variantes;
-            $produto->caminho_arquivo = $data->caminho_arquivo;
-            $produto->slug = $data->slug;
-            $produtoExistente->linha = $data->linha;
-            $produtoExistente->funcao = $data->funcao;
-            $produto->save();
+            // $produto = new ProdutosLocal();
+            $produtoExistente->nome_produto = $data->nome_produto;
+            $produtoExistente->codigo_produto = $data->codigo_produto;
+            $produtoExistente->subtitulo = $data->subtitulo;
+            $produtoExistente->modo_acao = $data->modo_acao;
+            $produtoExistente->variantes = $data->variantes;
+            $produtoExistente->caminho_arquivo = $data->caminho_arquivo;
+            $data->slug ? $produtoExistente->slug = $data->slug : $produtoExistente->slug = null;
+            $data->linha ? $produtoExistente->linha = $data->linha : $produtoExistente->linha = null;
+            $data->funcao ? $produtoExistente->funcao = $data->funcao : $produtoExistente->funcao = null;
+            $produtoExistente->save();
     
-            return $produto;
+            return $produtoExistente;
         }
     }
 

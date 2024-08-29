@@ -85,11 +85,19 @@ class ProdutosLocalController extends Controller
     public function store(ProdutosLocalRequest $request)
     {
         $data = $request->valid();
+        $data = (Object)$data;
         try {
             DB::beginTransaction();
+            if ($request->hasFile('arquivo')) {
+                $arquivo = $request->file('arquivo');
+    
+                $caminhoArquivo = $arquivo->store('produtos', 'public');
+    
+                $data->caminho_arquivo = $caminhoArquivo;
+            } else {
+                $data->caminho_arquivo = null;
+            }
             $produtoLocal = ProdutosLocalRegras::salvarProduto($data);
-            ProdutosLocalRegras::salvarVariantes($data, $produtoLocal);
-            // $arquivo = ProdutosLocalRegras::upload($data, $produtoLocal);
             DB::commit();
             return response([
                 'data' => $produtoLocal,
@@ -147,6 +155,8 @@ class ProdutosLocalController extends Controller
                 $caminhoArquivo = $arquivo->store('produtos', 'public');
     
                 $data->caminho_arquivo = $caminhoArquivo;
+            } else {
+                $data->caminho_arquivo = null;
             }
             $produtoAlterado = ProdutosLocalRegras::alterarProduto($data, $codigo_produto);
             // ProdutosLocalRegras::alterarVariantes($data, $produtoLocal);

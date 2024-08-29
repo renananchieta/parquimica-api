@@ -19,6 +19,10 @@ class ProdutosLocal extends Model
         'recomendacao',
         'variantes_produtos',
         'ativo_site',
-        'variantes'
+        'variantes',
+        'caminho_arquivo',
+        'slug',
+        'linha',
+        'funcao',
     ];
 }

@@ -47,7 +47,7 @@ Route::middleware(['seguranca'])->group(function () {
     Route::get('/combo/produtos', [ProdutosLocalController::class, 'comboProdutos']);
 
     //Adicionar o produto na base local para alimentar o Site
-    Route::post('/area-restrita/produtos', [ProdutosLocalController::class, 'store']);
+    // Route::post('/area-restrita/produtos', [ProdutosLocalController::class, 'store']);
 });
 
 Route::middleware(['api'])->group(function () {
@@ -91,13 +91,14 @@ Route::get('/impressao/{codigo_produto}', [ImpressaoController::class, 'gerarPdf
 
 //Base local
 Route::get('/area-restrita/puxar-base-firebird-para-base-local', [ProdutosLocalController::class, 'cadastrarProdutosBaseLocal']);
+Route::get('/area-restrita/produto/update/ativo-site', [ProdutosLocalController::class, 'updateAtivoSite']);
+Route::get('/area-restrita/produtos/teste', [ProdutosLocalController::class, 'consultaTeste']);
 Route::get('/area-restrita/produtos/base-local', [ProdutosLocalController::class, 'index']);
+Route::post('/area-restrita/produtos', [ProdutosLocalController::class, 'store']);
 Route::get('/area-restrita/produtos/base-local/todos', [ProdutosLocalController::class, 'gridProdutos']);
 Route::get('/area-restrita/produto/{codigo_produto}', [ProdutosLocalController::class, 'show']);
 Route::post('/area-restrita/produto/{codigo_produto}/update', [ProdutosLocalController::class, 'update']);
-Route::get('/area-restrita/produto/update/ativo-site', [ProdutosLocalController::class, 'updateAtivoSite']);
 
-Route::get('/area-restrita/produtos/teste', [ProdutosLocalController::class, 'consultaTeste']);
 
 
 
