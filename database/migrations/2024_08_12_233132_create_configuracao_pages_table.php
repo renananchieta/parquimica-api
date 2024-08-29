@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('configuracao_pages', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
+            $table->string('tipo');
             $table->text('texto');
             $table->string('caminho_arquivo')->nullable();
             $table->string('categoria');
