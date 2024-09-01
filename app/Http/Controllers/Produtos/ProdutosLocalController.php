@@ -201,7 +201,7 @@ class ProdutosLocalController extends Controller
         return response(['message' => 'Job para Migrar produtos foi despachado.']);
     }
 
-    public function consultaTeste()
+    public function salvarNaMinhaMaquina()
     {
         $response = Http::withOptions([
             'verify' => false,

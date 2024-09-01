@@ -3,6 +3,7 @@
 namespace App\Models\Facade;
 
 use App\Models\Entity\Produtos\ProdutosLocal;
+use Illuminate\Support\Facades\DB;
 
 class ProdutosLocalDB 
 {
@@ -28,9 +29,70 @@ class ProdutosLocalDB
 
     public static function getProdutoLocal($codigo_produto)
     {
-        $produtoLocal = ProdutosLocal::where('codigo_produto', $codigo_produto)->get();
+        $produtoLocal = DB::table('produtos as p')
+            ->join('prod_linha as pl', 'pl.codigo_produto', '=', 'p.codigo_produto')
+            ->join('prod_funcao as pf', 'pf.codigo_produto', '=', 'p.codigo_produto')
+            ->where('p.codigo_produto', $codigo_produto)
+            ->groupBy('p.id', 'p.codigo_produto', 'p.nome_produto', 'pl.codigo_linha', 'pf.codigo_funcao', 'pl.descricao_linha', 'pf.descricao_funcao')
+            ->get([
+                'p.id',
+                'p.nome_produto',
+                'p.codigo_produto',
+                'pl.codigo_linha',
+                'pl.descricao_linha',
+                'pf.codigo_funcao',
+                'pf.descricao_funcao',
+            ]);
 
-        return $produtoLocal;
+        $agrupado = [];
+
+        foreach ($produtoLocal as $produto) {
+            $idProduto = $produto->id;
+
+            if (!isset($agrupado[$idProduto])) {
+                $agrupado[$idProduto] = [
+                    'id' => $produto->id,
+                    'nome_produto' => $produto->nome_produto,
+                    'codigo_produto' => $produto->codigo_produto,
+                    'linhas' => [],
+                    'funcoes' => [],
+                ];
+            }
+
+            // Verifica se a linha já foi adicionada
+            $linhaExiste = false;
+            foreach ($agrupado[$idProduto]['linhas'] as $linha) {
+                if ($linha['codigo_linha'] === $produto->codigo_linha && $linha['descricao_linha'] === $produto->descricao_linha) {
+                    $linhaExiste = true;
+                    break;
+                }
+            }
+
+            if (!$linhaExiste) {
+                $agrupado[$idProduto]['linhas'][] = [
+                    'codigo_linha' => $produto->codigo_linha,
+                    'descricao_linha' => $produto->descricao_linha,
+                ];
+            }
+
+            // Verifica se a função já foi adicionada
+            $funcaoExiste = false;
+            foreach ($agrupado[$idProduto]['funcoes'] as $funcao) {
+                if ($funcao['codigo_funcao'] === $produto->codigo_funcao && $funcao['descricao_funcao'] === $produto->descricao_funcao) {
+                    $funcaoExiste = true;
+                    break;
+                }
+            }
+
+            if (!$funcaoExiste) {
+                $agrupado[$idProduto]['funcoes'][] = [
+                    'codigo_funcao' => $produto->codigo_funcao,
+                    'descricao_funcao' => $produto->descricao_funcao,
+                ];
+            }
+        }
+
+        return array_values($agrupado);
     }
 
     public static function getComboProdutos()

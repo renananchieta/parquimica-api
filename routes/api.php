@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Catalogo\CatalogoController;
 use App\Http\Controllers\ImpressaoController;
+use App\Http\Controllers\Produtos\LinhafuncaoController;
 use App\Http\Controllers\Produtos\ProdutosLocalController;
 use App\Http\Controllers\Seguranca\PerfilController;
 use App\Http\Controllers\Seguranca\UsuarioController;
@@ -91,15 +92,16 @@ Route::get('/impressao/{codigo_produto}', [ImpressaoController::class, 'gerarPdf
 
 //Base local
 Route::get('/area-restrita/puxar-base-firebird-para-base-local', [ProdutosLocalController::class, 'cadastrarProdutosBaseLocal']);
+Route::get('/area-restrita/produtos/salvar-na-minha-maquina', [ProdutosLocalController::class, 'salvarNaMinhaMaquina']);
 Route::get('/area-restrita/produto/update/ativo-site', [ProdutosLocalController::class, 'updateAtivoSite']);
-Route::get('/area-restrita/produtos/teste', [ProdutosLocalController::class, 'consultaTeste']);
+Route::get('/area-restrita/linha-funcao/salvar-na-minha-maquina', [LinhafuncaoController::class, 'salvarNaMinhaMaquinaLinhaFuncao']);
+Route::get('/area-restrita/prod-linha-prod-funcao/salvar-na-minha-maquina', [LinhafuncaoController::class, 'salvarNaMinhaMaquinaProdLinhaProdFuncao']);
+
 Route::get('/area-restrita/produtos/base-local', [ProdutosLocalController::class, 'index']);
-Route::post('/area-restrita/produtos', [ProdutosLocalController::class, 'store']);
 Route::get('/area-restrita/produtos/base-local/todos', [ProdutosLocalController::class, 'gridProdutos']);
+Route::post('/area-restrita/produtos', [ProdutosLocalController::class, 'store']);
 Route::get('/area-restrita/produto/{codigo_produto}', [ProdutosLocalController::class, 'show']);
 Route::post('/area-restrita/produto/{codigo_produto}/update', [ProdutosLocalController::class, 'update']);
+Route::get('/area-restrita/combos/linhas-funcoes', [LinhafuncaoController::class, 'combos']);
 
-
-
-
-
+// Route::get('/area-restrita/puxar-linha-funcao-para-base-local', [LinhafuncaoController::class, 'cadastrarLinhaFuncao']);
