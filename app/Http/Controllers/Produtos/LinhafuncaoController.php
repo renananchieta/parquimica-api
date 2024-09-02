@@ -133,4 +133,68 @@ class LinhafuncaoController extends Controller
 
         return response(['mensagem' => 'Relacionamento de Linhas e Funções produtos cadastrados com sucesso'], 201);
     }
+
+    public function cadastrarLinhaFuncaoBaseLocal(Request $request)
+    {
+        $params = (Object)$request->all();
+        //Consultar linha
+        $linhas = FirebirdDB::linhas($params);
+
+        //Cadastrar Linha na base Local
+        foreach($linhas as $linha) {
+            $l = new Linha();
+
+            $l->codigo_linha = $linha['ID'];
+            $l->descricao_linha = $linha['DESCRICAO'];
+            $l->save();
+        }
+
+
+        //Consultar Função
+        $funcoes = FirebirdDB::funcoes($params);
+
+        //Cadastrar função base local
+        foreach($funcoes as $funcao) {
+            $f = new Funcao();
+
+            $f->codigo_funcao = $funcao['ID'];
+            $f->descricao_funcao = $funcao['DESCRICAO'];
+            $f->save();
+        }
+
+        return response(['mensagem' => 'Linhas e funções cadastrados com sucesso'], 201);
+    }
+
+    public function cadastrarProdLinhaProdFuncaoBaseLocal(Request $request)
+    {
+        $params = (Object)$request->all();
+        
+        //Consultar Prod-Linha
+        $prodLinhas = FirebirdDB::prodLinha($params);
+
+        //Salvar Prod-Linha
+        foreach($prodLinhas as $linha) {
+            $pl = new ProdLinha();
+
+            $pl->codigo_linha = $linha['ID_LINHA'];
+            $pl->descricao_linha = $linha['LINHA_DSC'];
+            $pl->codigo_produto = $linha['ID_PRD'];
+            $pl->save();
+        }
+
+        //Consultar Prod-Função
+        $prodFuncao = FirebirdDB::prodFuncao($params);
+
+        //Salvar Prod-Função
+        foreach($prodFuncao as $funcao) {
+            $pf = new ProdFuncao();
+
+            $pf->codigo_funcao = $funcao['ID_FUNCAO'];
+            $pf->descricao_funcao = $funcao['FUNCAO_DSC'];
+            $pf->codigo_produto = $funcao['ID_PRD'];
+            $pf->save();
+        }
+
+        return response(['mensagem' => 'Relacionamento de Linhas e Funções produtos cadastrados com sucesso'], 201)
+    }
 }

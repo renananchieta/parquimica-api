@@ -92,8 +92,10 @@ Route::get('/impressao/{codigo_produto}', [ImpressaoController::class, 'gerarPdf
 
 //Base local
 Route::get('/area-restrita/puxar-base-firebird-para-base-local', [ProdutosLocalController::class, 'cadastrarProdutosBaseLocal']);
-Route::get('/area-restrita/produtos/salvar-na-minha-maquina', [ProdutosLocalController::class, 'salvarNaMinhaMaquina']);
+Route::get('/area-restrita/puxar-linha-funcao-para-base-local', [LinhafuncaoController::class, 'cadastrarLinhaFuncaoBaseLocal']);
+Route::get('/area-restrita/puxar-prodlinha-prodfuncao-para-base-local', [LinhafuncaoController::class, 'cadastrarProdLinhaProdFuncaoBaseLocal']);
 Route::get('/area-restrita/produto/update/ativo-site', [ProdutosLocalController::class, 'updateAtivoSite']);
+Route::get('/area-restrita/produtos/salvar-na-minha-maquina', [ProdutosLocalController::class, 'salvarNaMinhaMaquina']);
 Route::get('/area-restrita/linha-funcao/salvar-na-minha-maquina', [LinhafuncaoController::class, 'salvarNaMinhaMaquinaLinhaFuncao']);
 Route::get('/area-restrita/prod-linha-prod-funcao/salvar-na-minha-maquina', [LinhafuncaoController::class, 'salvarNaMinhaMaquinaProdLinhaProdFuncao']);
 
