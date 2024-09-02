@@ -33,11 +33,31 @@ class ProdutosLocalDB
             ->join('prod_linha as pl', 'pl.codigo_produto', '=', 'p.codigo_produto')
             ->join('prod_funcao as pf', 'pf.codigo_produto', '=', 'p.codigo_produto')
             ->where('p.codigo_produto', $codigo_produto)
-            ->groupBy('p.id', 'p.codigo_produto', 'p.nome_produto', 'pl.codigo_linha', 'pf.codigo_funcao', 'pl.descricao_linha', 'pf.descricao_funcao')
+            ->groupBy(
+                'p.id',
+                'p.codigo_produto',
+                'p.nome_produto',
+                'p.subtitulo',
+                'p.modo_acao',
+                'p.slug',
+                'p.ativo_site',
+                'p.variantes',
+                'p.recomendacao',
+                'pl.codigo_linha',
+                'pl.descricao_linha',
+                'pf.codigo_funcao',
+                'pf.descricao_funcao'
+            )
             ->get([
                 'p.id',
                 'p.nome_produto',
                 'p.codigo_produto',
+                'p.subtitulo',
+                'p.modo_acao',
+                'p.slug',
+                'p.ativo_site',
+                'p.variantes',
+                'p.recomendacao',
                 'pl.codigo_linha',
                 'pl.descricao_linha',
                 'pf.codigo_funcao',
@@ -54,6 +74,12 @@ class ProdutosLocalDB
                     'id' => $produto->id,
                     'nome_produto' => $produto->nome_produto,
                     'codigo_produto' => $produto->codigo_produto,
+                    'subtitulo' => $produto->subtitulo,
+                    'modo_acao' => $produto->modo_acao,
+                    'slug' => $produto->slug,
+                    'ativo_site' => $produto->ativo_site,
+                    'variantes' => $produto->variantes,
+                    'recomendacao' => $produto->recomendacao,
                     'linhas' => [],
                     'funcoes' => [],
                 ];
@@ -92,6 +118,82 @@ class ProdutosLocalDB
             }
         }
 
+        return array_values($agrupado);
+    }
+
+    public static function getProdutoLocal2($codigo_produto)
+    {
+        $produtoLocal = DB::table('produtos as p')
+            ->join('prod_linha as pl', 'pl.codigo_produto', '=', 'p.codigo_produto')
+            ->join('prod_funcao as pf', 'pf.codigo_produto', '=', 'p.codigo_produto')
+            ->where('p.codigo_produto', $codigo_produto)
+            ->get([
+                'p.id',
+                'p.nome_produto',
+                'p.codigo_produto',
+                'p.subtitulo',
+                'p.modo_acao',
+                'p.slug',
+                'p.ativo_site',
+                'p.variantes',
+                'p.recomendacao',
+                'pl.codigo_linha',
+                'pf.codigo_funcao',
+            ]);
+    
+        // Agrupando os dados para o formato desejado
+        $agrupado = [];
+    
+        foreach ($produtoLocal as $produto) {
+            $idProduto = $produto->id;
+    
+            if (!isset($agrupado[$idProduto])) {
+                $agrupado[$idProduto] = [
+                    'id' => $produto->id,
+                    'nome_produto' => $produto->nome_produto,
+                    'codigo_produto' => $produto->codigo_produto,
+                    'subtitulo' => $produto->subtitulo,
+                    'modo_acao' => $produto->modo_acao,
+                    'slug' => $produto->slug,
+                    'ativo_site' => $produto->ativo_site,
+                    'variantes' => $produto->variantes,
+                    'recomendacao' => $produto->recomendacao,
+                    'linhas' => [],
+                    'funcoes' => [],
+                ];
+            }
+    
+            // Verifica se a linha já foi adicionada
+            $linhaExiste = false;
+            foreach ($agrupado[$idProduto]['linhas'] as $linha) {
+                if ($linha['codigo_linha'] === $produto->codigo_linha) {
+                    $linhaExiste = true;
+                    break;
+                }
+            }
+    
+            if (!$linhaExiste) {
+                $agrupado[$idProduto]['linhas'][] = [
+                    'codigo_linha' => $produto->codigo_linha,
+                ];
+            }
+    
+            // Verifica se a função já foi adicionada
+            $funcaoExiste = false;
+            foreach ($agrupado[$idProduto]['funcoes'] as $funcao) {
+                if ($funcao['codigo_funcao'] === $produto->codigo_funcao) {
+                    $funcaoExiste = true;
+                    break;
+                }
+            }
+    
+            if (!$funcaoExiste) {
+                $agrupado[$idProduto]['funcoes'][] = [
+                    'codigo_funcao' => $produto->codigo_funcao,
+                ];
+            }
+        }
+    
         return array_values($agrupado);
     }
 

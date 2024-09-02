@@ -101,7 +101,7 @@ Route::get('/area-restrita/produtos/base-local', [ProdutosLocalController::class
 Route::get('/area-restrita/produtos/base-local/todos', [ProdutosLocalController::class, 'gridProdutos']);
 Route::post('/area-restrita/produtos', [ProdutosLocalController::class, 'store']);
 Route::get('/area-restrita/produto/{codigo_produto}', [ProdutosLocalController::class, 'show']);
-Route::post('/area-restrita/produto/{codigo_produto}/update', [ProdutosLocalController::class, 'update']);
+Route::put('/area-restrita/produto/{codigo_produto}/update', [ProdutosLocalController::class, 'update']);
 Route::get('/area-restrita/combos/linhas-funcoes', [LinhafuncaoController::class, 'combos']);
 
 // Route::get('/area-restrita/puxar-linha-funcao-para-base-local', [LinhafuncaoController::class, 'cadastrarLinhaFuncao']);

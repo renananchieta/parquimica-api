@@ -2,6 +2,8 @@
 
 namespace App\Models\Regras;
 
+use App\Models\Entity\Produtos\ProdFuncao;
+use App\Models\Entity\Produtos\ProdLinha;
 use App\Models\Entity\Produtos\ProdutosLocal;
 use App\Models\Entity\Produtos\UploadProdutosLocal;
 use App\Models\Entity\Produtos\VariantesProduto;
@@ -12,7 +14,7 @@ class ProdutosLocalRegras
 {
     public static function salvarProduto($data)
     {
-        $data = (array)$data;
+        $data = $data['produto'];
         $produto = ProdutosLocal::create($data);
 
         if (!$produto) {
@@ -44,6 +46,52 @@ class ProdutosLocalRegras
         }
     }
 
+    public static function salvarLinhasEFuncoes($data, $produtoLocal)
+    {
+            $l = $data['linha'];
+
+            foreach($l as $itemLinha) {
+                $prodLinha = new ProdLinha();
+                $prodLinha->codigo_produto = $produtoLocal->codigo_produto;
+                $prodLinha->codigo_linha = $itemLinha['codigo_linha'];
+
+                if(empty($itemLinha['descricao_linha'])){
+                    $descricao = ProdLinha::where('codigo_linha',$itemLinha['codigo_linha'])->first();
+                    $prodLinha->descricao_linha = $descricao->descricao_linha;
+                }
+
+                $prodLinha->save();
+    
+                if (!$prodLinha) {
+                    throw new Exception("Falha ao salvar linha do produto.");
+                }
+            }
+
+            $f = $data['funcao'];
+
+            foreach($f as $itemFuncao) {
+                $prodFuncao = new ProdFuncao();
+                $prodFuncao->codigo_produto = $produtoLocal->codigo_produto;
+                $prodFuncao->codigo_funcao = $itemFuncao['codigo_funcao'];
+                
+                if(empty($itemFuncao['descricao_funcao'])){
+                
+                    $descricao = ProdFuncao::where('codigo_funcao', $itemFuncao['codigo_funcao'])->first();
+                
+                    $prodFuncao->descricao_funcao = $descricao->descricao_funcao;
+
+                }
+
+                $prodFuncao->save();
+    
+                if (!$prodFuncao) {
+                    throw new Exception("Falha ao salvar funcao do produto.");
+                }
+            }
+    
+            return ;
+    }
+
     public static function alterarVariantes($data, $produtoLocal)
     {
         if($data['variantes']) {
@@ -67,6 +115,71 @@ class ProdutosLocalRegras
     }
 
     public static function alterarProduto($data, $codigo_produto)
+    {
+        $data = $data['produto'];
+
+        $produtoExistente = ProdutosLocal::where('codigo_produto', $codigo_produto)->first();
+    
+        $produtoExistente->update($data);
+        $produtoExistente->fresh();
+    
+        return $produtoExistente;
+    }
+
+    public static function alterarLinhasEFuncoes($data, $produtoLocal)
+    {
+        $l = $data['linha'];
+
+        $prodLinha = ProdLinha::where('codigo_produto', $produtoLocal->codigo_produto)->first();
+
+        if($prodLinha) ProdLinha::where('codigo_produto', $produtoLocal->codigo_produto)->delete();
+        
+        foreach($l as $itemLinha) {
+            $prodLinha = new ProdLinha();
+            $prodLinha->codigo_produto = $produtoLocal->codigo_produto;
+            $prodLinha->codigo_linha = $itemLinha['codigo_linha'];
+
+            if(empty($itemLinha['descricao_linha'])){
+                $descricao = ProdLinha::where('codigo_linha',$itemLinha['codigo_linha'])->first();
+                $prodLinha->descricao_linha = $descricao->descricao_linha;
+            }
+
+            $prodLinha->save();
+
+            if (!$prodLinha) {
+                throw new Exception("Falha ao salvar linha do produto.");
+            }
+        }
+
+        $prodFuncao = ProdFuncao::where('codigo_produto', $produtoLocal->codigo_produto)->first();
+        if($prodFuncao) ProdFuncao::where('codigo_produto', $produtoLocal->codigo_produto)->delete();
+
+        $f = $data['funcao'];
+
+        foreach($f as $itemFuncao) {
+            $prodFuncao = new ProdFuncao();
+            $prodFuncao->codigo_produto = $produtoLocal->codigo_produto;
+            $prodFuncao->codigo_funcao = $itemFuncao['codigo_funcao'];
+            
+            if(empty($itemFuncao['descricao_funcao'])){
+            
+                $descricao = ProdFuncao::where('codigo_funcao', $itemFuncao['codigo_funcao'])->first();
+            
+                $prodFuncao->descricao_funcao = $descricao->descricao_funcao;
+
+            }
+
+            $prodFuncao->save();
+
+            if (!$prodFuncao) {
+                throw new Exception("Falha ao salvar funcao do produto.");
+            }
+        }
+
+        return ;
+    }
+
+    public static function alterarProdutoBKP($data, $codigo_produto)
     {
         // $data = (Object)$data;
 

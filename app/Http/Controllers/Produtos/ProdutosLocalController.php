@@ -85,7 +85,6 @@ class ProdutosLocalController extends Controller
     public function store(ProdutosLocalRequest $request)
     {
         $data = $request->valid();
-        $data = (Object)$data;
         try {
             DB::beginTransaction();
             if ($request->hasFile('arquivo')) {
@@ -93,11 +92,12 @@ class ProdutosLocalController extends Controller
     
                 $caminhoArquivo = $arquivo->store('produtos', 'public');
     
-                $data->caminho_arquivo = $caminhoArquivo;
+                $data['caminho_arquivo'] = $caminhoArquivo;
             } else {
-                $data->caminho_arquivo = null;
+                $data['caminho_arquivo'] = null;
             }
             $produtoLocal = ProdutosLocalRegras::salvarProduto($data);
+            ProdutosLocalRegras::salvarLinhasEFuncoes($data, $produtoLocal);
             DB::commit();
             return response([
                 'data' => $produtoLocal,
@@ -117,6 +117,8 @@ class ProdutosLocalController extends Controller
         try {
             DB::beginTransaction();
             $produtoLocal = ProdutosLocalDB::getProdutoLocal($codigo_produto);
+            // $produtoLocal = ProdutosLocalDB::getProdutoLocal2($codigo_produto);
+            DB::commit();
             DB::commit();
             return response($produtoLocal);
         } catch(Exception $e) {
@@ -145,8 +147,6 @@ class ProdutosLocalController extends Controller
     {
         $data = $request->valid();
 
-        $data = (Object)$data;
-
         try {
             DB::beginTransaction();
             if ($request->hasFile('arquivo')) {
@@ -154,12 +154,12 @@ class ProdutosLocalController extends Controller
     
                 $caminhoArquivo = $arquivo->store('produtos', 'public');
     
-                $data->caminho_arquivo = $caminhoArquivo;
+                $data['caminho_arquivo'] = $caminhoArquivo;
             } else {
-                $data->caminho_arquivo = null;
+                $data['caminho_arquivo'] = null;
             }
             $produtoAlterado = ProdutosLocalRegras::alterarProduto($data, $codigo_produto);
-            // ProdutosLocalRegras::alterarVariantes($data, $produtoLocal);
+            ProdutosLocalRegras::alterarLinhasEFuncoes($data, $produtoAlterado);
             DB::commit();
             return response(['message' => 'Produto Alterado com sucesso!']);
         } catch(Exception $e) {
