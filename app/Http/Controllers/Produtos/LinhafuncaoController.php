@@ -176,9 +176,9 @@ class LinhafuncaoController extends Controller
         foreach($prodLinhas as $linha) {
             $pl = new ProdLinha();
 
-            $pl->codigo_linha = $linha['ID_LINHA'];
-            $pl->descricao_linha = $linha['LINHA_DSC'];
-            $pl->codigo_produto = $linha['ID_PRD'];
+            $pl->codigo_linha = $linha->ID_LINHA;
+            $pl->descricao_linha = $linha->LINHA_DSC;
+            $pl->codigo_produto = $linha->ID_PRD;
             $pl->save();
         }
 
@@ -189,9 +189,9 @@ class LinhafuncaoController extends Controller
         foreach($prodFuncao as $funcao) {
             $pf = new ProdFuncao();
 
-            $pf->codigo_funcao = $funcao['ID_FUNCAO'];
-            $pf->descricao_funcao = $funcao['FUNCAO_DSC'];
-            $pf->codigo_produto = $funcao['ID_PRD'];
+            $pf->codigo_funcao = $funcao->ID_FUNCAO;
+            $pf->descricao_funcao = $funcao->FUNCAO_DSC;
+            $pf->codigo_produto = $funcao->ID_PRD;
             $pf->save();
         }
 
