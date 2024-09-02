@@ -144,8 +144,8 @@ class LinhafuncaoController extends Controller
         foreach($linhas as $linha) {
             $l = new Linha();
 
-            $l->codigo_linha = $linha['ID'];
-            $l->descricao_linha = $linha['DESCRICAO'];
+            $l->codigo_linha = $linha->ID;
+            $l->descricao_linha = $linha->DESCRICAO;
             $l->save();
         }
 
@@ -157,8 +157,8 @@ class LinhafuncaoController extends Controller
         foreach($funcoes as $funcao) {
             $f = new Funcao();
 
-            $f->codigo_funcao = $funcao['ID'];
-            $f->descricao_funcao = $funcao['DESCRICAO'];
+            $f->codigo_funcao = $funcao->ID;
+            $f->descricao_funcao = $funcao->DESCRICAO;
             $f->save();
         }
 
