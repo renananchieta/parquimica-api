@@ -97,6 +97,7 @@ class ProdutosLocalController extends Controller
                 $data['caminho_arquivo'] = null;
             }
             $produtoLocal = ProdutosLocalRegras::salvarProduto($data);
+            ProdutosLocalRegras::salvarVariantes($data, $produtoLocal);
             ProdutosLocalRegras::salvarLinhasEFuncoes($data, $produtoLocal);
             DB::commit();
             return response([

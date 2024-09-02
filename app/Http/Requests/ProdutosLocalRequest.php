@@ -27,18 +27,19 @@ class ProdutosLocalRequest extends FormRequest
             'codigoProduto' => 'required|integer',
             'subtituloProduto' => 'required|string',
             'modoAcao' => 'required|string',
-            'variantes' => 'nullable|string',
+            // 'variantes' => 'nullable|string',
             'slug' => 'nullable|string',
             'recomendacao' => 'nullable|string',
             'ativo_site' => 'nullable|integer',
 
             'linha' => 'required|array',
             'linha.*.codigo_linha' => 'required|integer',
-            // 'linha.*.descricao_linha' => 'required|string',
 
             'funcao' => 'required|array',
             'funcao.*.codigo_funcao' => 'required|integer',
-            // 'funcao.*.descricao_funcao' => 'required|string',
+
+            'variantes' => 'required|array',
+            'variantes.*.codigo_produto' => 'required|integer',
 
             // 'linha' => 'nullable|string',
             // 'funcao' => 'nullable|string',
@@ -54,7 +55,7 @@ class ProdutosLocalRequest extends FormRequest
                 'codigo_produto' => $this->request->get('codigoProduto'),
                 'subtitulo' => $this->request->get('subtituloProduto'),
                 'modo_acao' => $this->request->get('modoAcao'),
-                'variantes' => $this->request->get('variantes'),
+                // 'variantes' => $this->request->get('variantes'),
                 'slug' => $this->request->get('slug'),
                 'recomendacao' => $this->request->get('recomendacao'),
                 'ativo_site' => $this->request->get('ativo_site'),
@@ -62,6 +63,7 @@ class ProdutosLocalRequest extends FormRequest
 
             'linha' => request()->linha,
             'funcao' => request()->funcao,
+            'variantes' => request()->variantes,
             // 'arquivo' => $this->file('arquivo'),
         ];
     }

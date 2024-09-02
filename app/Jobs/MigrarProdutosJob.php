@@ -108,6 +108,7 @@ class MigrarProdutosJob implements ShouldQueue
             $p->nome_produto = $nome_produto;
             $p->subtitulo = $subtitulo_produto;
             $p->modo_acao = $modo_acao;
+            $p->slug = $nome_produto;
             $p->save();
 
             // return $p;

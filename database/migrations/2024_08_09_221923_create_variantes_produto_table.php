@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('variantes_produto', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('produto_id')->constrained('produtos');
+            $table->integer('codigo_produto');
             $table->integer('codigo_produto_variante')->nullable();
+            $table->string('descricao_produto_variante')->nullable();
             $table->timestamps();
-            $table->string('slug')->nullable();
             $table->softDeletes();
         });
     }
