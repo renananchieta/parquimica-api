@@ -195,6 +195,6 @@ class LinhafuncaoController extends Controller
             $pf->save();
         }
 
-        return response(['mensagem' => 'Relacionamento de Linhas e Funções produtos cadastrados com sucesso'], 201)
+        return response(['mensagem' => 'Relacionamento de Linhas e Funções produtos cadastrados com sucesso'], 201);
     }
 }
