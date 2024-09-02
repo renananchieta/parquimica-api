@@ -87,6 +87,9 @@ class ProdutosLocalController extends Controller
         $data = $request->valid();
         try {
             DB::beginTransaction();
+            //Verifica se o produto existe e deleta ele
+            ProdutosLocalRegras::existeProdutoLocal($data);
+
             if ($request->hasFile('arquivo')) {
                 $arquivo = $request->file('arquivo');
     
@@ -96,6 +99,7 @@ class ProdutosLocalController extends Controller
             } else {
                 $data['caminho_arquivo'] = null;
             }
+            
             $produtoLocal = ProdutosLocalRegras::salvarProduto($data);
             ProdutosLocalRegras::salvarVariantes($data, $produtoLocal);
             ProdutosLocalRegras::salvarLinhasEFuncoes($data, $produtoLocal);

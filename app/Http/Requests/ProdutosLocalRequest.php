@@ -23,6 +23,7 @@ class ProdutosLocalRequest extends FormRequest
     {
         return [
             //Produto
+            'id' => 'nullable|string',
             'nomeProduto' => 'required|string',
             'codigoProduto' => 'required|integer',
             'subtituloProduto' => 'required|string',
@@ -51,6 +52,7 @@ class ProdutosLocalRequest extends FormRequest
     {
         return [
             'produto' => [
+                'id' => $this->request->get('id'),
                 'nome_produto' => $this->request->get('nomeProduto'),
                 'codigo_produto' => $this->request->get('codigoProduto'),
                 'subtitulo' => $this->request->get('subtituloProduto'),

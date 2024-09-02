@@ -265,4 +265,19 @@ class ProdutosLocalRegras
 
         return 'success';
     }
+
+    public static function existeProdutoLocal($data)
+    {
+        $data = (Object)$data['produto'];
+        $produto = ProdutosLocal::where('codigo_produto', $data->codigo_produto)->first();
+
+        if($produto){
+            ProdutosLocal::where('codigo_produto', $data->codigo_produto)->delete();
+            ProdLinha::where('codigo_produto', $data->codigo_produto)->delete();
+            ProdFuncao::where('codigo_produto', $data->codigo_produto)->delete();
+            VariantesProduto::where('codigo_produto', $data->codigo_produto)->delete();
+        }
+        
+        return;
+    }
 }
