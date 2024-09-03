@@ -34,6 +34,7 @@ class ProdutosLocalDB
             ->join('prod_funcao as pf', 'pf.codigo_produto', '=', 'p.codigo_produto')
             ->join('variantes_produto as vp', 'vp.codigo_produto', '=', 'p.codigo_produto')
             ->where('p.codigo_produto', $codigo_produto)
+            ->whereNull('p.deleted_at')
             ->groupBy(
                 'p.id',
                 'p.codigo_produto',
