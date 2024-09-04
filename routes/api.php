@@ -7,6 +7,7 @@ use App\Http\Controllers\Produtos\LinhafuncaoController;
 use App\Http\Controllers\Produtos\ProdutosLocalController;
 use App\Http\Controllers\Seguranca\PerfilController;
 use App\Http\Controllers\Seguranca\UsuarioController;
+use App\Http\Controllers\Site\SitePostagemController;
 use App\Models\Entity\Produtos\ProdutosLocal;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -99,11 +100,19 @@ Route::get('/area-restrita/produtos/salvar-na-minha-maquina', [ProdutosLocalCont
 Route::get('/area-restrita/linha-funcao/salvar-na-minha-maquina', [LinhafuncaoController::class, 'salvarNaMinhaMaquinaLinhaFuncao']);
 Route::get('/area-restrita/prod-linha-prod-funcao/salvar-na-minha-maquina', [LinhafuncaoController::class, 'salvarNaMinhaMaquinaProdLinhaProdFuncao']);
 
+// Produtos
 Route::get('/area-restrita/produtos/base-local', [ProdutosLocalController::class, 'index']);
 Route::get('/area-restrita/produtos/base-local/todos', [ProdutosLocalController::class, 'gridProdutos']);
 Route::post('/area-restrita/produtos', [ProdutosLocalController::class, 'store']);
 Route::get('/area-restrita/produto/{codigo_produto}', [ProdutosLocalController::class, 'show']);
 Route::put('/area-restrita/produto/{codigo_produto}/update', [ProdutosLocalController::class, 'update']);
 Route::get('/area-restrita/combos/linhas-funcoes', [LinhafuncaoController::class, 'combos']);
+
+// Postagem Site
+Route::post('/area-restrita/site/postagem/store', [SitePostagemController::class, 'store']);
+Route::get('/area-restrita/site/postagem/grid', [SitePostagemController::class, 'index']);
+Route::get('/area-restrita/site/postagem/show/{id}', [SitePostagemController::class, 'show']);
+Route::put('/area-restrita/site/postagem/update/{postagemSite}', [SitePostagemController::class, 'update']);
+Route::delete('/area-restrita/site/postagem/{id}', [SitePostagemController::class, 'delete']);
 
 // Route::get('/area-restrita/puxar-linha-funcao-para-base-local', [LinhafuncaoController::class, 'cadastrarLinhaFuncao']);
