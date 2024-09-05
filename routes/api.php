@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Blog\BlogPostagemController;
 use App\Http\Controllers\Catalogo\CatalogoController;
 use App\Http\Controllers\ImpressaoController;
 use App\Http\Controllers\Produtos\LinhafuncaoController;
@@ -114,5 +115,12 @@ Route::get('/area-restrita/site/postagem/grid', [SitePostagemController::class, 
 Route::get('/area-restrita/site/postagem/show/{id}', [SitePostagemController::class, 'show']);
 Route::put('/area-restrita/site/postagem/update/{postagemSite}', [SitePostagemController::class, 'update']);
 Route::delete('/area-restrita/site/postagem/{id}', [SitePostagemController::class, 'delete']);
+
+// Postagem Blog
+Route::post('/area-restrita/blog/postagem/store', [BlogPostagemController::class, 'store']);
+Route::get('/area-restrita/blog/postagem/grid', [BlogPostagemController::class, 'index']);
+Route::get('/area-restrita/blog/postagem/show/{id}', [BlogPostagemController::class, 'show']);
+Route::put('/area-restrita/blog/postagem/update/{postagemBlog}', [BlogPostagemController::class, 'update']);
+Route::delete('/area-restrita/blog/postagem/{id}', [BlogPostagemController::class, 'delete']);
 
 // Route::get('/area-restrita/puxar-linha-funcao-para-base-local', [LinhafuncaoController::class, 'cadastrarLinhaFuncao']);
