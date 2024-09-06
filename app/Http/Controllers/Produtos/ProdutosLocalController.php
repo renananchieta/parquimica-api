@@ -95,9 +95,9 @@ class ProdutosLocalController extends Controller
     
                 $caminhoArquivo = $arquivo->store('produtos', 'public');
     
-                $data['caminho_arquivo'] = $caminhoArquivo;
+                $data['produto']['caminho_arquivo'] = $caminhoArquivo;
             } else {
-                $data['caminho_arquivo'] = null;
+                $data['produto']['caminho_arquivo'] = null;
             }
             
             $produtoLocal = ProdutosLocalRegras::salvarProduto($data);

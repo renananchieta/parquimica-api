@@ -44,7 +44,7 @@ class ProdutosLocalRequest extends FormRequest
 
             // 'linha' => 'nullable|string',
             // 'funcao' => 'nullable|string',
-            // 'arquivo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'arquivo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 
@@ -66,7 +66,7 @@ class ProdutosLocalRequest extends FormRequest
             'linha' => request()->linha,
             'funcao' => request()->funcao,
             'variantes' => request()->variantes,
-            // 'arquivo' => $this->file('arquivo'),
+            'arquivo' => $this->file('arquivo'),
         ];
     }
 }
