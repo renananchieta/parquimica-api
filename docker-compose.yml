@@ -1,0 +1,83 @@
+version: "3.8"
+services:
+    app:
+        build:
+            args:
+                user: dime
+                uid: 1000
+            context: ./
+            dockerfile: docker/docker-compose/php/php.dockerfile
+        image: php-skeleton82
+        extra_hosts:
+            - host.docker.internal:host-gateway
+        container_name: ${APP_NAME:-php}-app
+        restart: unless-stopped
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+            - ./docker/docker-compose/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+            - ./docker/docker-compose/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+            - ./docker/docker-compose/php/.bashrc:/home/dime/.bashrc
+        networks:
+            - dev
+
+    nginx:
+        image: nginx:alpine
+        container_name: ${APP_NAME:-web}-nginx
+        restart: unless-stopped
+        ports:
+            - "8000:8000"
+        volumes:
+            - ./:/var/www
+            - ./docker/docker-compose/nginx:/etc/nginx/conf.d
+        networks:
+            - dev
+        links:
+            - app
+
+    ############################
+    # MySQL
+    ############################
+    db:
+        image: mysql:latest
+        container_name: ${APP_NAME:-mysql}-db
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: ${DB_DATABASE:-skeleton}
+            MYSQL_PASSWORD: ${DB_PASSWORD:-123456789}
+        ports:
+            - "3307:3306"
+        volumes:
+            - /home/${USUARIO:-dime}/mysqldb:/var/lib/mysql
+        networks:
+            - dev
+
+    # queue
+    # queue:
+    #     image: especializati/laravel9-app
+    #     container_name: ${APP_NAME:-queue}-queue
+    #     restart: unless-stopped
+    #     command: "php artisan queue:work"
+    #     volumes:
+    #         - ./:/var/www
+    #     depends_on:
+    #         - redis
+    #         - app
+    #     networks:
+    #         - dev
+
+    # redis
+    # redis:
+    #     image: redis:latest
+    #     container_name: ${APP_NAME:-redis}-redis
+    #     ports: 
+    #         - "6379:6379"
+    #     volumes:
+    #         - ./redis/data:/var/www/data
+    #     networks:
+    #         - dev
+
+networks:
+    dev:
+        driver: bridge
