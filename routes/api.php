@@ -108,6 +108,7 @@ Route::post('/area-restrita/produtos', [ProdutosLocalController::class, 'store']
 Route::get('/area-restrita/produto/{codigo_produto}', [ProdutosLocalController::class, 'show']);
 Route::put('/area-restrita/produto/{codigo_produto}/update', [ProdutosLocalController::class, 'update']);
 Route::get('/area-restrita/combos/linhas-funcoes', [LinhafuncaoController::class, 'combos']);
+Route::get('/area-restrita/produtos/exibir-imagem/{id}', [ProdutosLocalController::class, 'showArquivo']);
 
 // Postagem Site
 Route::post('/area-restrita/site/postagem/store', [SitePostagemController::class, 'store']);

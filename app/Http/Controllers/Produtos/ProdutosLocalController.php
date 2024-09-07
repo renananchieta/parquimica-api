@@ -122,8 +122,6 @@ class ProdutosLocalController extends Controller
         try {
             DB::beginTransaction();
             $produtoLocal = ProdutosLocalDB::getProdutoLocal($codigo_produto);
-            // $produtoLocal = ProdutosLocalDB::getProdutoLocal2($codigo_produto);
-            DB::commit();
             DB::commit();
             return response($produtoLocal);
         } catch(Exception $e) {
@@ -132,9 +130,9 @@ class ProdutosLocalController extends Controller
         }
     }
 
-    public function showArquivo(int $produto_id)
+    public function showArquivo(int $id)
     {
-        return ProdutosLocalRegras::exibirArquivo($produto_id);
+        return ProdutosLocalRegras::exibirArquivo($id);
     }
 
     /**

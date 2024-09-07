@@ -3,6 +3,7 @@
 namespace App\Models\Facade;
 
 use App\Models\Entity\Produtos\ProdutosLocal;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class ProdutosLocalDB 
@@ -30,9 +31,9 @@ class ProdutosLocalDB
     public static function getProdutoLocal($codigo_produto)
     {
         $produtoLocal = DB::table('produtos as p')
-            ->join('prod_linha as pl', 'pl.codigo_produto', '=', 'p.codigo_produto')
-            ->join('prod_funcao as pf', 'pf.codigo_produto', '=', 'p.codigo_produto')
-            ->join('variantes_produto as vp', 'vp.codigo_produto', '=', 'p.codigo_produto')
+            ->leftJoin('prod_linha as pl', 'pl.codigo_produto', '=', 'p.codigo_produto')
+            ->leftJoin('prod_funcao as pf', 'pf.codigo_produto', '=', 'p.codigo_produto')
+            ->leftJoin('variantes_produto as vp', 'vp.codigo_produto', '=', 'p.codigo_produto')
             ->where('p.codigo_produto', $codigo_produto)
             ->whereNull('p.deleted_at')
             ->groupBy(
@@ -138,9 +139,13 @@ class ProdutosLocalDB
             }
         }
 
-        return array_values($agrupado);
-    }
+        if($agrupado) {
+            return array_values($agrupado);
+        } else {
+            throw new Exception('Não foi encontrado nenhum produto.');
+        }
 
+    }
 
     public static function getProdutoLocal2($codigo_produto)
     {

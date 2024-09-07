@@ -241,14 +241,20 @@ class ProdutosLocalRegras
         return $doc;
     }
 
-    public static function exibirArquivo(int $produto_id)
+    public static function exibirArquivo(int $id)
     {
-        $doc = UploadProdutosLocal::where('codigo_produto', $produto_id);
-        $file = stream_get_contents($doc->anexo);
-        $response = response($file);
-        $response->header('Content-Type', 'application/pdf');
-        $response->header('Content-Disposition', 'inline; filename="documento.pdf"');
-        return $response;
+        $arquivo = ProdutosLocal::find($id);
+        $filePath = $arquivo->caminho_arquivo;
+        
+        if (Storage::disk('public')->exists($filePath)) {
+            $mimeType = Storage::disk('public')->mimeType($filePath);  // Detecta o tipo MIME correto da imagem
+            return Storage::disk('public')->download($filePath, $arquivo->caminho_arquivo, [
+                'Content-Type' => $mimeType,
+                'Content-Disposition' => 'inline; filename="' . $arquivo->caminho_arquivo . '"'
+            ]);
+        } else {
+            return response()->json(['error' => 'Arquivo não encontrado.'], 404);
+        }
     }
 
     public static function atualizarProdutoAtivoSite(array $data)
