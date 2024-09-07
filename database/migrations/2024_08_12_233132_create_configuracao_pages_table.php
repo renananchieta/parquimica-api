@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->string('tipo');
-            $table->text('texto');
+            $table->longText('texto');
             $table->string('caminho_arquivo')->nullable();
             $table->string('categoria');
             $table->dateTime('data_publicacao');
