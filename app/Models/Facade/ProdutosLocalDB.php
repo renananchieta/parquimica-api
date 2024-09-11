@@ -33,7 +33,7 @@ class ProdutosLocalDB
         $produtoLocal = DB::table('produtos as p')
             ->leftJoin('prod_linha as pl', 'pl.codigo_produto', '=', 'p.codigo_produto')
             ->leftJoin('prod_funcao as pf', 'pf.codigo_produto', '=', 'p.codigo_produto')
-            ->leftJoin('variantes_produto as vp', 'vp.codigo_produto', '=', 'p.codigo_produto')
+            // ->leftJoin('variantes_produto as vp', 'vp.codigo_produto', '=', 'p.codigo_produto')
             ->where('p.codigo_produto', $codigo_produto)
             ->whereNull('p.deleted_at')
             ->groupBy(
@@ -45,12 +45,13 @@ class ProdutosLocalDB
                 'p.slug',
                 'p.ativo_site',
                 'p.recomendacao',
+                'p.variantes',
                 'pl.codigo_linha',
                 'pl.descricao_linha',
                 'pf.codigo_funcao',
                 'pf.descricao_funcao',
-                'vp.codigo_produto_variante',
-                'vp.descricao_produto_variante',
+                // 'vp.codigo_produto_variante',
+                // 'vp.descricao_produto_variante',
             )
             ->get([
                 'p.id',
@@ -61,12 +62,13 @@ class ProdutosLocalDB
                 'p.slug',
                 'p.ativo_site',
                 'p.recomendacao',
+                'p.variantes',
                 'pl.codigo_linha',
                 'pl.descricao_linha',
                 'pf.codigo_funcao',
                 'pf.descricao_funcao',
-                'vp.codigo_produto_variante',
-                'vp.descricao_produto_variante',
+                // 'vp.codigo_produto_variante',
+                // 'vp.descricao_produto_variante',
             ]);
 
         $agrupado = [];
@@ -83,10 +85,11 @@ class ProdutosLocalDB
                     'modo_acao' => $produto->modo_acao,
                     'slug' => $produto->slug,
                     'ativo_site' => $produto->ativo_site,
-                    'recomendacao' => $produto->recomendacao,
+                    'recomendacao' => $produto->recomendacao, 
+                    'variantes' => $produto->variantes,
                     'linhas' => [],
                     'funcoes' => [],
-                    'variantes' => [],
+                    // 'variantes' => [],
                 ];
             }
 
@@ -123,20 +126,20 @@ class ProdutosLocalDB
             }
 
             // Verifica se a variante já foi adicionada
-            $varianteExiste = false;
-            foreach ($agrupado[$idProduto]['variantes'] as $variante) {
-                if ($variante['codigo_produto'] === $produto->codigo_produto_variante && $variante['nome_produto'] === $produto->descricao_produto_variante) {
-                    $varianteExiste = true;
-                    break;
-                }
-            }
+            // $varianteExiste = false;
+            // foreach ($agrupado[$idProduto]['variantes'] as $variante) {
+            //     if ($variante['codigo_produto'] === $produto->codigo_produto_variante && $variante['nome_produto'] === $produto->descricao_produto_variante) {
+            //         $varianteExiste = true;
+            //         break;
+            //     }
+            // }
 
-            if (!$varianteExiste) {
-                $agrupado[$idProduto]['variantes'][] = [
-                    'codigo_produto' => $produto->codigo_produto_variante,
-                    'nome_produto' => $produto->descricao_produto_variante,
-                ];
-            }
+            // if (!$varianteExiste) {
+            //     $agrupado[$idProduto]['variantes'][] = [
+            //         'codigo_produto' => $produto->codigo_produto_variante,
+            //         'nome_produto' => $produto->descricao_produto_variante,
+            //     ];
+            // }
         }
 
         if($agrupado) {

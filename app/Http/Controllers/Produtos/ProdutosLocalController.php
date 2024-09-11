@@ -101,7 +101,7 @@ class ProdutosLocalController extends Controller
             }
             
             $produtoLocal = ProdutosLocalRegras::salvarProduto($data);
-            ProdutosLocalRegras::salvarVariantes($data, $produtoLocal);
+            // ProdutosLocalRegras::salvarVariantes($data, $produtoLocal);
             ProdutosLocalRegras::salvarLinhasEFuncoes($data, $produtoLocal);
             DB::commit();
             return response([
