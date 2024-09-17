@@ -15,16 +15,27 @@ class ProdutosLocalDB
 
     public static function getProdutosTodos($params)
     {
-        $query = ProdutosLocal::query();
+        // $query = ProdutosLocal::query();
 
-        if(isset($params->nome_produto)) {
-            $query->where('nome_produto', 'like', '%' . $params->nome_produto . '%');
+        $query = DB::table('produtos as p')
+                    ->select('p.codigo_produto', 'p.nome_produto')
+                    ->join('prod_linha as pl', 'pl.codigo_produto', '=', 'p.codigo_produto')
+                    ->join('prod_funcao as pf', 'pf.codigo_produto', '=', 'p.codigo_produto');
+
+        if(isset($params->codigo_produto)) {
+            $query->where('p.codigo_produto', $params->codigo_produto);
         }
 
-        $produtos = $query->where('ativo_site', 1)->get();
-        // $produtos = $query->get();
+        if(isset($params->codigo_linha)) {
+            $query->where('pl.codigo_linha', $params->codigo_linha);
+        }
 
-        // return ProdutosLocal::where('ativo_site', 1)->get();
+        if(isset($params->codigo_funcao)) {
+            $query->where('pf.codigo_funcao', $params->codigo_funcao);
+        }
+
+        $produtos = $query->where('ativo_site', 1)->distinct('p.codigo_produto')->orderBy('p.nome_produto')->get();
+
         return $produtos;
     }
 
