@@ -35,6 +35,20 @@ class ProdutosLocalController extends Controller
         }
     }
 
+    public function produtosPaginate(Request $request)
+    {
+        $parametros = (Object)$request->all();
+        try {
+            DB::beginTransaction();
+            $produtosLocal = ProdutosLocalDB::getProdutosTodosPaginado($parametros);
+            DB::commit();
+            return response($produtosLocal);
+        } catch(Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
     public function gridProdutos(Request $request)
     {
         $parametros = (Object)$request->all();

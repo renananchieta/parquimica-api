@@ -15,10 +15,8 @@ class ProdutosLocalDB
 
     public static function getProdutosTodos($params)
     {
-        // $query = ProdutosLocal::query();
-
         $query = DB::table('produtos as p')
-                    ->select('p.codigo_produto', 'p.nome_produto')
+                    ->select('p.codigo_produto', 'p.nome_produto', 'p.modo_acao')
                     ->join('prod_linha as pl', 'pl.codigo_produto', '=', 'p.codigo_produto')
                     ->join('prod_funcao as pf', 'pf.codigo_produto', '=', 'p.codigo_produto');
 
@@ -35,6 +33,40 @@ class ProdutosLocalDB
         }
 
         $produtos = $query->where('ativo_site', 1)->distinct('p.codigo_produto')->orderBy('p.nome_produto')->get();
+
+        return $produtos;
+    }
+
+    
+    public static function getProdutosTodosPaginado($params)
+    {
+        $query = DB::table('produtos as p')
+                    ->select('p.codigo_produto', 'p.nome_produto', 'p.modo_acao')
+                    ->join('prod_linha as pl', 'pl.codigo_produto', '=', 'p.codigo_produto')
+                    ->join('prod_funcao as pf', 'pf.codigo_produto', '=', 'p.codigo_produto');
+
+        if(isset($params->codigo_produto)) {
+            $query->where('p.codigo_produto', $params->codigo_produto);
+        }
+
+        if(isset($params->codigo_linha)) {
+            $query->where('pl.codigo_linha', $params->codigo_linha);
+        }
+
+        if(isset($params->codigo_funcao)) {
+            $query->where('pf.codigo_funcao', $params->codigo_funcao);
+        }
+
+        $ordem = isset($params->ordem) && in_array($params->ordem, ['asc', 'desc']) ? $params->ordem : 'asc';
+
+        $perPage = isset($params->perPage) && is_numeric($params->perPage) ? $params->perPage : 10;
+        
+        $page = isset($params->page) && is_numeric($params->page) ? $params->page : 1;
+    
+        $produtos = $query->where('ativo_site', 1)
+                          ->distinct('p.codigo_produto')
+                          ->orderBy('p.nome_produto', $ordem)
+                          ->paginate($perPage, ['*'], 'page', $page);
 
         return $produtos;
     }

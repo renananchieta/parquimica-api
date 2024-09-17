@@ -103,6 +103,7 @@ Route::get('/area-restrita/prod-linha-prod-funcao/salvar-na-minha-maquina', [Lin
 
 // Produtos
 Route::get('/area-restrita/produtos/base-local', [ProdutosLocalController::class, 'index']);
+Route::get('/area-restrita/produtos/paginate', [ProdutosLocalController::class, 'produtosPaginate']);
 Route::get('/area-restrita/produtos/base-local/todos', [ProdutosLocalController::class, 'gridProdutos']);
 Route::post('/area-restrita/produtos', [ProdutosLocalController::class, 'store']);
 Route::get('/area-restrita/produto/{codigo_produto}', [ProdutosLocalController::class, 'show']);
