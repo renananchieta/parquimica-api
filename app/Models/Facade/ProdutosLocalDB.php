@@ -32,7 +32,7 @@ class ProdutosLocalDB
             $query->where('pf.codigo_funcao', $params->codigo_funcao);
         }
 
-        $produtos = $query->where('ativo_site', 1)->distinct('p.codigo_produto')->orderBy('p.nome_produto')->get();
+        $produtos = $query->where('ativo_site', 1)->whereNull('p.deleted_at')->distinct('p.codigo_produto')->orderBy('p.nome_produto')->get();
 
         return $produtos;
     }
@@ -63,7 +63,7 @@ class ProdutosLocalDB
         
         $page = isset($params->page) && is_numeric($params->page) ? $params->page : 1;
     
-        $produtos = $query->where('ativo_site', 1)
+        $produtos = $query->where('ativo_site', 1)->whereNull('p.deleted_at')
                           ->distinct('p.codigo_produto')
                           ->orderBy('p.nome_produto', $ordem)
                           ->paginate($perPage, ['*'], 'page', $page);
