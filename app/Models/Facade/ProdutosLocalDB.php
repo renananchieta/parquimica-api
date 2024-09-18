@@ -16,7 +16,7 @@ class ProdutosLocalDB
     public static function getProdutosTodos($params)
     {
         $query = DB::table('produtos as p')
-                    ->select('p.codigo_produto', 'p.nome_produto', 'p.modo_acao')
+                    ->select('p.id', 'p.codigo_produto', 'p.nome_produto', 'p.modo_acao')
                     ->join('prod_linha as pl', 'pl.codigo_produto', '=', 'p.codigo_produto')
                     ->join('prod_funcao as pf', 'pf.codigo_produto', '=', 'p.codigo_produto');
 
@@ -90,23 +90,19 @@ class ProdutosLocalDB
             $query->where('pf.codigo_funcao', $params->codigo_funcao);
         }
     
-        // Definir a ordenação (asc ou desc)
         $ordem = isset($params->ordem) && in_array($params->ordem, ['asc', 'desc']) ? $params->ordem : 'asc';
     
-        // Paginação
         $perPage = isset($params->perPage) && is_numeric($params->perPage) ? $params->perPage : 10;
         $page = isset($params->page) && is_numeric($params->page) ? $params->page : 1;
     
-        // Executar a consulta com paginação
         $produtos = $query->where('ativo_site', 1)
             ->whereNull('p.deleted_at')
             ->orderBy('p.nome_produto', $ordem)
             ->paginate($perPage, ['*'], 'page', $page);
     
-        // Transformar campos de JSON string para arrays
         $produtos->getCollection()->transform(function ($produto) {
-            $produto->linhas = json_decode($produto->linhas, true); // Decodificar JSON para array
-            $produto->funcoes = json_decode($produto->funcoes, true); // Decodificar JSON para array
+            $produto->linhas = json_decode($produto->linhas, true); 
+            $produto->funcoes = json_decode($produto->funcoes, true); 
             return $produto;
         });
     

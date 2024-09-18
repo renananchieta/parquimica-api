@@ -150,14 +150,6 @@ class ProdutosLocalController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(ProdutosLocalRequest $request, $codigo_produto)
@@ -205,7 +197,15 @@ class ProdutosLocalController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try{
+            DB::beginTransaction();
+            ProdutosLocal::find($id)->delete();
+            DB::commit();
+            return response(['message' => 'Produto removido com sucesso'], 200);
+        } catch(Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
     }
 
     public function cadastrarProdutosBaseLocal(Request $request)
