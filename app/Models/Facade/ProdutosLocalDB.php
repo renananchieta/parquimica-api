@@ -41,35 +41,75 @@ class ProdutosLocalDB
     public static function getProdutosTodosPaginado($params)
     {
         $query = DB::table('produtos as p')
-                    ->select('p.codigo_produto', 'p.nome_produto', 'p.modo_acao')
-                    ->join('prod_linha as pl', 'pl.codigo_produto', '=', 'p.codigo_produto')
-                    ->join('prod_funcao as pf', 'pf.codigo_produto', '=', 'p.codigo_produto');
-
-        if(isset($params->codigo_produto)) {
+            ->select(
+                'p.codigo_produto',
+                'p.nome_produto',
+                'p.modo_acao',
+                DB::raw('
+                    JSON_ARRAYAGG(
+                        JSON_OBJECT(
+                            "codigo_linha", pl.codigo_linha,
+                            "descricao_linha", l.descricao_linha
+                        )
+                    ) as linhas
+                '),
+                DB::raw('
+                    JSON_ARRAYAGG(
+                        JSON_OBJECT(
+                            "codigo_funcao", pf.codigo_funcao,
+                            "descricao_funcao", f.descricao_funcao
+                        )
+                    ) as funcoes
+                ')
+            )
+            ->leftJoin('prod_linha as pl', 'pl.codigo_produto', '=', 'p.codigo_produto')
+            ->leftJoin('linha as l', 'l.codigo_linha', '=', 'pl.codigo_linha') // Join para pegar descrição da linha
+            ->leftJoin('prod_funcao as pf', 'pf.codigo_produto', '=', 'p.codigo_produto')
+            ->leftJoin('funcao as f', 'f.codigo_funcao', '=', 'pf.codigo_funcao') // Join para pegar descrição da função
+            ->groupBy('p.codigo_produto', 'p.nome_produto', 'p.modo_acao');
+    
+        // Filtros opcionais
+        if (isset($params->nome_produto)) {
+            $query->where('p.nome_produto', 'like', '%' . $params->nome_produto . '%');
+        }
+    
+        if (isset($params->codigo_produto)) {
             $query->where('p.codigo_produto', $params->codigo_produto);
         }
-
-        if(isset($params->codigo_linha)) {
+    
+        if (isset($params->codigo_linha)) {
             $query->where('pl.codigo_linha', $params->codigo_linha);
         }
-
-        if(isset($params->codigo_funcao)) {
+    
+        if (isset($params->codigo_funcao)) {
             $query->where('pf.codigo_funcao', $params->codigo_funcao);
         }
-
+    
+        // Definir a ordenação (asc ou desc)
         $ordem = isset($params->ordem) && in_array($params->ordem, ['asc', 'desc']) ? $params->ordem : 'asc';
-
+    
+        // Paginação
         $perPage = isset($params->perPage) && is_numeric($params->perPage) ? $params->perPage : 10;
-        
         $page = isset($params->page) && is_numeric($params->page) ? $params->page : 1;
     
-        $produtos = $query->where('ativo_site', 1)->whereNull('p.deleted_at')
-                          ->distinct('p.codigo_produto')
-                          ->orderBy('p.nome_produto', $ordem)
-                          ->paginate($perPage, ['*'], 'page', $page);
-
+        // Executar a consulta com paginação
+        $produtos = $query->where('ativo_site', 1)
+            ->whereNull('p.deleted_at')
+            ->orderBy('p.nome_produto', $ordem)
+            ->paginate($perPage, ['*'], 'page', $page);
+    
+        // Transformar campos de JSON string para arrays
+        $produtos->getCollection()->transform(function ($produto) {
+            $produto->linhas = json_decode($produto->linhas, true); // Decodificar JSON para array
+            $produto->funcoes = json_decode($produto->funcoes, true); // Decodificar JSON para array
+            return $produto;
+        });
+    
         return $produtos;
     }
+    
+    
+    
 
     public static function getProdutoLocal($codigo_produto)
     {
