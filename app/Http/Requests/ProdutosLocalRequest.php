@@ -44,7 +44,7 @@ class ProdutosLocalRequest extends FormRequest
 
             // 'linha' => 'nullable|string',
             // 'funcao' => 'nullable|string',
-            'arquivo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'arquivo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ];
     }
 

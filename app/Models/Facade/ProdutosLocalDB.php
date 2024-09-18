@@ -45,6 +45,11 @@ class ProdutosLocalDB
                 'p.codigo_produto',
                 'p.nome_produto',
                 'p.modo_acao',
+                'p.subtitulo',
+                'p.recomendacao',
+                'p.slug',
+                'p.variantes',
+                'p.caminho_arquivo',
                 DB::raw('
                     JSON_ARRAYAGG(
                         JSON_OBJECT(
