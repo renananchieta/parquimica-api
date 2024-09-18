@@ -72,7 +72,7 @@ class ProdutosLocalDB
             ->leftJoin('linha as l', 'l.codigo_linha', '=', 'pl.codigo_linha') // Join para pegar descrição da linha
             ->leftJoin('prod_funcao as pf', 'pf.codigo_produto', '=', 'p.codigo_produto')
             ->leftJoin('funcao as f', 'f.codigo_funcao', '=', 'pf.codigo_funcao') // Join para pegar descrição da função
-            ->groupBy('p.codigo_produto', 'p.nome_produto', 'p.modo_acao');
+            ->groupBy('p.id','p.codigo_produto', 'p.nome_produto', 'p.modo_acao');
     
         // Filtros opcionais
         if (isset($params->nome_produto)) {
