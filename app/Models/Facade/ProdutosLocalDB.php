@@ -42,6 +42,7 @@ class ProdutosLocalDB
     {
         $query = DB::table('produtos as p')
             ->select(
+                'p.id',
                 'p.codigo_produto',
                 'p.nome_produto',
                 'p.modo_acao',
