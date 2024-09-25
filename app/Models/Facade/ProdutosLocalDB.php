@@ -109,9 +109,6 @@ class ProdutosLocalDB
     
         return $produtos;
     }
-    
-    
-    
 
     public static function getProdutoLocal($codigo_produto)
     {

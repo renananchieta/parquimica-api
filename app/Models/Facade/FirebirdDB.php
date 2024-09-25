@@ -17,12 +17,14 @@ class FirebirdDB
                     MAX(sp.embalagem) as embalagem, 
                     MAX(sp.emb_abreviada) as emb_abreviada, 
                     MAX(sp.preco) as preco,
-                    MAX(sp.ativo_site) as ativo_site
+                    MAX(sp.ativo_site) as ativo_site,
+                    LIST(DISTINCT sl.descricao_linha || \':\' || spl.id_linha) as linhas,
+                    LIST(DISTINCT sf.descricao_funcao || \':\' || spf.id_funcao) as funcoes
                 FROM site_produtos sp
-                    JOIN site_prod_linha spl ON sp.id = spl.id_prd
-                    JOIN site_prod_funcao spf ON sp.id = spf.id_prd
-                    JOIN site_linhas sl ON sl.id = spl.id_linha
-                    JOIN site_funcoes sf ON sf.id = spf.id_funcao';
+                JOIN site_prod_linha spl ON sp.id = spl.id_prd
+                JOIN site_linhas sl ON sl.id = spl.id_linha
+                JOIN site_prod_funcao spf ON sp.id = spf.id_prd
+                JOIN site_funcoes sf ON sf.id = spf.id_funcao';
     
         $condicionais = [];
     
@@ -34,10 +36,6 @@ class FirebirdDB
             $condicionais[] = "spf.id_funcao = $params->funcaoId";
         }
     
-        // if (isset($params->nomeProduto)) {
-        //     $condicionais[] = "sp.nome = '$params->nomeProduto'";
-        // }
-
         if (isset($params->nomeProduto)) {
             $condicionais[] = "LOWER(sp.nome) LIKE '%" . strtolower($params->nomeProduto) . "%'";
         }
@@ -63,6 +61,18 @@ class FirebirdDB
             $produto = array_map(function ($item) {
                 return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
             }, $produto);
+    
+            // Transformar as listas de linhas e funções em arrays associativos
+            $produto['linhas'] = array_map(function ($linha) {
+                list($descricao_linha, $codigo_linha) = explode(':', $linha);
+                return ['codigo_linha' => $codigo_linha, 'descricao_linha' => $descricao_linha];
+            }, explode(',', $produto['linhas']));
+    
+            $produto['funcoes'] = array_map(function ($funcao) {
+                list($descricao_funcao, $codigo_funcao) = explode(':', $funcao);
+                return ['codigo_funcao' => $codigo_funcao, 'descricao_funcao' => $descricao_funcao];
+            }, explode(',', $produto['funcoes']));
+    
             return (object) $produto; // Converter de volta para objeto
         }, $produtos);
     
