@@ -172,6 +172,8 @@ class FirebirdDB
 
         $produtosAgrupados = []; // Inicialize a variável para armazenar os produtos agrupados
 
+        $produtosAgrupados = []; // Inicialize a variável para armazenar os produtos agrupados
+
         foreach ($produtos as $produto) {
             $produto = (array) $produto; // Certifique-se de que $produto é um array
 
@@ -198,28 +200,25 @@ class FirebirdDB
                     'ativo_site' => $produto['ATIVO_SITE'],
                     'funcoes' => [],
                     'linhas' => [],
-                    'ids_funcoes' => [], // Para armazenar os IDs das funções
-                    'ids_linhas' => []   // Para armazenar os IDs das linhas
                 ];
             }
 
-            // Adicione as funções e IDs das funções
-            if (isset($produto['FUNCAO_DSC']) && !in_array($produto['FUNCAO_DSC'], $produtosAgrupados[$id]->funcoes)) {
-                $produtosAgrupados[$id]->funcoes[] = $produto['FUNCAO_DSC'];
-            }
-            if (isset($produto['ID_FUNCAO']) && !in_array($produto['ID_FUNCAO'], $produtosAgrupados[$id]->ids_funcoes)) {
-                $produtosAgrupados[$id]->ids_funcoes[] = $produto['ID_FUNCAO'];
+            // Adicione as funções como objetos
+            if (isset($produto['FUNCAO_DSC']) && !in_array($produto['FUNCAO_DSC'], array_column($produtosAgrupados[$id]->funcoes, 'descricao'))) {
+                $produtosAgrupados[$id]->funcoes[] = (object) [
+                    'id_funcao' => $produto['ID_FUNCAO'],
+                    'descricao' => $produto['FUNCAO_DSC']
+                ];
             }
 
-            // Adicione as linhas e IDs das linhas
-            if (isset($produto['LINHA_DSC']) && !in_array($produto['LINHA_DSC'], $produtosAgrupados[$id]->linhas)) {
-                $produtosAgrupados[$id]->linhas[] = $produto['LINHA_DSC'];
-            }
-            if (isset($produto['ID_LINHA']) && !in_array($produto['ID_LINHA'], $produtosAgrupados[$id]->ids_linhas)) {
-                $produtosAgrupados[$id]->ids_linhas[] = $produto['ID_LINHA'];
+            // Adicione as linhas como objetos
+            if (isset($produto['LINHA_DSC']) && !in_array($produto['LINHA_DSC'], array_column($produtosAgrupados[$id]->linhas, 'descricao'))) {
+                $produtosAgrupados[$id]->linhas[] = (object) [
+                    'id_linha' => $produto['ID_LINHA'],
+                    'descricao' => $produto['LINHA_DSC']
+                ];
             }
         }
-
 
         // Converter para array e retornar
         return array_values($produtosAgrupados);
