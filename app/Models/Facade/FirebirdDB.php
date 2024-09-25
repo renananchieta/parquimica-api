@@ -76,7 +76,7 @@ class FirebirdDB
                     sp.emb_abreviada, 
                     sp.preco,
                     sp.ativo_site,
-                    spl.id_funcao,
+                    spf.id_funcao,
                     spf.funcao_dsc,
                     spl.id_linha,
                     spl.linha_dsc
