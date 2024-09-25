@@ -76,7 +76,8 @@ class FirebirdDB
                 sp.emb_abreviada, 
                 sp.preco,
                 sp.ativo_site,
-                spf.funcao_dsc
+                spf.funcao_dsc,
+                spl.linha_dsc
             FROM site_produtos sp
             JOIN site_prod_linha spl ON sp.id = spl.id_prd
             JOIN site_prod_funcao spf ON sp.id = spf.id_prd';
