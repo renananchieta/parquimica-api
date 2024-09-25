@@ -18,23 +18,27 @@ class FirebirdDB
                     MAX(sp.emb_abreviada) as emb_abreviada, 
                     MAX(sp.preco) as preco,
                     MAX(sp.ativo_site) as ativo_site,
-                    LIST(sl.descricao_linha || \':\' || spl.id_linha) as linhas, -- Agregação das linhas
-                    LIST(sf.descricao_funcao || \':\' || spf.id_funcao) as funcoes -- Agregação das funções
-                FROM site_produtos sp
-                JOIN site_prod_linha spl ON sp.id = spl.id_prd
-                JOIN site_linhas sl ON sl.id = spl.id_linha
-                JOIN site_prod_funcao spf ON sp.id = spf.id_prd
-                JOIN site_funcoes sf ON sf.id = spf.id_funcao';
-        
+                    -- Subconsulta para concatenar as linhas
+                    (SELECT LIST(DISTINCT sl.descricao_linha || \':\' || spl.id_linha)
+                     FROM site_prod_linha spl
+                     JOIN site_linhas sl ON sl.id = spl.id_linha
+                     WHERE spl.id_prd = sp.id) as linhas,
+                    -- Subconsulta para concatenar as funções
+                    (SELECT LIST(DISTINCT sf.descricao_funcao || \':\' || spf.id_funcao)
+                     FROM site_prod_funcao spf
+                     JOIN site_funcoes sf ON sf.id = spf.id_funcao
+                     WHERE spf.id_prd = sp.id) as funcoes
+                FROM site_produtos sp';
+    
         // Aplicar filtros
         $condicionais = [];
     
         if (isset($params->linhaId)) {
-            $condicionais[] = "spl.id_linha = $params->linhaId";
+            $condicionais[] = "EXISTS (SELECT 1 FROM site_prod_linha spl WHERE spl.id_prd = sp.id AND spl.id_linha = $params->linhaId)";
         }
     
         if (isset($params->funcaoId)) {
-            $condicionais[] = "spf.id_funcao = $params->funcaoId";
+            $condicionais[] = "EXISTS (SELECT 1 FROM site_prod_funcao spf WHERE spf.id_prd = sp.id AND spf.id_funcao = $params->funcaoId)";
         }
     
         if (isset($params->nomeProduto)) {
@@ -72,7 +76,6 @@ class FirebirdDB
     
         return $produtos;
     }
-    
     
 
     public static function comboProdutos($params)
