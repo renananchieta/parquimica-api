@@ -18,7 +18,7 @@ class FirebirdDB
                     MAX(sp.emb_abreviada) as emb_abreviada, 
                     MAX(sp.preco) as preco,
                     MAX(sp.ativo_site) as ativo_site,
-                    MAX(spf.funcao_dsc) as funcao_dsc
+                    spf.funcao_dsc
                 FROM site_produtos sp
                     JOIN site_prod_linha spl ON sp.id = spl.id_prd
                     JOIN site_prod_funcao spf ON sp.id = spf.id_prd';
