@@ -39,6 +39,14 @@ class FirebirdDB
             $condicionais[] = "sp.nome = $params->nomeProduto";
         }
 
+        if(isset($params->ativoSite)) {
+            $condicionais[] = "sp.ativo_site = $params->ativoSite";
+        }
+
+        if(empty($params->ativoSite)) {
+            $condicionais[] = "sp.ativo_site = 1";
+        }
+
         if(!empty($condicionais)){
             $query .= ' WHERE ' . implode(' AND ', $condicionais);
         }
