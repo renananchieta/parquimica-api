@@ -17,30 +17,27 @@ class FirebirdDB
                     MAX(sp.embalagem) as embalagem, 
                     MAX(sp.emb_abreviada) as emb_abreviada, 
                     MAX(sp.preco) as preco,
-                    MAX(sp.ativo_site) as ativo_site,
-                    -- Subconsulta para concatenar as linhas
-                    (SELECT LIST(DISTINCT sl.descricao_linha || \':\' || spl.id_linha)
-                     FROM site_prod_linha spl
-                     JOIN site_linhas sl ON sl.id = spl.id_linha
-                     WHERE spl.id_prd = sp.id) as linhas,
-                    -- Subconsulta para concatenar as funções
-                    (SELECT LIST(DISTINCT sf.descricao_funcao || \':\' || spf.id_funcao)
-                     FROM site_prod_funcao spf
-                     JOIN site_funcoes sf ON sf.id = spf.id_funcao
-                     WHERE spf.id_prd = sp.id) as funcoes
-                FROM site_produtos sp';
+                    MAX(sp.ativo_site) as ativo_site
+                FROM site_produtos sp
+                    JOIN site_prod_linha spl ON sp.id = spl.id_prd
+                    JOIN site_prod_funcao spf ON sp.id = spf.id_prd
+                    JOIN site_linhas sl ON sl.id = spl.id_linha
+                    JOIN site_funcoes sf ON sf.id = spf.id_funcao';
     
-        // Aplicar filtros
         $condicionais = [];
     
         if (isset($params->linhaId)) {
-            $condicionais[] = "EXISTS (SELECT 1 FROM site_prod_linha spl WHERE spl.id_prd = sp.id AND spl.id_linha = $params->linhaId)";
+            $condicionais[] = "spl.id_linha = $params->linhaId";
         }
     
         if (isset($params->funcaoId)) {
-            $condicionais[] = "EXISTS (SELECT 1 FROM site_prod_funcao spf WHERE spf.id_prd = sp.id AND spf.id_funcao = $params->funcaoId)";
+            $condicionais[] = "spf.id_funcao = $params->funcaoId";
         }
     
+        // if (isset($params->nomeProduto)) {
+        //     $condicionais[] = "sp.nome = '$params->nomeProduto'";
+        // }
+
         if (isset($params->nomeProduto)) {
             $condicionais[] = "LOWER(sp.nome) LIKE '%" . strtolower($params->nomeProduto) . "%'";
         }
@@ -49,23 +46,18 @@ class FirebirdDB
             $condicionais[] = "sp.ativo_site = $params->ativoSite";
         }
     
-        // Se nenhum ativo foi especificado, assume que queremos apenas os ativos
         if (empty($params->ativoSite)) {
             $condicionais[] = "sp.ativo_site = 1";
         }
     
-        // Adiciona os filtros à consulta
         if (!empty($condicionais)) {
             $query .= ' WHERE ' . implode(' AND ', $condicionais);
         }
     
-        // Agrupamento
         $query .= ' GROUP BY sp.id';
     
-        // Executa a consulta no Firebird
         $produtos = DB::connection('firebird')->select($query);
     
-        // Conversão de encoding para UTF-8 se necessário
         $produtos = array_map(function ($produto) {
             $produto = (array) $produto; // Certifique-se de que $produto é um array
             $produto = array_map(function ($item) {
@@ -76,7 +68,6 @@ class FirebirdDB
     
         return $produtos;
     }
-    
 
     public static function comboProdutos($params)
     {
