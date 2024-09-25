@@ -68,58 +68,59 @@ class FirebirdDB
     // }
 
     public static function grid($params)
-{
-    $query = 'SELECT 
-                sp.id, 
-                sp.nome, 
-                sp.embalagem, 
-                sp.emb_abreviada, 
-                sp.preco,
-                sp.ativo_site,
-                spf.funcao_dsc,
-                spl.linha_dsc
-            FROM site_produtos sp
-            JOIN site_prod_linha spl ON sp.id = spl.id_prd
-            JOIN site_prod_funcao spf ON sp.id = spf.id_prd';
-    
-    $condicionais = [];
-    
-    if (isset($params->linhaId)) {
-        $condicionais[] = "spl.id_linha = $params->linhaId";
+    {
+        $query = 'SELECT 
+                    sp.id, 
+                    sp.nome, 
+                    sp.embalagem, 
+                    sp.emb_abreviada, 
+                    sp.preco,
+                    sp.ativo_site,
+                    spf.funcao_dsc,
+                    spl.linha_dsc,
+                    spl.id_prd
+                FROM site_produtos sp
+                JOIN site_prod_linha spl ON sp.id = spl.id_prd
+                JOIN site_prod_funcao spf ON sp.id = spf.id_prd';
+        
+        $condicionais = [];
+        
+        if (isset($params->linhaId)) {
+            $condicionais[] = "spl.id_linha = $params->linhaId";
+        }
+
+        if (isset($params->funcaoId)) {
+            $condicionais[] = "spf.id_funcao = $params->funcaoId";
+        }
+
+        if (isset($params->nomeProduto)) {
+            $condicionais[] = "LOWER(sp.nome) LIKE '%" . strtolower($params->nomeProduto) . "%'";
+        }
+
+        if (isset($params->ativoSite)) {
+            $condicionais[] = "sp.ativo_site = $params->ativoSite";
+        }
+
+        if (empty($params->ativoSite)) {
+            $condicionais[] = "sp.ativo_site = 1";
+        }
+
+        if (!empty($condicionais)) {
+            $query .= ' WHERE ' . implode(' AND ', $condicionais);
+        }
+
+        $produtos = DB::connection('firebird')->select($query);
+
+        $produtos = array_map(function ($produto) {
+            $produto = (array) $produto; // Certifique-se de que $produto é um array
+            $produto = array_map(function ($item) {
+                return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
+            }, $produto);
+            return (object) $produto; // Converter de volta para objeto
+        }, $produtos);
+
+        return $produtos;
     }
-
-    if (isset($params->funcaoId)) {
-        $condicionais[] = "spf.id_funcao = $params->funcaoId";
-    }
-
-    if (isset($params->nomeProduto)) {
-        $condicionais[] = "LOWER(sp.nome) LIKE '%" . strtolower($params->nomeProduto) . "%'";
-    }
-
-    if (isset($params->ativoSite)) {
-        $condicionais[] = "sp.ativo_site = $params->ativoSite";
-    }
-
-    if (empty($params->ativoSite)) {
-        $condicionais[] = "sp.ativo_site = 1";
-    }
-
-    if (!empty($condicionais)) {
-        $query .= ' WHERE ' . implode(' AND ', $condicionais);
-    }
-
-    $produtos = DB::connection('firebird')->select($query);
-
-    $produtos = array_map(function ($produto) {
-        $produto = (array) $produto; // Certifique-se de que $produto é um array
-        $produto = array_map(function ($item) {
-            return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
-        }, $produto);
-        return (object) $produto; // Converter de volta para objeto
-    }, $produtos);
-
-    return $produtos;
-}
 
 
     public static function comboProdutos($params)
