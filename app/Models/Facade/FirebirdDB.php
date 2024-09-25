@@ -67,6 +67,62 @@ class FirebirdDB
     //     return $produtos;
     // }
 
+    // public static function grid($params)
+    // {
+    //     $query = 'SELECT 
+    //                 sp.id, 
+    //                 sp.nome, 
+    //                 sp.embalagem, 
+    //                 sp.emb_abreviada, 
+    //                 sp.preco,
+    //                 sp.ativo_site,
+    //                 spf.id_funcao,
+    //                 spf.funcao_dsc,
+    //                 spl.id_linha,
+    //                 spl.linha_dsc
+    //             FROM site_produtos sp
+    //             JOIN site_prod_linha spl ON sp.id = spl.id_prd
+    //             JOIN site_prod_funcao spf ON sp.id = spf.id_prd';
+        
+    //     $condicionais = [];
+        
+    //     if (isset($params->linhaId)) {
+    //         $condicionais[] = "spl.id_linha = $params->linhaId";
+    //     }
+
+    //     if (isset($params->funcaoId)) {
+    //         $condicionais[] = "spf.id_funcao = $params->funcaoId";
+    //     }
+
+    //     if (isset($params->nomeProduto)) {
+    //         $condicionais[] = "LOWER(sp.nome) LIKE '%" . strtolower($params->nomeProduto) . "%'";
+    //     }
+
+    //     if (isset($params->ativoSite)) {
+    //         $condicionais[] = "sp.ativo_site = $params->ativoSite";
+    //     }
+
+    //     if (empty($params->ativoSite)) {
+    //         $condicionais[] = "sp.ativo_site = 1";
+    //     }
+
+    //     if (!empty($condicionais)) {
+    //         $query .= ' WHERE ' . implode(' AND ', $condicionais);
+    //     }
+
+    //     $produtos = DB::connection('firebird')->select($query);
+
+    //     $produtos = array_map(function ($produto) {
+    //         $produto = (array) $produto; // Certifique-se de que $produto é um array
+    //         $produto = array_map(function ($item) {
+    //             return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
+    //         }, $produto);
+    //         return (object) $produto; // Converter de volta para objeto
+    //     }, $produtos);
+
+    //     return $produtos;
+    // }
+
     public static function grid($params)
     {
         $query = 'SELECT 
@@ -76,16 +132,14 @@ class FirebirdDB
                     sp.emb_abreviada, 
                     sp.preco,
                     sp.ativo_site,
-                    spf.id_funcao,
-                    spf.funcao_dsc,
-                    spl.id_linha,
-                    spl.linha_dsc
+                    LIST(DISTINCT spf.funcao_dsc) AS funcoes,
+                    LIST(DISTINCT spl.linha_dsc) AS linhas
                 FROM site_produtos sp
                 JOIN site_prod_linha spl ON sp.id = spl.id_prd
                 JOIN site_prod_funcao spf ON sp.id = spf.id_prd';
-        
+
         $condicionais = [];
-        
+
         if (isset($params->linhaId)) {
             $condicionais[] = "spl.id_linha = $params->linhaId";
         }
@@ -110,14 +164,17 @@ class FirebirdDB
             $query .= ' WHERE ' . implode(' AND ', $condicionais);
         }
 
+        $query .= ' GROUP BY sp.id, sp.nome, sp.embalagem, sp.emb_abreviada, sp.preco, sp.ativo_site';
+
         $produtos = DB::connection('firebird')->select($query);
 
+        // Conversão de encoding
         $produtos = array_map(function ($produto) {
-            $produto = (array) $produto; // Certifique-se de que $produto é um array
+            $produto = (array) $produto;
             $produto = array_map(function ($item) {
                 return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
             }, $produto);
-            return (object) $produto; // Converter de volta para objeto
+            return (object) $produto;
         }, $produtos);
 
         return $produtos;
