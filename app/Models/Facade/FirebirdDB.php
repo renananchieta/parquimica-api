@@ -12,52 +12,52 @@ class FirebirdDB
     public static function grid($params)
     {
         $query = 'SELECT 
-                    DISTINCT(sp.id), 
-                    sp.nome, 
-                    sp.embalagem, 
-                    sp.emb_abreviada, 
-                    sp.preco
-                    -- spl.id_linha,
-                    -- spl.linha_dsc,
-                    -- spf.id_funcao,
-                    -- spf.funcao_dsc 
+                    sp.id, 
+                    MAX(sp.nome) as nome, 
+                    MAX(sp.embalagem) as embalagem, 
+                    MAX(sp.emb_abreviada) as emb_abreviada, 
+                    MAX(sp.preco) as preco
+                    -- MAX(spl.id_linha) as id_linha,
+                    -- MAX(spl.linha_dsc) as linha_dsc,
+                    -- MAX(spf.id_funcao) as id_funcao,
+                    -- MAX(spf.funcao_dsc) as funcao_dsc
                     FROM site_produtos sp
                     JOIN site_prod_linha spl ON sp.id = spl.id_prd
                     JOIN site_prod_funcao spf ON sp.id = spf.id_prd';
-
+    
         $condicionais = [];
-
+    
         if (isset($params->linhaId)) {
             $condicionais[] = "spl.id_linha = $params->linhaId";
         }
-
+    
         if (isset($params->funcaoId)) {
             $condicionais[] = "spf.id_funcao = $params->funcaoId";
         }
-
-        if(isset($params->nomeProduto)) {
-            $condicionais[] = "sp.nome = $params->nomeProduto";
+    
+        if (isset($params->nomeProduto)) {
+            $condicionais[] = "sp.nome = '$params->nomeProduto'";
         }
-
-        if(isset($params->ativoSite)) {
+    
+        if (isset($params->ativoSite)) {
             $condicionais[] = "sp.ativo_site = $params->ativoSite";
         }
-
-        if(empty($params->ativoSite)) {
+    
+        if (empty($params->ativoSite)) {
             $condicionais[] = "sp.ativo_site = 1";
         }
-
-        if(!empty($condicionais)){
+    
+        if (!empty($condicionais)) {
             $query .= ' WHERE ' . implode(' AND ', $condicionais);
         }
     
         $query .= ' GROUP BY sp.id';
-
+    
         $produtos = DB::connection('firebird')->select($query);
-
-        $produtos = array_map(function($produto) {
+    
+        $produtos = array_map(function ($produto) {
             $produto = (array) $produto; // Certifique-se de que $produto é um array
-            $produto = array_map(function($item) {
+            $produto = array_map(function ($item) {
                 return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
             }, $produto);
             return (object) $produto; // Converter de volta para objeto
@@ -65,6 +65,7 @@ class FirebirdDB
     
         return $produtos;
     }
+    
 
     public static function comboProdutos($params)
     {
