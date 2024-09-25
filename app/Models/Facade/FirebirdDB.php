@@ -168,19 +168,22 @@ class FirebirdDB
 
         $produtos = DB::connection('firebird')->select($query);
 
-        dd($produtos);
-
         // Processar e agrupar os produtos
         $produtosAgrupados = [];
 
         foreach ($produtos as $produto) {
             $produto = (array) $produto; // Certifique-se de que $produto é um array
-
+        
             // Converta a codificação, se necessário
             $produto = array_map(function ($item) {
                 return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
             }, $produto);
-            
+        
+            // Verifique se a chave 'id' existe
+            if (!isset($produto['id'])) {
+                continue; // Se não existir, pule para o próximo produto
+            }
+        
             // Agrupar produtos pelo id
             $id = $produto['id'];
             if (!isset($produtosAgrupados[$id])) {
@@ -196,13 +199,13 @@ class FirebirdDB
                     'linhas' => []
                 ];
             }
-
+        
             // Adicione as funções e linhas apenas se não estiverem já presentes
-            if (!in_array($produto['funcao_dsc'], $produtosAgrupados[$id]->funcoes)) {
+            if (isset($produto['funcao_dsc']) && !in_array($produto['funcao_dsc'], $produtosAgrupados[$id]->funcoes)) {
                 $produtosAgrupados[$id]->funcoes[] = $produto['funcao_dsc'];
             }
-            
-            if (!in_array($produto['linha_dsc'], $produtosAgrupados[$id]->linhas)) {
+        
+            if (isset($produto['linha_dsc']) && !in_array($produto['linha_dsc'], $produtosAgrupados[$id]->linhas)) {
                 $produtosAgrupados[$id]->linhas[] = $produto['linha_dsc'];
             }
         }
