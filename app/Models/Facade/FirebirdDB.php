@@ -168,6 +168,8 @@ class FirebirdDB
 
         $produtos = DB::connection('firebird')->select($query);
 
+        dd($produtos);
+
         // Processar e agrupar os produtos
         $produtosAgrupados = [];
 
