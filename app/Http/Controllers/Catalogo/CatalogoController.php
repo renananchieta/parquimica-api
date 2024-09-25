@@ -21,6 +21,7 @@ class CatalogoController extends Controller
             DB::beginTransaction();
             $catalogo = FirebirdDB::grid($params);
             DB::commit();
+            return response($catalogo, 200);
             return response(CatalogoResource::collection($catalogo), 200);
         } catch(Exception $e) {
             DB::rollBack();
