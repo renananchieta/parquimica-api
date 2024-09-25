@@ -170,6 +170,8 @@ class FirebirdDB
 
         $produtosAgrupados = []; // Inicialize a variável para armazenar os produtos agrupados
 
+        $produtosAgrupados = []; // Inicialize a variável para armazenar os produtos agrupados
+
         foreach ($produtos as $produto) {
             $produto = (array) $produto; // Certifique-se de que $produto é um array
 
@@ -195,19 +197,29 @@ class FirebirdDB
                     'preco' => $produto['PRECO'],
                     'ativo_site' => $produto['ATIVO_SITE'],
                     'funcoes' => [],
-                    'linhas' => []
+                    'linhas' => [],
+                    'ids_funcoes' => [], // Para armazenar os IDs das funções
+                    'ids_linhas' => []   // Para armazenar os IDs das linhas
                 ];
             }
 
-            // Adicione as funções e linhas apenas se não estiverem já presentes
+            // Adicione as funções e IDs das funções
             if (isset($produto['FUNCAO_DSC']) && !in_array($produto['FUNCAO_DSC'], $produtosAgrupados[$id]->funcoes)) {
                 $produtosAgrupados[$id]->funcoes[] = $produto['FUNCAO_DSC'];
             }
+            if (isset($produto['ID_FUNCAO']) && !in_array($produto['ID_FUNCAO'], $produtosAgrupados[$id]->ids_funcoes)) {
+                $produtosAgrupados[$id]->ids_funcoes[] = $produto['ID_FUNCAO'];
+            }
 
+            // Adicione as linhas e IDs das linhas
             if (isset($produto['LINHA_DSC']) && !in_array($produto['LINHA_DSC'], $produtosAgrupados[$id]->linhas)) {
                 $produtosAgrupados[$id]->linhas[] = $produto['LINHA_DSC'];
             }
+            if (isset($produto['ID_LINHA']) && !in_array($produto['ID_LINHA'], $produtosAgrupados[$id]->ids_linhas)) {
+                $produtosAgrupados[$id]->ids_linhas[] = $produto['ID_LINHA'];
+            }
         }
+
 
         // Converter para array e retornar
         return array_values($produtosAgrupados);
