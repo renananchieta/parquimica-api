@@ -51,6 +51,8 @@ class FirebirdDB
             $query .= ' WHERE ' . implode(' AND ', $condicionais);
         }
     
+        $query .= ' GROUP BY sp.id';
+
         $produtos = DB::connection('firebird')->select($query);
 
         $produtos = array_map(function($produto) {
