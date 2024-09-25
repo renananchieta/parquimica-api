@@ -20,7 +20,9 @@ class FirebirdDB
                     MAX(sp.ativo_site) as ativo_site
                 FROM site_produtos sp
                     JOIN site_prod_linha spl ON sp.id = spl.id_prd
-                    JOIN site_prod_funcao spf ON sp.id = spf.id_prd';
+                    JOIN site_prod_funcao spf ON sp.id = spf.id_prd
+                    JOIN site_linhas sl ON sl.id = spl.id_linha
+                    JOIN site_funcoes sf ON sf.id = spf.id_funcao';
     
         $condicionais = [];
     
