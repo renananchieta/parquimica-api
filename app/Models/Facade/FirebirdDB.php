@@ -17,7 +17,7 @@ class FirebirdDB
                     MAX(sp.embalagem) as embalagem, 
                     MAX(sp.emb_abreviada) as emb_abreviada, 
                     MAX(sp.preco) as preco,
-                    sp.ativo_site
+                    MAX(sp.ativo_site) as ativo_site
                     -- MAX(spl.id_linha) as id_linha,
                     -- MAX(spl.linha_dsc) as linha_dsc,
                     -- MAX(spf.id_funcao) as id_funcao,
