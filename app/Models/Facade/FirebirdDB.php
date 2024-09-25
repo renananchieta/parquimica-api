@@ -168,45 +168,44 @@ class FirebirdDB
 
         $produtos = DB::connection('firebird')->select($query);
 
-        // Processar e agrupar os produtos
-        $produtosAgrupados = [];
+        $produtosAgrupados = []; // Inicialize a variável para armazenar os produtos agrupados
 
         foreach ($produtos as $produto) {
             $produto = (array) $produto; // Certifique-se de que $produto é um array
-        
+
             // Converta a codificação, se necessário
             $produto = array_map(function ($item) {
                 return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
             }, $produto);
-        
-            // Verifique se a chave 'id' existe
-            if (!isset($produto['id'])) {
+
+            // Verifique se a chave 'ID' existe
+            if (!isset($produto['ID'])) {
                 continue; // Se não existir, pule para o próximo produto
             }
-        
-            // Agrupar produtos pelo id
-            $id = $produto['id'];
+
+            // Agrupar produtos pelo ID
+            $id = $produto['ID'];
             if (!isset($produtosAgrupados[$id])) {
                 // Se ainda não existir, inicialize a estrutura do produto
                 $produtosAgrupados[$id] = (object) [
-                    'id' => $produto['id'],
-                    'nome' => $produto['nome'],
-                    'embalagem' => $produto['embalagem'],
-                    'emb_abreviada' => $produto['emb_abreviada'],
-                    'preco' => $produto['preco'],
-                    'ativo_site' => $produto['ativo_site'],
+                    'id' => $produto['ID'],
+                    'nome' => $produto['NOME'],
+                    'embalagem' => $produto['EMBALAGEM'],
+                    'emb_abreviada' => $produto['EMB_ABREVIADA'],
+                    'preco' => $produto['PRECO'],
+                    'ativo_site' => $produto['ATIVO_SITE'],
                     'funcoes' => [],
                     'linhas' => []
                 ];
             }
-        
+
             // Adicione as funções e linhas apenas se não estiverem já presentes
-            if (isset($produto['funcao_dsc']) && !in_array($produto['funcao_dsc'], $produtosAgrupados[$id]->funcoes)) {
-                $produtosAgrupados[$id]->funcoes[] = $produto['funcao_dsc'];
+            if (isset($produto['FUNCAO_DSC']) && !in_array($produto['FUNCAO_DSC'], $produtosAgrupados[$id]->funcoes)) {
+                $produtosAgrupados[$id]->funcoes[] = $produto['FUNCAO_DSC'];
             }
-        
-            if (isset($produto['linha_dsc']) && !in_array($produto['linha_dsc'], $produtosAgrupados[$id]->linhas)) {
-                $produtosAgrupados[$id]->linhas[] = $produto['linha_dsc'];
+
+            if (isset($produto['LINHA_DSC']) && !in_array($produto['LINHA_DSC'], $produtosAgrupados[$id]->linhas)) {
+                $produtosAgrupados[$id]->linhas[] = $produto['LINHA_DSC'];
             }
         }
 
