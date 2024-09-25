@@ -132,14 +132,16 @@ class FirebirdDB
                     sp.emb_abreviada, 
                     sp.preco,
                     sp.ativo_site,
-                    LIST(DISTINCT spf.funcao_dsc) AS funcoes,
-                    LIST(DISTINCT spl.linha_dsc) AS linhas
+                    spf.id_funcao,
+                    spf.funcao_dsc,
+                    spl.id_linha,
+                    spl.linha_dsc
                 FROM site_produtos sp
                 JOIN site_prod_linha spl ON sp.id = spl.id_prd
                 JOIN site_prod_funcao spf ON sp.id = spf.id_prd';
-
+        
         $condicionais = [];
-
+        
         if (isset($params->linhaId)) {
             $condicionais[] = "spl.id_linha = $params->linhaId";
         }
@@ -164,20 +166,47 @@ class FirebirdDB
             $query .= ' WHERE ' . implode(' AND ', $condicionais);
         }
 
-        $query .= ' GROUP BY sp.id, sp.nome, sp.embalagem, sp.emb_abreviada, sp.preco, sp.ativo_site';
-
         $produtos = DB::connection('firebird')->select($query);
 
-        // Conversão de encoding
-        $produtos = array_map(function ($produto) {
-            $produto = (array) $produto;
+        // Processar e agrupar os produtos
+        $produtosAgrupados = [];
+
+        foreach ($produtos as $produto) {
+            $produto = (array) $produto; // Certifique-se de que $produto é um array
+
+            // Converta a codificação, se necessário
             $produto = array_map(function ($item) {
                 return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
             }, $produto);
-            return (object) $produto;
-        }, $produtos);
+            
+            // Agrupar produtos pelo id
+            $id = $produto['id'];
+            if (!isset($produtosAgrupados[$id])) {
+                // Se ainda não existir, inicialize a estrutura do produto
+                $produtosAgrupados[$id] = (object) [
+                    'id' => $produto['id'],
+                    'nome' => $produto['nome'],
+                    'embalagem' => $produto['embalagem'],
+                    'emb_abreviada' => $produto['emb_abreviada'],
+                    'preco' => $produto['preco'],
+                    'ativo_site' => $produto['ativo_site'],
+                    'funcoes' => [],
+                    'linhas' => []
+                ];
+            }
 
-        return $produtos;
+            // Adicione as funções e linhas apenas se não estiverem já presentes
+            if (!in_array($produto['funcao_dsc'], $produtosAgrupados[$id]->funcoes)) {
+                $produtosAgrupados[$id]->funcoes[] = $produto['funcao_dsc'];
+            }
+            
+            if (!in_array($produto['linha_dsc'], $produtosAgrupados[$id]->linhas)) {
+                $produtosAgrupados[$id]->linhas[] = $produto['linha_dsc'];
+            }
+        }
+
+        // Converter para array e retornar
+        return array_values($produtosAgrupados);
     }
 
 
