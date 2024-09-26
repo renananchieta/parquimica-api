@@ -141,6 +141,10 @@ class FirebirdDB
                 JOIN site_prod_funcao spf ON sp.id = spf.id_prd';
         
         $condicionais = [];
+
+        if (isset($params->produtoId)) {
+            $condicionais[] = "spl.id = $params->produtoId";
+        }
         
         if (isset($params->linhaId)) {
             $condicionais[] = "spl.id_linha = $params->linhaId";
