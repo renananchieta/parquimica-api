@@ -151,7 +151,7 @@ class FirebirdDB
         }
 
         if (isset($params->nomeProduto)) {
-            $condicionais[] = "sp.nome = $params->nomeProduto";
+            $condicionais[] = "sp.nome = '" . addslashes($params->nomeProduto) . "'";
         }
 
         if (isset($params->ativoSite)) {
