@@ -151,7 +151,7 @@ class FirebirdDB
         }
 
         if (isset($params->nomeProduto)) {
-            $condicionais[] = "sp.nome LIKE '%" . strtolower($params->nomeProduto) . "%'";
+            $condicionais[] = "sp.nome = $params->nomeProduto";
         }
 
         if (isset($params->ativoSite)) {
