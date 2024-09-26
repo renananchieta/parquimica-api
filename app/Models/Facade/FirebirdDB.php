@@ -143,7 +143,7 @@ class FirebirdDB
         $condicionais = [];
 
         if (isset($params->produtoId)) {
-            $condicionais[] = "spl.id = $params->produtoId";
+            $condicionais[] = "sp.id = $params->produtoId";
         }
         
         if (isset($params->linhaId)) {
