@@ -537,8 +537,9 @@ class FirebirdDB
 
     public static function siteProdDetalhes($params)
     {
+        $id_base = (int) $params->id_base;
         $query = 'SELECT * FROM site_prod_detalhes(?)';
-        $literaturas = DB::connection('firebird')->select($query, [$params->id_base]);
+        $literaturas = DB::connection('firebird')->select($query, [$id_base]);
         
         $literaturas = array_map(function($literatura) {
             $literatura = (array) $literatura;
