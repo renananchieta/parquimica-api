@@ -91,6 +91,8 @@ Route::get('/firebird/prod-funcao', [CatalogoController::class, 'prodFuncao']);
 Route::get('/firebird/literatura/{codigo_produto}', [CatalogoController::class, 'literatura']);
 Route::get('/firebird/literatura/{codigo_produto}/teste', [CatalogoController::class, 'literaturaTeste']);
 Route::get('/impressao/{codigo_produto}', [ImpressaoController::class, 'gerarPdf']);
+Route::get('/firebird/site-prod-lista', [CatalogoController::class, 'siteProdLista']);
+
 
 //Base local
 Route::get('/area-restrita/puxar-base-firebird-para-base-local', [ProdutosLocalController::class, 'cadastrarProdutosBaseLocal']);
