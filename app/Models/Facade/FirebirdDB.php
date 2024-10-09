@@ -435,8 +435,7 @@ class FirebirdDB
 
         return $groupedLiteraturas;
     }
-
-
+    
     public static function exportarCsv($params)
     {
         $data = self::grid($params);
@@ -539,7 +538,7 @@ class FirebirdDB
     public static function siteProdDetalhes($params)
     {
         $query = 'SELECT * FROM site_prod_detalhes(?)';
-        $literaturas = DB::connection('firebird')->select($query, [311]);
+        $literaturas = DB::connection('firebird')->select($query, [$params->id]);
         
         $literaturas = array_map(function($literatura) {
             $literatura = (array) $literatura;
