@@ -213,7 +213,7 @@ class CatalogoController extends Controller
     public function siteProdDetalhes(Request $request)
     {
         $params = (Object)$request->all();
-        dd($params);
+        // dd($params);
         try {
             DB::beginTransaction();
             $produtos = FirebirdDB::siteProdDetalhes($params);
