@@ -519,12 +519,12 @@ class FirebirdDB
         }
 
         if (isset($params->nome)) {
-            $nome = addslashes($params->nome);
+            $nome = addslashes(strtoupper($params->nome));
             $condicionais[] = "nome LIKE '%$nome%'";
         }
     
         if (isset($params->slug)) {
-            $slug = addslashes($params->slug);
+            $slug = addslashes(strtolower($params->slug));
             $condicionais[] = "slug LIKE '%$slug%'";
         }
 
