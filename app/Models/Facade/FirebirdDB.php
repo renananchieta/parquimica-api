@@ -513,9 +513,17 @@ class FirebirdDB
         ';
 
         $condicionais = [];
+        
+        if (isset($params->produtoId)) {
+            $condicionais[] = "id_base = $params->produtoId";
+        }
 
-        if(isset($params->nomeProduto)) {
-            $condicionais[] = "sp.nome = $params->nomeProduto";
+        if(isset($params->nome)) {
+            $condicionais[] = "nome LIKE $params->nome";
+        }
+
+        if(isset($params->slug)) {
+            $condicionais[] = "slug LIKE $params->slug";
         }
 
         if(!empty($condicionais)){
