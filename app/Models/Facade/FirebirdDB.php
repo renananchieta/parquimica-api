@@ -518,12 +518,14 @@ class FirebirdDB
             $condicionais[] = "id_base = $params->id_base";
         }
 
-        if(isset($params->nome)) {
-            $condicionais[] = "nome = $params->nome";
+        if (isset($params->nome)) {
+            $nome = addslashes($params->nome);
+            $condicionais[] = "nome = '$nome'";
         }
-
-        if(isset($params->slug)) {
-            $condicionais[] = "slug = $params->slug";
+    
+        if (isset($params->slug)) {
+            $slug = addslashes($params->slug);
+            $condicionais[] = "slug = '$slug'";
         }
 
         if(!empty($condicionais)){
