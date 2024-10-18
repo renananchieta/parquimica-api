@@ -614,16 +614,12 @@ class FirebirdDB
                 ];
             }
 
-            if(isset($produto['LINHA']) && !in_array($produto['LINHA'], array_column($produtosAgrupados[$id]->linhas, 'descricao'))) {
-                $produtosAgrupados[$id]->linhas[] = (Object) [
-                    'descricao' => $produto['LINHA']
-                ];
+            if(isset($produto['LINHA']) && !in_array($produto['LINHA'], $produtosAgrupados[$id]->linhas)) {
+                $produtosAgrupados[$id]->linhas[] = $produto['LINHA'];
             }
 
-            if(isset($produto['FUNCAO']) && !in_array($produto['FUNCAO'], array_column($produtosAgrupados[$id]->funcoes, 'descricao'))) {
-                $produtosAgrupados[$id]->funcoes[] = (Object) [
-                    'descricao' => $produto['FUNCAO']
-                ];
+            if(isset($produto['FUNCAO']) && !in_array($produto['FUNCAO'], $produtosAgrupados[$id]->funcoes)) {
+                $produtosAgrupados[$id]->funcoes[] = $produto['FUNCAO'];
             }
         }
 
