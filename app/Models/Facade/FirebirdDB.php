@@ -579,7 +579,7 @@ class FirebirdDB
         }
 
         if (isset($params->funcao)) {
-            $funcao = addslashes(strtolower($params->funcao));
+            $funcao = addslashes($params->funcao);
             $condicionais[] = "funcao CONTAINING '%$funcao%'";
         }
 
