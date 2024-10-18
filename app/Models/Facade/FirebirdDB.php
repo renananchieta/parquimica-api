@@ -572,11 +572,7 @@ class FirebirdDB
             $slug = addslashes(strtolower($params->slug));
             $condicionais[] = "slug LIKE '%$slug%'";
         }
-
-        if(!empty($condicionais)){
-            $query .= ' WHERE ' . implode(' AND ', $condicionais);
-        }
-
+        
         if (isset($params->linha)) {
             $linha = addslashes(strtoupper($params->linha));
             $condicionais[] = "linha LIKE '%$linha%'";
@@ -586,6 +582,10 @@ class FirebirdDB
             $funcao = addslashes(strtolower($params->funcao));
             $condicionais[] = "funcao LIKE '%$funcao%'";
         }
+        if(!empty($condicionais)){
+            $query .= ' WHERE ' . implode(' AND ', $condicionais);
+        }
+
     
         $produtos = DB::connection('firebird')->select($query);
 
