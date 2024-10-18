@@ -174,10 +174,6 @@ class FirebirdDB
 
         $produtosAgrupados = []; // Inicialize a variável para armazenar os produtos agrupados
 
-        $produtosAgrupados = []; // Inicialize a variável para armazenar os produtos agrupados
-
-        $produtosAgrupados = []; // Inicialize a variável para armazenar os produtos agrupados
-
         foreach ($produtos as $produto) {
             $produto = (array) $produto; // Certifique-se de que $produto é um array
 
@@ -506,6 +502,55 @@ class FirebirdDB
         return $produtos;
     }
 
+    public static function siteProdListabkp($params)
+    {
+        $query = '
+            SELECT * FROM site_prod_lista
+        ';
+
+        $condicionais = [];
+        
+        if (isset($params->id_base)) {
+            $condicionais[] = "id_base = $params->id_base";
+        }
+
+        if (isset($params->nome)) {
+            $nome = addslashes(strtoupper($params->nome));
+            $condicionais[] = "nome LIKE '%$nome%'";
+        }
+    
+        if (isset($params->slug)) {
+            $slug = addslashes(strtolower($params->slug));
+            $condicionais[] = "slug LIKE '%$slug%'";
+        }
+
+        if(!empty($condicionais)){
+            $query .= ' WHERE ' . implode(' AND ', $condicionais);
+        }
+
+        if (isset($params->linha)) {
+            $linha = addslashes(strtoupper($params->linha));
+            $condicionais[] = "linha LIKE '%$linha%'";
+        }
+
+        if (isset($params->funcao)) {
+            $funcao = addslashes(strtolower($params->funcao));
+            $condicionais[] = "funcao LIKE '%$funcao%'";
+        }
+    
+        $produtos = DB::connection('firebird')->select($query);
+
+        $produtos = array_map(function($produto) {
+            $produto = (array) $produto; 
+            $produto = array_map(function($item) {
+                return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
+            }, $produto);
+            return (object) $produto; 
+        }, $produtos);
+    
+        return $produtos;
+    }
+
     public static function siteProdLista($params)
     {
         $query = '
@@ -531,18 +576,58 @@ class FirebirdDB
         if(!empty($condicionais)){
             $query .= ' WHERE ' . implode(' AND ', $condicionais);
         }
+
+        if (isset($params->linha)) {
+            $linha = addslashes(strtoupper($params->linha));
+            $condicionais[] = "linha LIKE '%$linha%'";
+        }
+
+        if (isset($params->funcao)) {
+            $funcao = addslashes(strtolower($params->funcao));
+            $condicionais[] = "funcao LIKE '%$funcao%'";
+        }
     
         $produtos = DB::connection('firebird')->select($query);
 
-        $produtos = array_map(function($produto) {
-            $produto = (array) $produto; // Certifique-se de que $produto é um array
-            $produto = array_map(function($item) {
+        $produtosAgrupados = [];
+
+        foreach($produtos as $produto) {
+            $produto = (array)$produto;
+
+            $produto = array_map(function ($item) {
                 return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
             }, $produto);
-            return (object) $produto; // Converter de volta para objeto
-        }, $produtos);
-    
-        return $produtos;
+
+            if(!isset($produto['ID_BASE'])) {
+                continue;
+            }
+
+            $id = $produto['ID_BASE'];
+
+            if(!isset($produtosAgrupados[$id])) {
+                $produtosAgrupados[$id] = (Object) [
+                    'id_base' => $produto['ID_BASE'],
+                    'nome' => $produto['ID_BASE'],
+                    'slug' => $produto['SLUG'],
+                    'linhas' => [],
+                    'funcoes' => []
+                ];
+            }
+
+            if(isset($produto['LINHA']) && !in_array($produto['LINHA'], array_column($produtosAgrupados[$id]->linhas, 'descricao'))) {
+                $produtosAgrupados[$id]->linhas[] = (Object) [
+                    'descricao' => $produto['LINHA']
+                ];
+            }
+
+            if(isset($produto['FUNCAO']) && !in_array($produto['FUNCAO'], array_column($produtosAgrupados[$id]->funcoes, 'descricao'))) {
+                $produtosAgrupados[$id]->funcoes[] = (Object) [
+                    'descricao' => $produto['FUNCAO']
+                ];
+            }
+        }
+
+        return array_values($produtosAgrupados);
     }
 
     public static function siteProdDetalhes($params)
