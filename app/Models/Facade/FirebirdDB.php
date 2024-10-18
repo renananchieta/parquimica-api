@@ -580,8 +580,9 @@ class FirebirdDB
 
         if (isset($params->funcao)) {
             $funcao = addslashes(strtolower($params->funcao));
-            $condicionais[] = "funcao LIKE '%$funcao%'";
+            $condicionais[] = "funcao CONTAINING '%$funcao%'";
         }
+
         if(!empty($condicionais)){
             $query .= ' WHERE ' . implode(' AND ', $condicionais);
         }
