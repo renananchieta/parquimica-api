@@ -555,6 +555,7 @@ class FirebirdDB
     {
         $query = '
             SELECT * FROM site_prod_lista
+                ORDER BY nome
         ';
 
         $condicionais = [];
