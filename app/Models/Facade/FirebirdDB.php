@@ -609,7 +609,7 @@ class FirebirdDB
             if(!isset($produtosAgrupados[$id])) {
                 $produtosAgrupados[$id] = (Object) [
                     'id_base' => $produto['ID_BASE'],
-                    'nome' => $produto['ID_BASE'],
+                    'nome' => $produto['NOME'],
                     'slug' => $produto['SLUG'],
                     'linhas' => [],
                     'funcoes' => []
