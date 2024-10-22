@@ -92,6 +92,7 @@ Route::get('/firebird/literatura/{codigo_produto}', [CatalogoController::class, 
 Route::get('/firebird/literatura/{codigo_produto}/teste', [CatalogoController::class, 'literaturaTeste']);
 Route::get('/impressao/{codigo_produto}', [ImpressaoController::class, 'gerarPdf']);
 Route::get('/firebird/site-prod-lista', [CatalogoController::class, 'siteProdLista']);
+Route::get('/firebird/site-prod-lista/nao-tratado', [CatalogoController::class, 'siteProdListaNaoTratado']);
 Route::get('/firebird/site-prod-detalhes', [CatalogoController::class, 'siteProdDetalhes']);
 Route::get('/firebird/site-prod-variantes', [CatalogoController::class, 'siteProdVariantes']);
 
