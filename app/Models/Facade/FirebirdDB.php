@@ -582,11 +582,7 @@ class FirebirdDB
             $funcao = ucfirst(strtolower(addslashes($params->funcao)));
             $condicionais[] = "funcao LIKE '%$funcao%'";
         }
-
-        if(!empty($condicionais)){
-            $query .= ' WHERE ' . implode(' AND ', $condicionais);
-        }
-
+        
         if (isset($params->slug_linha)) {
             $slug_linha = addslashes(strtolower($params->slug_linha));
             $condicionais[] = "slug_linha LIKE '%$slug_linha%'";
@@ -595,6 +591,10 @@ class FirebirdDB
         if (isset($params->slug_funcao)) {
             $slug_funcao = addslashes(strtolower($params->slug_funcao));
             $condicionais[] = "slug_funcao LIKE '%$slug_funcao%'";
+        }
+
+        if(!empty($condicionais)){
+            $query .= ' WHERE ' . implode(' AND ', $condicionais);
         }
 
         $query .= 'ORDER BY nome';
