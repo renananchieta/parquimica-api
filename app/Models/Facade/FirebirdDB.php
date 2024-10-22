@@ -624,8 +624,8 @@ class FirebirdDB
                     'slug' => $produto['SLUG'],
                     'linhas' => [],
                     'funcoes' => [],
-                    'slug_linhas' => [],
-                    'slug_funcoes' => []
+                    'slug_linha' => [],
+                    'slug_funcao' => []
                 ];
             }
 
@@ -637,12 +637,12 @@ class FirebirdDB
                 $produtosAgrupados[$id]->funcoes[] = $produto['FUNCAO'];
             }
 
-            if(isset($produto['SLUG_LINHA']) && !in_array($produto['SLUG_LINHA'], $produtosAgrupados[$id]->slug_linhas)) {
-                $produtosAgrupados[$id]->slug_linhas[] = $produto['SLUG_LINHA'];
+            if(isset($produto['SLUG_LINHA']) && !in_array($produto['SLUG_LINHA'], $produtosAgrupados[$id]->slug_linha)) {
+                $produtosAgrupados[$id]->slug_linha[] = $produto['SLUG_LINHA'];
             }
 
-            if(isset($produto['SLUG_FUNCAO']) && !in_array($produto['SLUG_FUNCAO'], $produtosAgrupados[$id]->slug_funcoes)) {
-                $produtosAgrupados[$id]->slug_funcoes[] = $produto['SLUG_FUNCAO'];
+            if(isset($produto['SLUG_FUNCAO']) && !in_array($produto['SLUG_FUNCAO'], $produtosAgrupados[$id]->slug_funcao)) {
+                $produtosAgrupados[$id]->slug_funcao[] = $produto['SLUG_FUNCAO'];
             }
         }
 
