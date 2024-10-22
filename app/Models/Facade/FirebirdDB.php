@@ -622,19 +622,19 @@ class FirebirdDB
                     'id_base' => $produto['ID_BASE'],
                     'nome' => $produto['NOME'],
                     'slug' => $produto['SLUG'],
-                    'linhas' => [],
-                    'funcoes' => [],
+                    'linha' => [],
+                    'funcao' => [],
                     'slug_linha' => [],
                     'slug_funcao' => []
                 ];
             }
 
-            if(isset($produto['LINHA']) && !in_array($produto['LINHA'], $produtosAgrupados[$id]->linhas)) {
-                $produtosAgrupados[$id]->linhas[] = $produto['LINHA'];
+            if(isset($produto['LINHA']) && !in_array($produto['LINHA'], $produtosAgrupados[$id]->linha)) {
+                $produtosAgrupados[$id]->linha[] = $produto['LINHA'];
             }
 
-            if(isset($produto['FUNCAO']) && !in_array($produto['FUNCAO'], $produtosAgrupados[$id]->funcoes)) {
-                $produtosAgrupados[$id]->funcoes[] = $produto['FUNCAO'];
+            if(isset($produto['FUNCAO']) && !in_array($produto['FUNCAO'], $produtosAgrupados[$id]->funcao)) {
+                $produtosAgrupados[$id]->funcao[] = $produto['FUNCAO'];
             }
 
             if(isset($produto['SLUG_LINHA']) && !in_array($produto['SLUG_LINHA'], $produtosAgrupados[$id]->slug_linha)) {
