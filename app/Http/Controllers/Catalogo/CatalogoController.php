@@ -212,21 +212,21 @@ class CatalogoController extends Controller
 
     public function siteProdListaNaoTratado(Request $request)
     {
-        $params = (Object)$request->all();
-        try {
-            DB::beginTransaction();
-            $query = '
-                SELECT * FROM site_prod_lista
-            ';
-            $produtos = DB::connection('firebird')->select($query);
-            DB::commit();
-            return response($produtos, 200);
-            // return response(CatalogoResource::collection($catalogo), 200);
-        } catch(Exception $e) {
-            DB::rollBack();
-            return response()->json($e->getMessage(), 500);
-        }
+        $query = '
+            SELECT * FROM site_prod_lista
+        ';
+        $produtos = DB::connection('firebird')->select($query);
         
+        $produtos = array_map(function($produtos) {
+            $produtos = (array) $produtos;
+            $produtos = array_map(function($item) {
+                return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
+            }, $produtos);
+            return (object) $produtos;
+        }, $produtos);
+        
+        // return $prodFuncoes;
+        return response($produtos, 200);
     }
 
     public function siteProdDetalhes(Request $request)
