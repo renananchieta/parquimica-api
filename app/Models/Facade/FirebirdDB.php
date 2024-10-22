@@ -555,7 +555,6 @@ class FirebirdDB
     {
         $query = '
             SELECT * FROM site_prod_lista
-                ORDER BY nome
         ';
 
         $condicionais = [];
@@ -587,6 +586,8 @@ class FirebirdDB
         if(!empty($condicionais)){
             $query .= ' WHERE ' . implode(' AND ', $condicionais);
         }
+
+        $query .= 'ORDER BY nome';
 
     
         $produtos = DB::connection('firebird')->select($query);
