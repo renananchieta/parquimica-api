@@ -134,3 +134,5 @@ Route::delete('/area-restrita/blog/postagem/{id}', [BlogPostagemController::clas
 
 // Route::get('/area-restrita/puxar-linha-funcao-para-base-local', [LinhafuncaoController::class, 'cadastrarLinhaFuncao']);
 // teste
+
+Route::get('/teste-requisicao', [SitePostagemController::class, 'testeRequisicao']);

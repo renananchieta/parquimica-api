@@ -12,6 +12,7 @@ use App\Models\Regras\SitePostagemRegras;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class SitePostagemController extends Controller
 {
@@ -82,5 +83,23 @@ class SitePostagemController extends Controller
         return response([
             'message' => 'Postagem deletada com sucesso.'
         ], 200);
+    }
+
+    public function testeRequisicao()
+    {
+        $response1 = Http::withOptions([
+            'verify' => false,
+        ])->get('https://srcs.parquimica.com.br/api/firebird/linhas');
+    
+        $response2 = Http::withOptions([
+            'verify' => false,
+        ])->get('https://srcs.parquimica.com.br/api/firebird/funcoes');
+    
+        $response = [
+            'linhas' => $response1->json(),
+            'funcoes' => $response2->json()
+        ];
+    
+        return response()->json($response); 
     }
 }
