@@ -343,8 +343,6 @@ class SiteController extends Controller
 
         $codigo = strtok($slug, '-');
 
-        return response($codigo);
-
         if (isset($codigo)) {
             // $params = "?codigo_produto={$codigo}";
             $params->codigo_produto = $codigo;
@@ -361,7 +359,7 @@ class SiteController extends Controller
         $pdf = ConfigurarPDF::configurar('produto.literatura_pdf', compact('literatura'));
 
         return $pdf->setPaper('a4', 'portrait')->stream();
-        
+
         $tags = [
             'url' => $request->fullUrl(),
         ];
