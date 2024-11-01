@@ -78,7 +78,7 @@ class SiteController extends Controller
         $params = (Object)$request->all();
 
         // $linhas = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/linhas")->json();
-        $linhas = FirebirdDB::linhas($params);
+        $linhas = json_decode(json_encode(FirebirdDB::linhas($params)), true);
 
         // $products = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/produtos/base-local")->json();
         $products = ProdutosLocalDB::getProdutosTodos($params);
