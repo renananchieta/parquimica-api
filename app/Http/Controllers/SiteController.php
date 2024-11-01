@@ -360,13 +360,14 @@ class SiteController extends Controller
 
         $pdf = ConfigurarPDF::configurar('produto.literatura_pdf', compact('literatura'));
 
+        return $pdf->setPaper('a4', 'portrait')->stream();
+        
         $tags = [
             'url' => $request->fullUrl(),
         ];
 
         $seo = seoTags('ficha-tecnica', $tags);
         
-        return $pdf->setPaper('a4', 'portrait')->stream();
 
         // return $pdf->stream("ficha-tecnica-{$slug}.pdf", ['Attachment' => 0]);
     }
