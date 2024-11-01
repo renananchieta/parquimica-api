@@ -188,33 +188,39 @@ class SiteController extends Controller
         
         // var_dump($queryParams);die;
         $page = 'produtos';
-        $params = '?ordem=asc';
+        // $params = '?ordem=asc';
+        $params = new \stdClass();
 
         if (!empty($queryParams)) {
             $page = 'pesquisa';
             $tags['pesquisa'] = $queryParams;
 
             if (!empty($queryParams['termo'])) {
-                $params .= "&nome={$queryParams['termo']}";
+                // $params .= "&nome={$queryParams['termo']}";
+                $params->nome = $queryParams['termo'];
             }
     
             if (!empty($queryParams['linhas'])) {
-                $params .= "&slug_linha={$queryParams['linhas']}";
+                // $params .= "&slug_linha={$queryParams['linhas']}";
+                $params->slug_linha = $queryParams['linhas'];
             }
     
             if (!empty($queryParams['funcoes'])) {
-                $params .= "&slug_funcao={$queryParams['funcoes']}";
+                // $params .= "&slug_funcao={$queryParams['funcoes']}";
+                $params->slug_funcao = $queryParams['funcoes'];
             }
         }
         
         if ($linha) {
-            $params .= "&slug_linha={$linha}";
+            // $params .= "&slug_linha={$linha}";
+            $params->slug_linha = $linha;
             $page = 'linha';
             $tags['linha'] = $linha;
         }
 
         if ($funcao) {
-            $params .= "&slug_funcao={$funcao}";
+            // $params .= "&slug_funcao={$funcao}";
+            $params->slug_funcao = $funcao;
             $page = 'funcao';
             $tags['funcao'] = $funcao;
         }
