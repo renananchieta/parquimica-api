@@ -240,13 +240,12 @@ class SiteController extends Controller
     public function produto(Request $request, $slug)
     {
         $params = '';
-        $params2 = '';
+        // $params2 = '';
+        $params2 = new \stdClass();
 
         if (isset($slug)) {
             $params = "?slug={$slug}";
         }
-
-        
 
         // $default = 'https://srcs.parquimica.com.br/api';
 
@@ -255,13 +254,14 @@ class SiteController extends Controller
 
         $prod = $prod[0];
 
-        $params2 = '?id_base='.$prod['id_base'];
+        // $params2 = '?id_base='.$prod['id_base'];
+        $params2->id_base = $prod['id_base'];
 
         // $produto = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-detalhes{$params2}")->json();
-        $produto = collect(json_decode(json_encode(FirebirdDB::siteProdDetalhes($params)), true));
+        $produto = collect(json_decode(json_encode(FirebirdDB::siteProdDetalhes($params2)), true));
         
         // $variantes = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-variantes{$params2}")->json();
-        $variantes = collect(json_decode(json_encode(FirebirdDB::siteProdVariantes($params)), true));
+        $variantes = collect(json_decode(json_encode(FirebirdDB::siteProdVariantes($params2)), true));
 
         $produto = $produto[0];
         $produto['variantes'] = $variantes;
