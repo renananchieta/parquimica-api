@@ -349,7 +349,7 @@ class SiteController extends Controller
 
         if (isset($codigo)) {
             // $params = "?codigo_produto={$codigo}";
-            $params->codigo_produto = $codigo;
+            $params->codigo_produto = intval($codigo);
         }
 
         // $default = 'https://srcs.parquimica.com.br/api';
