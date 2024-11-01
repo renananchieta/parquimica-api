@@ -178,9 +178,9 @@ class SiteController extends Controller
         $params = (Object)$request->all();
 
         // $linhas = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/linhas")->json());
-        $linhas = json_decode(json_encode(FirebirdDB::linhas($params)), true);
+        $linhas = collect(json_decode(json_encode(FirebirdDB::linhas($params)), true));
         // $funcoes = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/funcoes")->json());
-        $funcoes = json_decode(json_encode(FirebirdDB::funcoes($params)), true);
+        $funcoes = collect(json_decode(json_encode(FirebirdDB::funcoes($params)), true));
 
         $queryParams = array_filter($request->all(), function ($value) {
             return $value !== null && $value !== '';
@@ -220,7 +220,7 @@ class SiteController extends Controller
         }
 
         // $products = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-lista{$params}")->json());
-        $products = FirebirdDB::siteProdLista($params);
+        $products = collect(FirebirdDB::siteProdLista($params));
 
         $tags['url'] = $request->fullUrl();
 
