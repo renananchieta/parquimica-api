@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Exception;
 
-use App\Models\ConfigurarPDF;
+// use App\Models\ConfigurarPDF;
 
 use App\Mail\ContactMail;
 use Illuminate\Support\Facades\Mail;
@@ -17,6 +17,7 @@ use App\Models\Entity\ConfiguracaoPages;
 use App\Models\Facade\FirebirdDB;
 use App\Models\Facade\ProdutosLocalDB;
 use App\Models\Facade\SitePostagemDB;
+use App\Models\Regras\ConfigurarPDF;
 
 class SiteController extends Controller
 {
@@ -333,17 +334,20 @@ class SiteController extends Controller
     public function fichaTecnica(Request $request, $slug) {
         set_time_limit(300);
         
-        $params = '';
+        // $params = '';
+        $params = new \stdClass();
 
         $codigo = strtok($slug, '-');
 
         if (isset($codigo)) {
-            $params = "?codigo_produto={$codigo}";
+            // $params = "?codigo_produto={$codigo}";
+            $params->codigo_produto = $codigo;
         }
 
-        $default = 'https://srcs.parquimica.com.br/api';
+        // $default = 'https://srcs.parquimica.com.br/api';
 
-        $literatura = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/literatura/{$codigo}")->json();
+        // $literatura = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/literatura/{$codigo}")->json();
+        $literatura = json_decode(json_encode(FirebirdDB::literatura($params)), true);
 
         $pdf = ConfigurarPDF::configurar('pdf.ficha-tecnica', ['literatura' => $literatura])->setPaper('a4', 'portrait');
         $pdf->save("pdf/ficha-tecnica-{$slug}.pdf");
