@@ -22,6 +22,3 @@ Route::get('/blog', [SiteController::class, 'blog'])->name('blog');
 Route::get('/post/{slug}', [SiteController::class, 'post'])->name('post');
 
 Route::post('/enviar/{form}', [SiteController::class, 'enviar'])->name('enviar');
-
-Route::get('/teste-firebird', [SiteController::class, 'testeFirebird'])->name('testeFirebird');
-

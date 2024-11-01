@@ -248,17 +248,20 @@ class SiteController extends Controller
 
         
 
-        $default = 'https://srcs.parquimica.com.br/api';
+        // $default = 'https://srcs.parquimica.com.br/api';
 
-        $prod = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-lista{$params}")->json();
+        // $prod = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-lista{$params}")->json();
+        $prod = collect(json_decode(json_encode(FirebirdDB::siteProdLista($params)), true));
 
         $prod = $prod[0];
 
         $params2 = '?id_base='.$prod['id_base'];
 
-        $produto = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-detalhes{$params2}")->json();
+        // $produto = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-detalhes{$params2}")->json();
+        $produto = collect(json_decode(json_encode(FirebirdDB::siteProdDetalhes($params)), true));
         
-        $variantes = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-variantes{$params2}")->json();
+        // $variantes = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-variantes{$params2}")->json();
+        $variantes = collect(json_decode(json_encode(FirebirdDB::siteProdVariantes($params)), true));
 
         $produto = $produto[0];
         $produto['variantes'] = $variantes;
