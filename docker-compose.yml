@@ -26,7 +26,7 @@ services:
         container_name: ${APP_NAME:-web}-nginx
         restart: unless-stopped
         ports:
-            - "8001:8000"
+            - "8000:8000"
         volumes:
             - ./:/var/www
             - ./docker/docker-compose/nginx:/etc/nginx/conf.d
