@@ -87,7 +87,6 @@ class SitePostagemController extends Controller
 
     public function testeRequisicao()
     {
-        dd('teste');
         $response1 = Http::withOptions([
             'verify' => false,
             'timeout' => 60,
