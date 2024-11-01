@@ -147,9 +147,13 @@ class SiteController extends Controller
     public function linhas(Request $request)
     {
 
-        $default = 'https://srcs.parquimica.com.br/api';
+        // $default = 'https://srcs.parquimica.com.br/api';
+        
+        // $linhas = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/linhas")->json());
+        
+        $params = (Object)$request->all();
 
-        $linhas = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/linhas")->json());
+        $linhas = collect(json_decode(json_encode(FirebirdDB::linhas($params)), true));
 
         $tags = [
             'url' => $request->fullUrl(),
