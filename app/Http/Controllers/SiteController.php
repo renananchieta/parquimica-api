@@ -239,12 +239,13 @@ class SiteController extends Controller
 
     public function produto(Request $request, $slug)
     {
-        $params = '';
+        // $params = '';
+        $params = new \stdClass();
         // $params2 = '';
         $params2 = new \stdClass();
 
         if (isset($slug)) {
-            $params = "?slug={$slug}";
+            $params->slug = $slug;
         }
 
         // $default = 'https://srcs.parquimica.com.br/api';
