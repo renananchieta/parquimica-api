@@ -355,9 +355,10 @@ class SiteController extends Controller
         // $default = 'https://srcs.parquimica.com.br/api';
 
         // $literatura = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/literatura/{$codigo}")->json();
-        $literatura = collect(json_decode(json_encode(FirebirdDB::literatura($params))));
+        $literatura = collect(FirebirdDB::literatura($params)); 
+        $literaturaArray = $literatura->toArray();
 
-        $pdf = ConfigurarPDF::configurar('pdf.ficha-tecnica', ['literatura' => $literatura])->setPaper('a4', 'portrait');
+        $pdf = ConfigurarPDF::configurar('pdf.ficha-tecnica', ['literatura' => $literaturaArray])->setPaper('a4', 'portrait');
         $pdf->save("pdf/ficha-tecnica-{$slug}.pdf");
 
         return $pdf->stream("ficha-tecnica-{$slug}.pdf", ['Attachment' => 0]);
