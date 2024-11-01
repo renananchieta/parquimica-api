@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SitePostagemResource;
+use App\Http\Resources\SitePostagemShowResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Exception;
@@ -12,6 +13,7 @@ use App\Models\ConfigurarPDF;
 use App\Mail\ContactMail;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ProductMail;
+use App\Models\Entity\ConfiguracaoPages;
 use App\Models\Facade\FirebirdDB;
 use App\Models\Facade\ProdutosLocalDB;
 use App\Models\Facade\SitePostagemDB;
@@ -38,10 +40,14 @@ class SiteController extends Controller
 
     public function empresa()
     {
-        $default = 'https://srcs.parquimica.com.br/api';
+        // $default = 'https://srcs.parquimica.com.br/api';
 
-        $response = Http::timeout(60)->withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/site/postagem/show/3");
-        $page = $response->json();
+        // $response = Http::timeout(60)->withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/site/postagem/show/3");
+        // $page = $response->json();
+
+        $postagem = ConfiguracaoPages::find(3);
+
+        $page = new SitePostagemShowResource($postagem);
 
         $seo = seoTags('empresa');
 
