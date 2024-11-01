@@ -174,10 +174,13 @@ class SiteController extends Controller
 
     public function produtos(Request $request, $linha = null, $funcao = null)
     {
-        $default = 'https://srcs.parquimica.com.br/api';
+        // $default = 'https://srcs.parquimica.com.br/api';
+        $params = (Object)$request->all();
 
-        $linhas = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/linhas")->json());
-        $funcoes = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/funcoes")->json());
+        // $linhas = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/linhas")->json());
+        $linhas = json_decode(json_encode(FirebirdDB::linhas($params)), true);
+        // $funcoes = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/funcoes")->json());
+        $funcoes = json_decode(json_encode(FirebirdDB::funcoes($params)), true);
 
         $queryParams = array_filter($request->all(), function ($value) {
             return $value !== null && $value !== '';
@@ -216,7 +219,9 @@ class SiteController extends Controller
             $tags['funcao'] = $funcao;
         }
 
-        $products = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-lista{$params}")->json());
+        // $products = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-lista{$params}")->json());
+        $products = FirebirdDB::siteProdLista($params);
+
         $tags['url'] = $request->fullUrl();
 
         $seo = seoTags($page, $tags);
