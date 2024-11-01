@@ -56,10 +56,14 @@ class SiteController extends Controller
 
     public function certificacoes()
     {
-        $default = 'https://srcs.parquimica.com.br/api';
+        // $default = 'https://srcs.parquimica.com.br/api';
 
-        $response = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/site/postagem/show/2");
-        $page = $response->json();
+        // $response = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/site/postagem/show/2");
+        // $page = $response->json();
+
+        $postagem = ConfiguracaoPages::find(2);
+
+        $page = new SitePostagemShowResource($postagem);
 
         $seo = seoTags('certificacoes');
 
