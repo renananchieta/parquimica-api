@@ -72,9 +72,9 @@
     </script>
 
     {{-- @vite(['resources/css/app.css']) --}}
-    <link href="{{asset('css/fonts.css?v=1')}}" rel="stylesheet" media/>
-    <link href="{{asset('css/app-min.css?v=2')}}" rel="stylesheet" media/>
-    <link href="{{asset('css/banner-min.css?v=3')}}" rel="stylesheet" media/>
+    <link href="{{secure_asset('css/fonts.css?v=1')}}" rel="stylesheet" media/>
+    <link href="{{secure_asset('css/app-min.css?v=2')}}" rel="stylesheet" media/>
+    <link href="{{secure_asset('css/banner-min.css?v=3')}}" rel="stylesheet" media/>
   
     <style>
         .submenu {
