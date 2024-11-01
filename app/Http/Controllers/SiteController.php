@@ -343,6 +343,8 @@ class SiteController extends Controller
 
         $codigo = strtok($slug, '-');
 
+        return response($codigo);
+
         if (isset($codigo)) {
             // $params = "?codigo_produto={$codigo}";
             $params->codigo_produto = $codigo;
