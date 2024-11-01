@@ -85,7 +85,7 @@ class SitePostagemController extends Controller
         ], 200);
     }
 
-    public function testeRequisicao2()
+    public function testeRequisicao()
     {
         $response1 = Http::withOptions([
             'verify' => false,
@@ -103,29 +103,5 @@ class SitePostagemController extends Controller
         ];
     
         return response()->json($response); 
-    }
-
-    public function testeRequisicao()
-    {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://srcs.parquimica.com.br/api/firebird/linhas");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-        $response1 = curl_exec($ch);
-        curl_close($ch);
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://srcs.parquimica.com.br/api/firebird/funcoes");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-        $response2 = curl_exec($ch);
-        curl_close($ch);
-
-        return response()->json([
-            'linhas' => json_decode($response1, true),
-            'funcoes' => json_decode($response2, true),
-        ]);
     }
 }
