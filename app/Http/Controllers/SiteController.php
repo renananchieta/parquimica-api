@@ -125,16 +125,19 @@ class SiteController extends Controller
     public function post(Request $request, $slug)
     {
         // $params = '';
+        $params = (Object)$request->all();
 
         $codigo = strtok($slug, '-');
 
-        // if (isset($codigo)) {
-        //     $params = "?codigo_produto={$codigo}";
-        // }
+        if (isset($codigo)) {
+            // $params = "?codigo_produto={$codigo}";
+            $params->codigo_produto = $codigo;
+        }
 
-        $default = 'https://srcs.parquimica.com.br/api';
+        // $default = 'https://srcs.parquimica.com.br/api';
 
-        $post = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/blog/postagem/show/{$codigo}")->json();
+        // $post = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/blog/postagem/show/{$codigo}")->json();
+        $post = json_decode(json_encode(ConfiguracaoPages::find($params->codigo_produto)));
 
         // $post = $post['data'][0];
 
