@@ -137,7 +137,7 @@ class SiteController extends Controller
         // $default = 'https://srcs.parquimica.com.br/api';
 
         // $post = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/blog/postagem/show/{$codigo}")->json();
-        $post = json_decode(json_encode(ConfiguracaoPages::find($params->codigo_produto)));
+        $post = collect(json_decode(json_encode(ConfiguracaoPages::find($params->codigo_produto))));
 
         // $post = $post['data'][0];
 
