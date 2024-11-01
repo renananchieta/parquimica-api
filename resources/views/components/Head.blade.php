@@ -5,7 +5,7 @@
     <meta name="copyright" content="© {{ date('Y') }} New Box Tecnologia" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="{{ asset('img/parquimica-favicon.png') }}" sizes="192x192" />
+    <link rel="icon" href="{{ secure_asset('img/parquimica-favicon.png') }}" sizes="192x192" />
 
     <title>{{ $seo['title'] }}</title>
 
