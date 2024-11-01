@@ -105,9 +105,13 @@ class SiteController extends Controller
 
     public function blog(Request $request)
     {
-        $default = 'https://srcs.parquimica.com.br/api';
+        // $default = 'https://srcs.parquimica.com.br/api';
+        $params = (Object)$request->all();
 
-        $blog = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/blog/postagem/grid")->json());
+        // $blog = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/blog/postagem/grid")->json());
+        $postagensSite = SitePostagemDB::getPostagensBlog($params);
+
+        $blog = SitePostagemResource::collection($postagensSite);
         
         $tags = [
             'url' => $request->fullUrl(),
