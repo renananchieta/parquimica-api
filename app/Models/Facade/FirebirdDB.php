@@ -236,6 +236,8 @@ class FirebirdDB
 
     public static function literatura($params)
     {
+        dd($params->codigo_produto);
+
         $query = 'SELECT * FROM literatura(?)';
         $literaturas = DB::connection('firebird')->select($query, [$params->codigo_produto]);
 
