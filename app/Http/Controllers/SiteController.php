@@ -220,8 +220,8 @@ class SiteController extends Controller
         }
 
         // $products = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-lista{$params}")->json());
-        $products = collect(FirebirdDB::siteProdLista($params));
-
+        $products = json_decode(json_encode(FirebirdDB::siteProdLista($params)), true);
+        
         $tags['url'] = $request->fullUrl();
 
         $seo = seoTags($page, $tags);
