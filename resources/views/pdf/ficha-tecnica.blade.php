@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ config('app.name', 'Laravel') }} | LITERATURA E DETALHES DE PRODUTO</title>
+    <link rel="icon" href="{{ asset('img/parquimica-favicon.png') }}" sizes="192x192" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <style>
+        #header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #header img {
+            margin: 0; /* Remova o espaçamento padrão das imagens */
+        }
+
+        @font-face {
+            font-family: 'Calibri';
+            /* src: url('<?= asset('fonts/calibri/calibri.ttf') ?>') format("truetype"); */
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'CalibriB';
+            /* src: url('<?= asset('fonts/calibri/calibrib.ttf') ?>') format("truetype"); */
+            font-weight: bold;
+        }
+
+        body {
+            font-family: Arial, sans-serif; /* Alterando para Arial */
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .details-table th {
+            background-color: #f2f2f2;
+            padding: 8px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .details-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .details-left {
+            font-weight: bold;
+        }
+
+        .details-right {
+            font-family: "Times New Roman", Times, serif;
+            font-weight: normal; /* Removendo o negrito */
+        }
+
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div>
+            @foreach ($literatura as $item)
+                <div>
+                    <h2>{{ $item['PRD_NOME'] }}</h2>
+                    <h3>"{{ $item['PRD_LIT_DSC'] }}"</h3>
+
+                    <table class="details-table">
+                        <tbody>
+                        @if (is_array($item['detalhes']) && count($item['detalhes']) > 0)
+                            @foreach ($item['detalhes'] as $detalhe)
+                                <tr>
+                                    <td>{{ $detalhe['LITENS_DSC'] }}</td>
+                                    <td class="details-right">{{ $detalhe['LID_DSC'] }}</td>
+                                </tr>
+                            @endforeach
+                        @endif
+                        </tbody>
+                    </table>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -9,120 +9,6 @@ use Illuminate\Support\Facades\Response;
 
 class FirebirdDB 
 {
-    // public static function grid($params)
-    // {
-    //     $query = 'SELECT 
-    //                 sp.id, 
-    //                 MAX(sp.nome) as nome, 
-    //                 MAX(sp.embalagem) as embalagem, 
-    //                 MAX(sp.emb_abreviada) as emb_abreviada, 
-    //                 MAX(sp.preco) as preco,
-    //                 MAX(sp.ativo_site) as ativo_site,
-    //             FROM site_produtos sp
-    //                 JOIN site_prod_linha spl ON sp.id = spl.id_prd
-    //                 JOIN site_prod_funcao spf ON sp.id = spf.id_prd';
-    
-    //     $condicionais = [];
-    
-    //     if (isset($params->linhaId)) {
-    //         $condicionais[] = "spl.id_linha = $params->linhaId";
-    //     }
-    
-    //     if (isset($params->funcaoId)) {
-    //         $condicionais[] = "spf.id_funcao = $params->funcaoId";
-    //     }
-    
-    //     // if (isset($params->nomeProduto)) {
-    //     //     $condicionais[] = "sp.nome = '$params->nomeProduto'";
-    //     // }
-
-    //     if (isset($params->nomeProduto)) {
-    //         $condicionais[] = "LOWER(sp.nome) LIKE '%" . strtolower($params->nomeProduto) . "%'";
-    //     }
-    
-    //     if (isset($params->ativoSite)) {
-    //         $condicionais[] = "sp.ativo_site = $params->ativoSite";
-    //     }
-    
-    //     if (empty($params->ativoSite)) {
-    //         $condicionais[] = "sp.ativo_site = 1";
-    //     }
-    
-    //     if (!empty($condicionais)) {
-    //         $query .= ' WHERE ' . implode(' AND ', $condicionais);
-    //     }
-    
-    //     $query .= ' GROUP BY sp.id';
-    
-    //     $produtos = DB::connection('firebird')->select($query);
-    
-    //     $produtos = array_map(function ($produto) {
-    //         $produto = (array) $produto; // Certifique-se de que $produto é um array
-    //         $produto = array_map(function ($item) {
-    //             return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
-    //         }, $produto);
-    //         return (object) $produto; // Converter de volta para objeto
-    //     }, $produtos);
-    
-    //     return $produtos;
-    // }
-
-    // public static function grid($params)
-    // {
-    //     $query = 'SELECT 
-    //                 sp.id, 
-    //                 sp.nome, 
-    //                 sp.embalagem, 
-    //                 sp.emb_abreviada, 
-    //                 sp.preco,
-    //                 sp.ativo_site,
-    //                 spf.id_funcao,
-    //                 spf.funcao_dsc,
-    //                 spl.id_linha,
-    //                 spl.linha_dsc
-    //             FROM site_produtos sp
-    //             JOIN site_prod_linha spl ON sp.id = spl.id_prd
-    //             JOIN site_prod_funcao spf ON sp.id = spf.id_prd';
-        
-    //     $condicionais = [];
-        
-    //     if (isset($params->linhaId)) {
-    //         $condicionais[] = "spl.id_linha = $params->linhaId";
-    //     }
-
-    //     if (isset($params->funcaoId)) {
-    //         $condicionais[] = "spf.id_funcao = $params->funcaoId";
-    //     }
-
-    //     if (isset($params->nomeProduto)) {
-    //         $condicionais[] = "LOWER(sp.nome) LIKE '%" . strtolower($params->nomeProduto) . "%'";
-    //     }
-
-    //     if (isset($params->ativoSite)) {
-    //         $condicionais[] = "sp.ativo_site = $params->ativoSite";
-    //     }
-
-    //     if (empty($params->ativoSite)) {
-    //         $condicionais[] = "sp.ativo_site = 1";
-    //     }
-
-    //     if (!empty($condicionais)) {
-    //         $query .= ' WHERE ' . implode(' AND ', $condicionais);
-    //     }
-
-    //     $produtos = DB::connection('firebird')->select($query);
-
-    //     $produtos = array_map(function ($produto) {
-    //         $produto = (array) $produto; // Certifique-se de que $produto é um array
-    //         $produto = array_map(function ($item) {
-    //             return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
-    //         }, $produto);
-    //         return (object) $produto; // Converter de volta para objeto
-    //     }, $produtos);
-
-    //     return $produtos;
-    // }
-
     public static function grid($params)
     {
         $query = 'SELECT 
@@ -436,27 +322,20 @@ class FirebirdDB
     {
         $data = self::grid($params);
 
-        // Define o nome do arquivo CSV
         $filename = 'produtos.csv';
 
-        // Cria um recurso de memória para o arquivo CSV
         $handle = fopen('php://memory', 'r+');
 
-        // Escreve o cabeçalho no arquivo CSV
         fputcsv($handle, ['ID', 'Nome', 'Embalagem Abreviada', 'Preço']);
 
-        // Escreve os dados no arquivo CSV
         foreach ($data as $row) {
             fputcsv($handle, (array) $row);
         }
 
-        // Retorna ao início do recurso de memória
         rewind($handle);
 
-        // Captura o conteúdo do recurso de memória
         $contents = stream_get_contents($handle);
 
-        // Fecha o recurso de memória
         fclose($handle);
 
         return [
@@ -492,11 +371,11 @@ class FirebirdDB
         $produtos = DB::connection('firebird')->select($query);
 
         $produtos = array_map(function($produto) {
-            $produto = (array) $produto; // Certifique-se de que $produto é um array
+            $produto = (array) $produto; 
             $produto = array_map(function($item) {
                 return is_string($item) ? mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1') : $item;
             }, $produto);
-            return (object) $produto; // Converter de volta para objeto
+            return (object) $produto; 
         }, $produtos);
     
         return $produtos;
