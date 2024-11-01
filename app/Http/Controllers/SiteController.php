@@ -338,7 +338,8 @@ class SiteController extends Controller
         return view('produto-fb', compact('produto', 'seo'));
     }
 
-    public function fichaTecnica(Request $request, $slug) {
+    public function fichaTecnica(Request $request, $slug) 
+    {
         set_time_limit(300);
         
         // $params = '';
@@ -356,21 +357,10 @@ class SiteController extends Controller
         // $literatura = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/literatura/{$codigo}")->json();
         $literatura = FirebirdDB::literatura($params);
 
-        // $pdf = ConfigurarPDF::configurar('pdf.ficha-tecnica', ['literatura' => $literatura])->setPaper('a4', 'portrait');
-        // $pdf->save("pdf/ficha-tecnica-{$slug}.pdf");
+        $pdf = ConfigurarPDF::configurar('pdf.ficha-tecnica', ['literatura' => $literatura])->setPaper('a4', 'portrait');
+        $pdf->save("pdf/ficha-tecnica-{$slug}.pdf");
 
-        $pdf = ConfigurarPDF::configurar('produto.literatura_pdf', compact('literatura'));
-
-        return $pdf->setPaper('a4', 'portrait')->stream();
-
-        $tags = [
-            'url' => $request->fullUrl(),
-        ];
-
-        $seo = seoTags('ficha-tecnica', $tags);
-        
-
-        // return $pdf->stream("ficha-tecnica-{$slug}.pdf", ['Attachment' => 0]);
+        return $pdf->stream("ficha-tecnica-{$slug}.pdf", ['Attachment' => 0]);
     }
 
     public function enviar(Request $request, $form = null)
