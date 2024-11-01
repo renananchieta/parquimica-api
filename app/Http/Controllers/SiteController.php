@@ -81,7 +81,7 @@ class SiteController extends Controller
         $linhas = json_decode(json_encode(FirebirdDB::linhas($params)), true);
 
         // $products = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/produtos/base-local")->json();
-        $products = ProdutosLocalDB::getProdutosTodos($params);
+        $products = json_decode(json_encode(ProdutosLocalDB::getProdutosTodos($params)), true);
         
         $tags = [
             'url' => $request->fullUrl(),
