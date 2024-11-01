@@ -4,7 +4,7 @@
         <nav class="navbar fixed-top navbar-expand-lg navbar-dark topo-inicial">
             <div class="container">
               <a class="navbar-brand" href="{{ route('/') }}" title="Parquimica Indústria">
-                <img loading="lazy" src="{{ asset('img/logo-parquimica.webp') }}" width="200" height="100%" class="logo" alt="Parquimica Indústria" title="Parquimica Indústria">
+                <img loading="lazy" src="{{ secure_asset('img/logo-parquimica.webp') }}" width="200" height="100%" class="logo" alt="Parquimica Indústria" title="Parquimica Indústria">
               </a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
