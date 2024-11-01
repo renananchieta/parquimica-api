@@ -166,6 +166,9 @@ class SiteController extends Controller
 
     public function funcoes(Request $request)
     {
+        $params = (Object)$request->all();
+
+        $funcoes = collect(json_decode(json_encode(FirebirdDB::funcoes($params)), true));
 
         $tags = [
             'url' => $request->fullUrl(),
