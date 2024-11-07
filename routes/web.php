@@ -22,3 +22,5 @@ Route::get('/blog', [SiteController::class, 'blog'])->name('blog');
 Route::get('/post/{slug}', [SiteController::class, 'post'])->name('post');
 
 Route::post('/enviar/{form}', [SiteController::class, 'enviar'])->name('enviar');
+
+Route::get('testes', [SiteController::class, 'teste'])->name('teste');

@@ -23,16 +23,17 @@ class SiteController extends Controller
 {
     public function index(Request $request)
     {
-
-        // $default = 'https://srcs.parquimica.com.br/api';
-
-        // $blog = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/blog/postagem/grid")->json());
-
         $params = (Object)$request->all();
 
-        $postagensSite = SitePostagemDB::getPostagensBlog($params);
-
-        $blog = SitePostagemResource::collection($postagensSite);
+        if (app()->environment('local')) {
+            $default = 'http://srcs.parquimica.com.br/api';
+    
+            $blog = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/blog/postagem/grid")->json());
+        } else {
+            $postagensSite = SitePostagemDB::getPostagensBlog($params);
+    
+            $blog = SitePostagemResource::collection($postagensSite);
+        } 
         
         $seo = seoTags();
 
@@ -41,14 +42,16 @@ class SiteController extends Controller
 
     public function empresa()
     {
-        // $default = 'https://srcs.parquimica.com.br/api';
+        $default = 'http://srcs.parquimica.com.br/api';
 
-        // $response = Http::timeout(60)->withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/site/postagem/show/3");
-        // $page = $response->json();
+        if (app()->environment('local')) {
+            $response = Http::timeout(60)->withOptions(['verify' => false])->get(env('API_URL', $default) . "/area-restrita/site/postagem/show/3");
 
-        $postagem = ConfiguracaoPages::find(3);
-
-        $page = new SitePostagemShowResource($postagem);
+            $page = $response->json();
+        } else {
+            $postagem = ConfiguracaoPages::find(3);
+            $page = new SitePostagemShowResource($postagem);
+        }
 
         $seo = seoTags('empresa');
 
@@ -57,14 +60,17 @@ class SiteController extends Controller
 
     public function certificacoes()
     {
-        // $default = 'https://srcs.parquimica.com.br/api';
+        $default = 'http://srcs.parquimica.com.br/api';
 
-        // $response = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/site/postagem/show/2");
-        // $page = $response->json();
+        if (app()->environment('local')) {
+            $response = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/site/postagem/show/2");
 
-        $postagem = ConfiguracaoPages::find(2);
+            $page = $response->json();
+        } else {
+            $postagem = ConfiguracaoPages::find(2);
 
-        $page = new SitePostagemShowResource($postagem);
+            $page = new SitePostagemShowResource($postagem);
+        }   
 
         $seo = seoTags('certificacoes');
 
@@ -85,14 +91,18 @@ class SiteController extends Controller
 
     public function cotacao(Request $request)
     {
-        // $default = 'https://srcs.parquimica.com.br/api';
         $params = (Object)$request->all();
+        $default = 'http://srcs.parquimica.com.br/api';
 
-        // $linhas = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/linhas")->json();
-        $linhas = json_decode(json_encode(FirebirdDB::linhas($params)), true);
-
-        // $products = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/produtos/base-local")->json();
-        $products = json_decode(json_encode(ProdutosLocalDB::getProdutosTodos($params)), true);
+        if (app()->environment('local')) {
+            $linhas = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/linhas")->json();
+            
+            $products = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/produtos/base-local")->json();
+        } else {
+            $linhas = json_decode(json_encode(FirebirdDB::linhas($params)), true);
+            
+            $products = json_decode(json_encode(ProdutosLocalDB::getProdutosTodos($params)), true);
+        }  
         
         $tags = [
             'url' => $request->fullUrl(),
@@ -105,13 +115,18 @@ class SiteController extends Controller
 
     public function blog(Request $request)
     {
-        // $default = 'https://srcs.parquimica.com.br/api';
+        $default = 'http://srcs.parquimica.com.br/api';
         $params = (Object)$request->all();
 
-        // $blog = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/blog/postagem/grid")->json());
-        $postagensSite = SitePostagemDB::getPostagensBlog($params);
+        if (app()->environment('local')) {
+            
+            $blog = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/blog/postagem/grid")->json());
 
-        $blog = SitePostagemResource::collection($postagensSite);
+        } else {
+            $postagensSite = SitePostagemDB::getPostagensBlog($params);
+    
+            $blog = SitePostagemResource::collection($postagensSite);
+        }  
         
         $tags = [
             'url' => $request->fullUrl(),
@@ -124,8 +139,8 @@ class SiteController extends Controller
 
     public function post(Request $request, $slug)
     {
-        // $params = '';
         $params = (Object)$request->all();
+        $default = 'http://srcs.parquimica.com.br/api';
 
         $codigo = strtok($slug, '-');
 
@@ -134,12 +149,16 @@ class SiteController extends Controller
             $params->codigo_produto = $codigo;
         }
 
-        // $default = 'https://srcs.parquimica.com.br/api';
+        if (app()->environment('local')) {
+            
+            $post = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/blog/postagem/show/{$codigo}")->json();
 
-        // $post = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/blog/postagem/show/{$codigo}")->json();
-        $post = collect(json_decode(json_encode(ConfiguracaoPages::find($params->codigo_produto))));
-
-        // $post = $post['data'][0];
+            // $post = $post['data'][0];
+        } else {
+            
+            $post = collect(json_decode(json_encode(ConfiguracaoPages::find($params->codigo_produto))));
+        
+        }  
 
         $tags = [
             'title' => $post['titulo'],
@@ -154,14 +173,20 @@ class SiteController extends Controller
 
     public function linhas(Request $request)
     {
-
-        // $default = 'https://srcs.parquimica.com.br/api';
-        
-        // $linhas = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/linhas")->json());
-        
         $params = (Object)$request->all();
 
-        $linhas = collect(json_decode(json_encode(FirebirdDB::linhas($params)), true));
+        $default = 'http://srcs.parquimica.com.br/api';
+        
+        if (app()->environment('local')) {
+            
+            $linhas = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/linhas")->json());
+
+        } else {
+
+            $linhas = collect(json_decode(json_encode(FirebirdDB::linhas($params)), true));
+        
+        }  
+
 
         $tags = [
             'url' => $request->fullUrl(),
@@ -189,13 +214,20 @@ class SiteController extends Controller
 
     public function produtos(Request $request, $linha = null, $funcao = null)
     {
-        // $default = 'https://srcs.parquimica.com.br/api';
+        $default = 'http://srcs.parquimica.com.br/api';
         $params = (Object)$request->all();
 
-        // $linhas = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/linhas")->json());
-        $linhas = collect(json_decode(json_encode(FirebirdDB::linhas($params)), true));
-        // $funcoes = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/funcoes")->json());
-        $funcoes = collect(json_decode(json_encode(FirebirdDB::funcoes($params)), true));
+        if (app()->environment('local')) {
+            
+            $linhas = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/linhas")->json());
+            
+            $funcoes = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/funcoes")->json());
+        } else {
+            $linhas = collect(json_decode(json_encode(FirebirdDB::linhas($params)), true));
+            
+            $funcoes = collect(json_decode(json_encode(FirebirdDB::funcoes($params)), true));
+        
+        }  
 
         $queryParams = array_filter($request->all(), function ($value) {
             return $value !== null && $value !== '';
@@ -203,45 +235,68 @@ class SiteController extends Controller
         
         // var_dump($queryParams);die;
         $page = 'produtos';
-        // $params = '?ordem=asc';
-        $params = new \stdClass();
+
+        if (app()->environment('local')) {
+            $params = '?ordem=asc';
+        } else {
+            $params = new \stdClass();
+        }  
+
 
         if (!empty($queryParams)) {
             $page = 'pesquisa';
             $tags['pesquisa'] = $queryParams;
 
             if (!empty($queryParams['termo'])) {
-                // $params .= "&nome={$queryParams['termo']}";
-                $params->nome = $queryParams['termo'];
+                if (app()->environment('local')) {
+                    $params .= "&nome={$queryParams['termo']}";
+                } else {
+                    $params->nome = $queryParams['termo'];
+                }  
             }
     
             if (!empty($queryParams['linhas'])) {
-                // $params .= "&slug_linha={$queryParams['linhas']}";
-                $params->slug_linha = $queryParams['linhas'];
+                if (app()->environment('local')) {
+                    $params .= "&slug_linha={$queryParams['linhas']}";
+                } else {
+                    $params->slug_linha = $queryParams['linhas'];
+                }  
             }
     
             if (!empty($queryParams['funcoes'])) {
-                // $params .= "&slug_funcao={$queryParams['funcoes']}";
-                $params->slug_funcao = $queryParams['funcoes'];
+                if (app()->environment('local')) {
+                    $params .= "&slug_funcao={$queryParams['funcoes']}";
+                } else {
+                    $params->slug_funcao = $queryParams['funcoes'];
+                }  
             }
         }
         
         if ($linha) {
-            // $params .= "&slug_linha={$linha}";
-            $params->slug_linha = $linha;
+            if (app()->environment('local')) {
+                $params .= "&slug_linha={$linha}";
+            } else {
+                $params->slug_linha = $linha;
+            }  
             $page = 'linha';
             $tags['linha'] = $linha;
         }
 
         if ($funcao) {
-            // $params .= "&slug_funcao={$funcao}";
-            $params->slug_funcao = $funcao;
+            if (app()->environment('local')) {
+                $params .= "&slug_funcao={$funcao}";
+            } else {
+                $params->slug_funcao = $funcao;
+            } 
             $page = 'funcao';
             $tags['funcao'] = $funcao;
         }
 
-        // $products = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-lista{$params}")->json());
-        $products = collect(json_decode(json_encode(FirebirdDB::siteProdLista($params)), true));
+        if (app()->environment('local')) {
+            $products = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-lista{$params}")->json());
+        } else {
+            $products = collect(json_decode(json_encode(FirebirdDB::siteProdLista($params)), true));
+        } 
 
         $tags['url'] = $request->fullUrl();
 
@@ -260,30 +315,45 @@ class SiteController extends Controller
 
     public function produto(Request $request, $slug)
     {
-        // $params = '';
-        $params = new \stdClass();
-        // $params2 = '';
-        $params2 = new \stdClass();
+        $default = 'http://srcs.parquimica.com.br/api';
 
-        if (isset($slug)) {
-            $params->slug = $slug;
-        }
+        if (app()->environment('local')) {
+            $params = '';
+            $params2 = '';
 
-        // $default = 'https://srcs.parquimica.com.br/api';
+            if (isset($slug)) {
+                $params = "?slug={$slug}";
+            }
+        } else {
+            $params = new \stdClass();
+            $params2 = new \stdClass();
+            if (isset($slug)) {
+                $params->slug = $slug;
+            }
+        } 
 
-        // $prod = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-lista{$params}")->json();
-        $prod = collect(json_decode(json_encode(FirebirdDB::siteProdLista($params)), true));
+        if (app()->environment('local')) {
+            $prod = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-lista{$params}")->json();
 
-        $prod = $prod[0];
+            $prod = $prod[0];
 
-        // $params2 = '?id_base='.$prod['id_base'];
-        $params2->id_base = $prod['id_base'];
+            $params2 = '?id_base='.$prod['id_base'];
+            
+            $produto = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-detalhes{$params2}")->json();
 
-        // $produto = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-detalhes{$params2}")->json();
-        $produto = collect(json_decode(json_encode(FirebirdDB::siteProdDetalhes($params2)), true));
+            $variantes = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-variantes{$params2}")->json();
+
+        } else {
+            $prod = collect(json_decode(json_encode(FirebirdDB::siteProdLista($params)), true));
         
-        // $variantes = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-variantes{$params2}")->json();
-        $variantes = collect(json_decode(json_encode(FirebirdDB::siteProdVariantes($params2)), true));
+            $prod = $prod[0];
+            
+            $params2->id_base = $prod['id_base'];
+        
+            $produto = collect(json_decode(json_encode(FirebirdDB::siteProdDetalhes($params2)), true));
+
+            $variantes = collect(json_decode(json_encode(FirebirdDB::siteProdVariantes($params2)), true));
+        } 
 
         $produto = $produto[0];
         $produto['variantes'] = $variantes;
@@ -308,23 +378,35 @@ class SiteController extends Controller
 
     public function produtofb(Request $request, $slug)
     {
-        // $params = '';
-        $params = new \stdClass();
-
         $codigo = strtok($slug, '-');
+        
+        $default = 'http://srcs.parquimica.com.br/api';
 
-        if (isset($codigo)) {
-            $params->id_base = $codigo;
-        }
+        if (app()->environment('local')) {
+            $params = '';
+ 
+            if (isset($codigo)) {
+                $params = "?id_base={$codigo}";
+            }
 
-        // $default = 'https://srcs.parquimica.com.br/api';
+            $produto = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-detalhes{$params}")->json();
 
-        // $produto = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-detalhes{$params}")->json();
-        $produto = collect(json_decode(json_encode(FirebirdDB::siteProdDetalhes($params)), true));
-        // $variantes = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-variantes{$params}")->json();
-        $variantes = collect(json_decode(json_encode(FirebirdDB::siteProdVariantes($params)), true));
-
-        // $produto = $produto['data'][0];
+            $variantes = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-variantes{$params}")->json();
+            
+            // $produto = $produto['data'][0];
+        } else {
+            $params = new \stdClass();
+            
+            if (isset($codigo)) {
+                $params->id_base = $codigo;
+            }
+        
+            $produto = collect(json_decode(json_encode(FirebirdDB::siteProdDetalhes($params)), true));
+            
+            $variantes = collect(json_decode(json_encode(FirebirdDB::siteProdVariantes($params)), true));
+            
+        } 
+        
         $produto['variantes'] = $variantes;
 
         $tags = [
@@ -341,30 +423,38 @@ class SiteController extends Controller
     public function fichaTecnica(Request $request, $slug) 
     {
         set_time_limit(300);
-        
-        // $params = '';
-        $params = new \stdClass();
+
+        $default = 'http://srcs.parquimica.com.br/api';
 
         $codigo = strtok($slug, '-');
 
-        if (isset($codigo)) {
-            // $params = "?codigo_produto={$codigo}";
-            $params->codigo_produto = intval($codigo);
-        }
+        if (app()->environment('local')) {
+            $params = '';
 
-        // $default = 'https://srcs.parquimica.com.br/api';
+            if (isset($codigo)) {
+                $params = "?codigo_produto={$codigo}";
+            }
+            
+            $literatura = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/literatura/{$codigo}")->json();
 
-        // $literatura = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/literatura/{$codigo}")->json();
-        $literatura = FirebirdDB::literatura($params);
+            $pdf = ConfigurarPDF::configurar('pdf.ficha-tecnica', ['literatura' => $literatura])->setPaper('a4', 'portrait');
+            $pdf->save("pdf/ficha-tecnica-{$slug}.pdf");
 
-        $pdf = ConfigurarPDF::configurar('produto.literatura_pdf', compact('literatura'));
+            return $pdf->stream("ficha-tecnica-{$slug}.pdf", ['Attachment' => 0]);
 
-        return $pdf->setPaper('a4', 'portrait')->stream();
+        } else {
+            $params = new \stdClass();
 
-        // $pdf = ConfigurarPDF::configurar('pdf.ficha-tecnica', ['literatura' => $literaturaArray])->setPaper('a4', 'portrait');
-        // $pdf->save("pdf/ficha-tecnica-{$slug}.pdf");
+            if (isset($codigo)) {
+                $params->codigo_produto = intval($codigo);
+            }
+            
+            $literatura = FirebirdDB::literatura($params);
 
-        // return $pdf->stream("ficha-tecnica-{$slug}.pdf", ['Attachment' => 0]);
+            $pdf = ConfigurarPDF::configurar('produto.literatura_pdf', compact('literatura'));
+            
+            return $pdf->setPaper('a4', 'portrait')->stream();
+        } 
     }
 
     public function enviar(Request $request, $form = null)
@@ -448,5 +538,13 @@ class SiteController extends Controller
             // Em caso de erro, retorna uma mensagem de erro
             return redirect()->route($form)->with('error', 'Ocorreu um erro ao enviar a mensagem. '.$e);
         }
+    }
+
+    public function teste()
+    {
+        $response = Http::withOptions(['verify' => false])->get('http://srcs.parquimica.com.br/api/area-restrita/site/postagem/show/3');
+
+        return response()->json($response->json());
+
     }
 }

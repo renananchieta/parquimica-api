@@ -5,7 +5,7 @@
     <meta name="copyright" content="© {{ date('Y') }} New Box Tecnologia" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="{{ secure_asset('img/parquimica-favicon.png') }}" sizes="192x192" />
+    <link rel="icon" href="{{ app()->environment('production') ? secure_asset('img/parquimica-favicon.png') : asset('img/parquimica-favicon.png') }}" sizes="192x192" />
 
     <title>{{ $seo['title'] }}</title>
 
@@ -72,9 +72,9 @@
     </script>
 
     {{-- @vite(['resources/css/app.css']) --}}
-    <link href="{{secure_asset('css/fonts.css?v=1')}}" rel="stylesheet" media/>
-    <link href="{{secure_asset('css/app-min.css?v=2')}}" rel="stylesheet" media/>
-    <link href="{{secure_asset('css/banner-min.css?v=3')}}" rel="stylesheet" media/>
+    <link href="{{ app()->environment('production') ? secure_asset('css/fonts.css?v=1') : asset('css/fonts.css?v=1')}}" rel="stylesheet" media/>
+    <link href="{{ app()->environment('production') ? secure_asset('css/app-min.css?v=2') : asset('css/app-min.css?v=2')}}" rel="stylesheet" media/>
+    <link href="{{ app()->environment('production') ? secure_asset('css/banner-min.css?v=3') : asset('css/banner-min.css?v=3') }}" rel="stylesheet" media/>
   
     <style>
         .submenu {

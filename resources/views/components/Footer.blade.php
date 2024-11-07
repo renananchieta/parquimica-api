@@ -4,7 +4,7 @@
 
         <div class="row">
             <div class="mb-3 col-lg-3 col-md-6 col-sm-6 text-center">
-                <img loading="lazy" src="{{ secure_asset('img/logo-parquimica.webp') }}" width="200" height="auto" class="logo" alt="Parquimica Indústria" title="Parquimica Indústria">
+                <img loading="lazy" src="{{ app()->environment('production') ? secure_asset('img/logo-parquimica.webp') : asset('img/logo-parquimica.webp')}}" width="200" height="auto" class="logo" alt="Parquimica Indústria" title="Parquimica Indústria">
                 <br>
                 <p class="mt-2 mb-4 small">Há mais de 40 anos trazendo qualidade para a região norte do Brasil.</p>
 
@@ -12,23 +12,23 @@
 
                 <li class="nav-item">
                     <a class="nav-link px-2" target="_blank" href="https://www.instagram.com/parquimica/" title="Instagram">
-                    <img loading="lazy" src="{{ secure_asset('img/icons/instagram.svg') }}" alt="Instagram" title="Instagram" width="32" height="32">
+                    <img loading="lazy" src="{{ app()->environment('production') ? secure_asset('img/icons/instagram.svg') : asset('img/icons/instagram.svg')}}" alt="Instagram" title="Instagram" width="32" height="32">
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link px-2" target="_blank" href="https://www.facebook.com/parquimicaindustrias/" title="Facebook">
-                    <img loading="lazy" src="{{ secure_asset('img/icons/facebook.svg') }}" alt="Facebook" title="Facebook" width="32" height="32">
+                    <img loading="lazy" src="{{ app()->environment('production') ? secure_asset('img/icons/facebook.svg') : asset('img/icons/facebook.svg')}}" alt="Facebook" title="Facebook" width="32" height="32">
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link px-2" target="_blank" href="https://www.linkedin.com/company/parquimica" title="Linkedin">
-                    <img loading="lazy" src="{{ secure_asset('img/icons/linkedin.svg') }}" alt="Linkedin" title="Linkedin" width="32" height="32">
+                    <img loading="lazy" src="{{ app()->environment('production') ? secure_asset('img/icons/linkedin.svg') : asset('img/icons/linkedin.svg')}}" alt="Linkedin" title="Linkedin" width="32" height="32">
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link px-2" target="_blank" href="#" title="Youtube">
-                    <img loading="lazy" src="{{ secure_asset('img/icons/youtube.svg') }}" alt="Youtube" title="Youtube" width="32" height="32">
+                    <img loading="lazy" src="{{ app()->environment('production') ? secure_asset('img/icons/youtube.svg') : asset('img/icons/youtube.svg')}}" alt="Youtube" title="Youtube" width="32" height="32">
                     </a>
                 </li>
 
@@ -115,12 +115,12 @@
 
   <div class="floating-button">
     <a href="https://wa.me/5591981199504/?text=Olá! Desejo obter mais informações sobre o catálogo de produtos!" class="float" title="Entre em contato pelo Whatsapp!">
-      <img loading="lazy" src="{{ secure_asset('img/icons/whatsapp.svg') }}" width="40" height="40" alt="icon-whatsapp" title="icon-whatsapp">
+      <img loading="lazy" src="{{ app()->environment('production') ? secure_asset('img/icons/whatsapp.svg') : asset('img/icons/whatsapp.svg')}}" width="40" height="40" alt="icon-whatsapp" title="icon-whatsapp">
     </a>
   </div>
 
-  <script src="{{ secure_asset('js/jquery-3.7.0.min.js') }}"></script>
-  <script src="{{ secure_asset('js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ app()->environment('production') ? secure_asset('js/jquery-3.7.0.min.js') : asset('js/jquery-3.7.0.min.js') }}"></script>
+  <script src="{{ app()->environment('production') ? secure_asset('js/bootstrap.bundle.min.js') : asset('js/bootstrap.bundle.min.js') }}"></script>
 
     <script>
     $(document).ready(function() {
