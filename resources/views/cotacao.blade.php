@@ -129,7 +129,7 @@
 
 
                 ?>
-                <option value="<?=$linha['ID']?>"><?=$linha['DESCRICAO']?></option>
+                <option value="<?=$linha['DESCRICAO']?>"><?=$linha['DESCRICAO']?></option>
                 <?php
                     }
                   }
@@ -148,7 +148,7 @@
 
 
                 ?>
-                <option value="<?=$product['codigo_produto']?>"><?=$product['nome_produto']?></option>
+                <option value="<?=$product['nome']?>"><?=$product['nome']?></option>
                 <?php
                     }
                   }

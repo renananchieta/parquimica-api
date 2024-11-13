@@ -90,7 +90,7 @@
                 <p class="small">
                 Comercial: <a href="tel:+559133443346" title="Entre em contato com o nosso departamento Comercial">+55 (91) 3344-3346</a> <br>
                 Vendas: <a href="https://wa.me/5591981199504/?text=Olá! Desejo obter mais informações sobre o catálogo de produtos!" title="Entre em contato pelo Whatsapp!" target="_blank" rel="noopener noreferrer">+55 (91) 98119-9504</a> <br>
-                Loja: <a href="tel:+5591981199507" title="Entre em contato com a nossa Loja">+55 (91) 98119-9507</a>
+                Loja: <a href="https://wa.me/5591981199507/?text=Olá! Desejo obter mais informações sobre a loja!" title="Entre em contato com a nossa Loja!">+55 (91) 98119-9507</a>
                 </p>
             </div>
         </div>

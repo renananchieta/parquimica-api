@@ -1,10 +1,76 @@
 <?php
 
-function getImagePath($productName) {
-    $safeProductName = createSlug($productName); // Remove caracteres especiais
-    $imagePath = 'img/catalogo/' . $safeProductName . '.webp';
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
-    if (!file_exists(public_path($imagePath))) {
+function isImagePrefixedWithNumbers($filename) {
+    // Verifica se o nome do arquivo começa com números seguidos de um hífen
+    return preg_match('/^\d+-/', $filename);
+}
+
+function renameProductImages($slug, $productCode)
+{
+    // Define os diretórios onde as imagens serão buscadas
+    $directories = ['img/catalogo', 'img/catalogo/variacoes'];
+
+    // Extrai o nome do produto a partir do slug (primeira parte antes do hífen)
+    $productName = explode('-', $slug)[0];
+
+    $count = 0;
+
+    foreach ($directories as $directory) {
+        // Caminho completo do diretório
+        $fullDirectoryPath = public_path($directory);
+
+        // Verifica se o diretório existe
+        if (File::exists($fullDirectoryPath)) {
+            // Obtem todos os arquivos do diretório
+            $files = File::files($fullDirectoryPath);
+
+            foreach ($files as $file) {
+                $filename = $file->getFilename();
+
+                // Verifica se o nome do produto está no nome do arquivo e se o código já não está presente no início
+                if (Str::contains($filename, $productName) && !Str::startsWith($filename, $productCode . '-') && !isImagePrefixedWithNumbers($filename)) {
+                    // Cria o novo nome do arquivo incluindo o código do produto
+                    $newFilename = $productCode . '-' . $filename;
+
+                    // Caminho completo para o arquivo atual e o novo caminho com o nome renomeado
+                    $currentPath = $file->getPathname();
+                    $newPath = $file->getPath() . '/' . $newFilename;
+
+                    // Renomeia o arquivo
+                    File::move($currentPath, $newPath);
+
+                    $count++;
+
+                    echo "Arquivo renomeado para: $count => $newFilename\n";
+                }
+            }
+        } else {
+            echo "Diretório não encontrado: $directory\n";
+        }
+    }
+}
+
+function getImagePath($productCode) {
+
+    $directory = public_path('img/catalogo/');
+    
+    $imagePath = null;
+
+    // Verifica se o diretório existe
+    if (file_exists($directory)) {
+        // Busca arquivos que começam com o código do produto seguido de um hífen e o nome do produto seguro
+        $files = glob($directory . $productCode . '-*.webp');
+        
+        // Se encontrar pelo menos um arquivo correspondente, define o caminho da imagem
+        if (!empty($files)) {
+            $imagePath = 'img/catalogo/' . basename($files[0]);
+        }
+    }
+
+    if (!$imagePath) {
         $imagePath = 'img/embalagem.jpg';
     }
 

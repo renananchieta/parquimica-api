@@ -95,11 +95,11 @@
 
                     <div class="card h-100 border-0 shadow">
 
-                        <img loading="lazy" src="{{ getImagePath($product['slug']) }}" alt="{{ $product['nome'] }}" title="{{ $product['nome'] }}">
+                        <img loading="lazy" src="{{ getImagePath($product['id_base']) }}" alt="{{ $product['nome'] }}" title="{{ $product['nome'] }}">
                         <div class="card-body">
                             <div class="d-grid gap-2">
-                                <p class="">{{ $product['slug'] }}</p>
-                                <a href="{{ route('produto', ['slug' => $product['slug']]) }}" class="btn btn-warning " title="{{ Str::ucfirst($product['nome']) }}">Ver Produto</a>
+                                {{-- <p class="">{{ $product['id_base'].'-'.$product['slug'] }}</p> --}}
+                                <a href="{{ route('produto', ['slug' => $product['id_base'].'-'.$product['slug']]) }}" class="btn btn-warning " title="{{ Str::ucfirst($product['nome']) }}">Ver Produto</a>
 
                             </div>
                         </div>

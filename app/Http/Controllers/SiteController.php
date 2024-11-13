@@ -97,7 +97,7 @@ class SiteController extends Controller
         if (app()->environment('local')) {
             $linhas = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/linhas")->json();
             
-            $products = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/area-restrita/produtos/base-local")->json();
+            $products = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-lista")->json());
         } else {
             $linhas = json_decode(json_encode(FirebirdDB::linhas($params)), true);
             
@@ -219,9 +219,8 @@ class SiteController extends Controller
 
         if (app()->environment('local')) {
             
-            $linhas = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/linhas")->json());
-            
-            $funcoes = collect(Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/funcoes")->json());
+            $linhas = collect(Http::withOptions(['verify' => false])->timeout(30)->get(env('API_URL', $default)."/firebird/linhas")->json());
+            $funcoes = collect(Http::withOptions(['verify' => false])->timeout(30)->get(env('API_URL', $default)."/firebird/funcoes")->json());
         } else {
             $linhas = collect(json_decode(json_encode(FirebirdDB::linhas($params)), true));
             
@@ -322,7 +321,8 @@ class SiteController extends Controller
             $params2 = '';
 
             if (isset($slug)) {
-                $params = "?slug={$slug}";
+                $codigo = strtok($slug, '-');
+                $params = "?id_base={$codigo}";
             }
         } else {
             $params = new \stdClass();
@@ -336,9 +336,9 @@ class SiteController extends Controller
             $prod = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-lista{$params}")->json();
 
             $prod = $prod[0];
-
-            $params2 = '?id_base='.$prod['id_base'];
             
+            $params2 = '?id_base='.$prod['id_base'];
+            // dd($params2);
             $produto = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-detalhes{$params2}")->json();
 
             $variantes = Http::withOptions(['verify' => false])->get(env('API_URL', $default)."/firebird/site-prod-variantes{$params2}")->json();
@@ -361,7 +361,7 @@ class SiteController extends Controller
         
         // var_dump($produto);die;
 
-        $produto['imagens'] = allImageProduct($slug);
+        $produto['imagens'] = allImageProduct($prod['id_base']);
 
         // var_dump($produto);die;
 

@@ -21,7 +21,7 @@
                 <h1 id="nome-produto" class="marcador">{{ $produto['NOME'] }}</h1>
             </div>
 
-            <div class="row produto-detalhes my-5">
+            <div class="row produto-detalhes mb-5">
 
                 <div class="descricao-produto col-lg-8">
 
@@ -31,7 +31,7 @@
 
                         <h2>Download</h2>
 
-                        <a href="{{ route('literatura', ['slug' => $produto['ID'].'-'.$produto['SLUG']]) }}" id="ficha-link" target="_blank" class="btn btn-warning btn-lg px-5 text-white mb-2" title="Ficha Técnica - {{ $produto['NOME'] }}">Ficha Técnica <img class="pl-2" src="{{ asset('img/icons/pdf.svg') }}" alt="icon-pdf" title="icon-pdf"></a>
+                        <a href="{{ route('literatura', ['slug' => $produto['SLUG']]) }}" id="ficha-link" target="_blank" class="btn btn-warning btn-lg px-5 text-white mb-2" title="Ficha Técnica - {{ $produto['NOME'] }}">Ficha Técnica <img class="pl-2" src="{{ asset('img/icons/pdf.svg') }}" alt="icon-pdf" title="icon-pdf"></a>
 
                         <a href="https://wa.me/5591981199504/?text=Olá! Desejo obter mais informações do produto {{ $produto['NOME'] }}!" id="wp-link" target="_blank" class="btn btn-warning btn-lg px-5 text-white mb-2" title="FISPQ">FISPQ <img class="pl-2" src="{{ asset('img/icons/chat.svg') }}" alt="icon-chat" title="icon-title"></a>
                     </div>
@@ -40,12 +40,15 @@
                         <h2>Modo de Ação</h2>
                         <p>{!! $produto['MODO_ACAO'] !!}</p>
                         <hr>
-                        <h2>Recomendação de Diluição</h2>
-                        <p><ul>{!! $produto['DILUICAO'] !!}</ul></p>
-                        <hr>
-                        <h2>Variantes deste Produto</h2>
-                        <p>
-                            @if($produto['variantes'])
+                        @if ($produto['DILUICAO'])
+                            <h2>Recomendação de Diluição</h2>
+                            <p><ul>{!! $produto['DILUICAO'] !!}</ul></p>
+                            <hr>
+                        @endif                        
+                        
+                        @if($produto['variantes'])
+                            <h2>Variantes deste Produto</h2>
+                            <p>
                                 <ul>
                                     @foreach ($produto['variantes'] as $variante)
                                         <li>
@@ -53,8 +56,8 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                            @endif
-                        </p>
+                            </p>
+                        @endif
                     </div>
 
                 </div>
@@ -62,14 +65,14 @@
                 <div class="produto-image col-lg-4">
 
                     <figure class="figure">
-                        <img id="current-image" class="figure-image img-responsive rounded" src="{{ getImagePath($produto['SLUG']) }}" alt="{{ $produto['NOME'] }}" title="{{ $produto['NOME'] }}" width="100%" height="auto" >
+                        <img id="current-image" class="figure-image img-responsive rounded" src="{{ getImagePath($produto['ID']) }}" alt="{{ $produto['NOME'] }}" title="{{ $produto['NOME'] }}" width="100%" height="auto" >
                         <figure-caption class="figure-caption text-justify">
                             <img loading="lazy" src="{{ asset('img/icons/camera.svg') }}" class="mr-2" alt="icon-camera" title="icon-camera" width="11" height="11" > {{ $produto['NOME'] }} <em>(Image ilustrativa)</em>
                         </figure-caption>
                     </figure>
 
                     <div class="thumbnails">
-                        <img src="{{ getImagePath($produto['SLUG']) }}" alt="{{ $produto['NOME'] }}" onclick="changeImage(this)" loading="lazy" class="rounded" />
+                        <img src="{{ getImagePath($produto['ID']) }}" alt="{{ $produto['NOME'] }}" onclick="changeImage(this)" loading="lazy" class="rounded" />
                         @foreach ($produto['imagens'] as $imagem)
                             <img src="{{ asset('img/catalogo/variacoes/'.$imagem) }}" alt="{{ $produto['NOME'] }}" onclick="changeImage(this)" loading="lazy" class="rounded" />  
                         @endforeach
